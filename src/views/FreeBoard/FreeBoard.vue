@@ -1,9 +1,8 @@
 <script setup></script>
 
 <template>
-  <div>
-    <h1>ㄴㅇㄴㄴ</h1>
-  </div>
+  <div>freeBoard</div>
+  <RouterView></RouterView>
 </template>
 
 <style scoped></style>
