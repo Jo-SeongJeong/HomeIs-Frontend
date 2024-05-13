@@ -1,13 +1,15 @@
 import { createRouter, createWebHistory } from "vue-router";
 
 import AppMain from "@/views/AppMain.vue";
-import AppFreeBoard from "@/views/AppFreeBoard.vue";
 import AppLoan from "@/views/AppLoan.vue";
 import AppRoadView from "@/views/AppRoadView.vue";
 import AppInterestArea from "@/views/AppInterestArea.vue";
 import AppSubScription from "@/views/AppSubScription.vue";
 import AppLogin from "@/views/AppLogin.vue";
 import AppSignUp from "@/views/AppSignUp.vue";
+import FreeBoard from "@/views/FreeBoard/FreeBoard.vue";
+import FreeBoardList from "@/views/FreeBoard/FreeBoardList.vue";
+import FreeBoardDetail from "@/views/FreeBoard/FreeBoardDetail.vue";
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -19,8 +21,19 @@ const router = createRouter({
     },
     {
       path: "/free-board",
-      name: "free-board",
-      component: AppFreeBoard,
+      component: FreeBoard,
+      children: [
+        {
+          path: "",
+          name: "FreeBoardList",
+          component: FreeBoardList,
+        },
+        {
+          path: ":id",
+          name: "FreeBoardDetail",
+          component: FreeBoardDetail,
+        },
+      ],
     },
     {
       path: "/loan",
