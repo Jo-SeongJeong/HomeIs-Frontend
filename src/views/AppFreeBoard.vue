@@ -1,9 +1,7 @@
 <script setup></script>
 
 <template>
-  <div>
-    <router-view />
-  </div>
+  <div>freeBoard</div>
 </template>
 
 <style scoped></style>
