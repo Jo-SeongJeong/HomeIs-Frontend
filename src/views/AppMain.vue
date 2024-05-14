@@ -5,6 +5,6 @@ import Footer from "@/components/Footer.vue";
 
 <template>
   <Header />
-  <div></div>
+  <div><a href="http://localhost:5173/loan">aa</a></div>
   <Footer />
 </template>

@@ -1,69 +1,58 @@
 import { createRouter, createWebHistory } from "vue-router";
 
-import AppMain from "@/views/AppMain.vue";
-import AppLoan from "@/views/AppLoan.vue";
-import AppRoadView from "@/views/AppRoadView.vue";
-import AppInterestArea from "@/views/AppInterestArea.vue";
-import AppSubScription from "@/views/AppSubScription.vue";
-import AppLogin from "@/views/AppLogin.vue";
-import AppSignUp from "@/views/AppSignUp.vue";
-import FreeBoard from "@/views/FreeBoard/FreeBoard.vue";
-import FreeBoardList from "@/views/FreeBoard/FreeBoardList.vue";
-import FreeBoardDetail from "@/views/FreeBoard/FreeBoardDetail.vue";
-
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
   routes: [
     {
       path: "/",
       name: "main",
-      component: AppMain,
+      component: () => import("@/views/AppMain.vue"),
     },
     {
       path: "/free-board",
-      component: FreeBoard,
+      component: () => import("@/views/FreeBoard/FreeBoard.vue"),
       children: [
         {
           path: "",
           name: "FreeBoardList",
-          component: FreeBoardList,
+          component: () => import("@/views/FreeBoard/FreeBoardList.vue"),
         },
         {
           path: ":id",
           name: "FreeBoardDetail",
-          component: FreeBoardDetail,
+          component: () => import("@/views/FreeBoard/FreeBoardDetail.vue"),
         },
       ],
     },
     {
       path: "/loan",
       name: "loan",
-      component: AppLoan,
+      component: () => import("@/views/Loan/AppLoan.vue"),
     },
     {
       path: "/road-view",
       name: "road-view",
-      component: AppRoadView,
+      component: () => import("@/views/Map/RoadView.vue"),
     },
     {
       path: "/interest-area",
       name: "interest-area",
-      component: AppInterestArea,
+      component: () => import("@/views/Map/InterestArea.vue"),
     },
     {
       path: "/subscription",
       name: "subscription",
-      component: AppSubScription,
+      component: () => import("@/views/SubScription/AppSubScription.vue"),
     },
     {
       path: "/login",
       name: "login",
-      component: AppLogin,
+      component: () => import("@/views/AppLogin.vue"),
     },
     {
       path: "/sign-up",
       name: "sign-up",
-      component: AppSignUp,
+      component: () => import("@/views/AppSignUp.vue"),
     },
   ],
 });
