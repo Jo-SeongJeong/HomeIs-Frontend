@@ -7,12 +7,15 @@ import Footer from "@/components/Footer.vue";
 <template>
   <Header />
   <BoardHeader />
-  <div style="width: 100%; height: 300px; background-color: aliceblue">
-    활동지수 랭킹
+  <div>
+    <form action="">
+      <input type="text" name="" id="" />
+      <br />
+      <textarea name="" id="" cols="30" rows="10"></textarea>
+      <br />
+      <input type="submit" value="등록" />
+    </form>
   </div>
-  <h1>자유 게시판</h1>
-  <router-link to="free-board/write">글쓰기</router-link>
-  <RouterView></RouterView>
   <Footer />
 </template>
 

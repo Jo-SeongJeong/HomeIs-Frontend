@@ -20,4 +20,10 @@
   </div>
 </template>
 
-<style scoped></style>
+<style scoped>
+div {
+  display: flex;
+  padding: 20px;
+  border-top: 1px solid black;
+}
+</style>

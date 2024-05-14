@@ -25,10 +25,16 @@ const router = createRouter({
       ],
     },
     {
+      path: "/free-board/write",
+      name: "FreeBoardWrite",
+      component: () => import("@/views/FreeBoard/FreeBoardWrite.vue"),
+    },
+    {
       path: "/loan",
       name: "loan",
       component: () => import("@/views/Loan/AppLoan.vue"),
     },
+
     {
       path: "/road-view",
       name: "road-view",

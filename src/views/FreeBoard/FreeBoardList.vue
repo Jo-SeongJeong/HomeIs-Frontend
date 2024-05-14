@@ -7,7 +7,7 @@ const router = useRouter();
 const boardList = ref([]);
 
 const selectAll = async () => {
-  const url = "http://localhost/homeis/board/list";
+  const url = "http://localhost:80/homeis/board/list";
 
   const { data } = await axios.get(url);
 
@@ -26,7 +26,6 @@ const goDetail = (id) => {
 
 <template>
   <div>
-    <h1>전체 조회</h1>
     <table>
       <tr
         v-for="board in boardList"
