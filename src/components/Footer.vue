@@ -2,7 +2,6 @@
 
 <template>
   <div>
-    <h1>footer</h1>
     <div>
       <p>이용 약관</p>
       <p>개인정보처리방침</p>
