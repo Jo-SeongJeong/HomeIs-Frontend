@@ -25,6 +25,8 @@ const goDetail = (id) => {
 </script>
 
 <template>
+  <h1>자유게시판</h1>
+  <router-link to="/board/1">TEST</router-link>
   <div>
     <table>
       <tr

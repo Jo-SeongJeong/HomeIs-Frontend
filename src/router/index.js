@@ -9,25 +9,30 @@ const router = createRouter({
       component: () => import("@/views/AppMain.vue"),
     },
     {
-      path: "/free-board",
-      component: () => import("@/views/FreeBoard/FreeBoard.vue"),
+      path: "/board",
+      component: () => import("@/views/Board/BoardView.vue"),
       children: [
         {
           path: "",
           name: "FreeBoardList",
-          component: () => import("@/views/FreeBoard/FreeBoardList.vue"),
+          component: () => import("@/views/Board/FreeBoardList.vue"),
         },
         {
           path: ":id",
           name: "FreeBoardDetail",
-          component: () => import("@/views/FreeBoard/FreeBoardDetail.vue"),
+          component: () => import("@/views/Board/FreeBoardDetail.vue"),
+        },
+        {
+          path: "/notice",
+          name: "notice",
+          component: () => import("@/views/Notice/NoticeMainView.vue"),
         },
       ],
     },
     {
       path: "/free-board/write",
       name: "FreeBoardWrite",
-      component: () => import("@/views/FreeBoard/FreeBoardWrite.vue"),
+      component: () => import("@/views/Board/FreeBoardWrite.vue"),
     },
     {
       path: "/loan",
@@ -35,15 +40,11 @@ const router = createRouter({
       component: () => import("@/views/Loan/AppLoan.vue"),
     },
 
-    {
-      path: "/road-view",
-      name: "road-view",
-      component: () => import("@/views/Map/RoadView.vue"),
-    },
+    
     {
       path: "/interest-area",
       name: "interest-area",
-      component: () => import("@/views/Map/InterestArea.vue"),
+      component: () => import("@/views/InterestArea/InterestAreaView.vue"),
     },
     {
       path: "/subscription",

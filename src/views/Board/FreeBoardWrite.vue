@@ -1,12 +1,10 @@
 <script setup>
 import Header from "@/components/Header.vue";
-import BoardHeader from "@/components/BoardHeader.vue";
 import Footer from "@/components/Footer.vue";
 </script>
 
 <template>
   <Header />
-  <BoardHeader />
   <div>
     <form action="">
       <input type="text" name="" id="" />
