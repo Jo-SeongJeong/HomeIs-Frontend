@@ -3,7 +3,9 @@
 </script>
 
 <template>
-  <h1>공지사항</h1>
+    <div>
+        <h1>홈스타그램</h1>
+    </div>
 </template>
 
 <style scoped>

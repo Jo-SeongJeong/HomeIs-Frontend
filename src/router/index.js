@@ -13,26 +13,31 @@ const router = createRouter({
       component: () => import("@/views/Board/BoardView.vue"),
       children: [
         {
-          path: "",
+          path: "free-board",
           name: "FreeBoardList",
           component: () => import("@/views/Board/FreeBoardList.vue"),
         },
         {
-          path: ":id",
+          path: "free-board/:id",
           name: "FreeBoardDetail",
           component: () => import("@/views/Board/FreeBoardDetail.vue"),
         },
         {
-          path: "/notice",
+          path: "free-board/write",
+          name: "FreeBoardWrite",
+          component: () => import("@/views/Board/FreeBoardWrite.vue"),
+        },
+        {
+          path: "notice",
           name: "notice",
           component: () => import("@/views/Notice/NoticeMainView.vue"),
         },
+        {
+          path: "homestagram",
+          name: "HomestagramView",
+          component: () => import("@/views/Homestagram/HomestagramView.vue"),
+        },
       ],
-    },
-    {
-      path: "/free-board/write",
-      name: "FreeBoardWrite",
-      component: () => import("@/views/Board/FreeBoardWrite.vue"),
     },
     {
       path: "/loan",
