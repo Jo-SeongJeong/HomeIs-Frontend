@@ -3,11 +3,10 @@ import Header from "@/components/Header.vue";
 import Footer from "@/components/Footer.vue";
 import {ref} from "vue";
 
-const title = ref('aa');
+const title = ref('자유게시판');
 const setTitle = (event) => {
   title.value = event.target.innerText;
   console.log(title.value);
-  console.log("fdfs")
 }
 </script>
 
@@ -29,6 +28,7 @@ const setTitle = (event) => {
       </li>
     </ul>
   </div>
+  
   <router-view @setTitle="setTitle"></router-view>
   <Footer />
 </template>

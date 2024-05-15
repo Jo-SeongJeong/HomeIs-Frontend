@@ -4,7 +4,7 @@ import { ref } from "vue";
 import { useRouter } from "vue-router";
 const router = useRouter();
 
-const boardList = ref([]);
+const boardInfo = ref({});
 
 const selectAll = async () => {
   const url = "http://localhost:80/homeis/board/list";
@@ -13,13 +13,13 @@ const selectAll = async () => {
 
   console.log(data);
 
-  boardList.value = data;
+  boardInfo.value = data;
+  console.log("BOARD: ", boardInfo.value.boardList[0]);
 };
 
 selectAll();
 
 const goDetail = (id) => {
-  // router.push(`/free-board/${id}`);
   router.push({ name: "FreeBoardDetail", params: { id } });
 };
 </script>
@@ -33,7 +33,7 @@ const goDetail = (id) => {
   <div>
     <table>
       <tr
-        v-for="board in boardList"
+        v-for="board in boardInfo.boardList"
         :key="board.id"
         @click="goDetail(board.id)"
       >

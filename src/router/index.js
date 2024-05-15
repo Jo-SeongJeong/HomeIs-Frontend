@@ -33,6 +33,16 @@ const router = createRouter({
           component: () => import("@/views/Notice/NoticeMainView.vue"),
         },
         {
+          path: "notice/:id",
+          name: "NoticeDetail",
+          component: () => import("@/views/Notice/NoticeDetail.vue"),
+        },
+        {
+          path: "qna/write",
+          name: "qna",
+          component: () => import("@/views/Qna/QnaWriteView.vue"),
+        },
+        {
           path: "homestagram",
           name: "HomestagramView",
           component: () => import("@/views/Homestagram/HomestagramView.vue"),
@@ -44,8 +54,6 @@ const router = createRouter({
       name: "loan",
       component: () => import("@/views/Loan/AppLoan.vue"),
     },
-
-    
     {
       path: "/interest-area",
       name: "interest-area",
