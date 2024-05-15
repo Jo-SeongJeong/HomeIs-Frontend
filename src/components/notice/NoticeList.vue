@@ -19,14 +19,13 @@ const selectAll = async () => {
 selectAll();
 
 const goDetail = (id) => {
-  // router.push(`/free-board/${id}`);
   router.push({ name: "FreeBoardDetail", params: { id } });
 };
 </script>
 
 <template>
     <div>
-        <table>
+    <table>
       <tr
         v-for="notice in noticeList"
         :key="notice.id"

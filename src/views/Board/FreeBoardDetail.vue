@@ -8,6 +8,7 @@ const board = ref({});
 
 const getBoard = async () => {
   const url = "http://localhost:80/homeis/board/detail/" + id;
+  console.log(url);
   const data = await axios.get(url);
   console.log(data);
   board.value = data.data;
@@ -18,9 +19,21 @@ console.log("id:", id);
 
 <template>
   <div>
-    <div>{{ board[0].boardId }}</div>
-    <div>{{ board[0].createTime }}</div>
-    <div>{{ board[0].comment }}</div>
+    <div>{{ board.id }}</div>
+    <div>{{ board.createTime }}</div>
+    <div>{{ board.content }}</div>
+
+    <hr>
+
+    <table>
+      <tr
+        v-for="comment in board.commentList"
+        :key="board.id"
+      >
+        <td>{{ comment.comment }}</td>
+        <td>{{ comment.createTime }}</td>
+      </tr>
+    </table>
   </div>
 </template>
 
