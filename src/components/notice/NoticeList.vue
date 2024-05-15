@@ -19,14 +19,14 @@ const selectAll = async () => {
 selectAll();
 
 const goDetail = (id) => {
-  router.push({ name: "NoticeDetail", params: { id } });
+  // router.push(`/free-board/${id}`);
+  router.push({ name: "FreeBoardDetail", params: { id } });
 };
 </script>
 
 <template>
-  <img src="../../assets/img/center.jpg" alt="center" width="100%" height="500px">
-  <h1>공지사항</h1>
-  <table>
+    <div>
+        <table>
       <tr
         v-for="notice in noticeList"
         :key="notice.id"
@@ -36,6 +36,7 @@ const goDetail = (id) => {
         <td>{{ notice.createTime }}</td>
       </tr>
     </table>
+    </div>
 </template>
 
 <style scoped>
