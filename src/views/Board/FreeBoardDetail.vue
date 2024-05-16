@@ -15,21 +15,24 @@ const getBoard = async () => {
 };
 getBoard();
 console.log("id:", id);
+
+const deleteBoard = async () => {
+  const url = "http://localhost:80/homeis/board/delete/";
+  //await axios.delete(url, JSON.stringify());
+};
 </script>
 
 <template>
   <div>
     <div>{{ board.id }}</div>
+    <button @click="deleteBoard">삭제</button>
     <div>{{ board.createTime }}</div>
     <div>{{ board.content }}</div>
 
-    <hr>
+    <hr />
 
     <table>
-      <tr
-        v-for="comment in board.commentList"
-        :key="board.id"
-      >
+      <tr v-for="comment in board.commentList" :key="board.id">
         <td>{{ comment.comment }}</td>
         <td>{{ comment.createTime }}</td>
       </tr>

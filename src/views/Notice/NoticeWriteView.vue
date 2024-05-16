@@ -3,16 +3,16 @@ import axios from "axios";
 import { ref } from "vue";
 import { useRouter } from "vue-router";
 
-const qna = ref({
+const notice = ref({
   title: "",
   content: "",
 });
 const router = useRouter();
 const write = async () => {
-  const url = "http://localhost:80/homeis/qna/insert-question";
+  const url = "http://localhost:80/homeis/notice/regist";
 
-  console.log("qna = ", JSON.stringify(qna.value));
-  //await axios.post(url, JSON.stringify(board.value));
+  console.log("notice = ", JSON.stringify(notice.value));
+  //await axios.post(url, JSON.stringify(notice.value));
   router.replace({ name: "Notice" });
 };
 </script>
@@ -20,14 +20,14 @@ const write = async () => {
 <template>
   <div>
     <form @submit.prevent="write">
-      <input type="text" name="title" id="" v-model="qna.title" />
+      <input type="text" name="title" id="" v-model="notice.title" />
       <br />
       <textarea
         name="content"
         id=""
         cols="30"
         rows="10"
-        v-model="qna.content"
+        v-model="notice.content"
       ></textarea>
       <br />
       <input type="submit" value="등록" />

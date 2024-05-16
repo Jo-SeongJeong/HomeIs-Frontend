@@ -29,8 +29,13 @@ const router = createRouter({
         },
         {
           path: "notice",
-          name: "notice",
+          name: "Notice",
           component: () => import("@/views/Notice/NoticeMainView.vue"),
+        },
+        {
+          path: "notice/write",
+          name: "NoticeWrite",
+          component: () => import("@/views/Notice/NoticeWriteView.vue"),
         },
         {
           path: "notice/:id",
