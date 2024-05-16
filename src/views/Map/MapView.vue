@@ -5,7 +5,6 @@ import KakaoMap from "@/components/kakao/KakaoMapCom.vue";
 </script>
 
 <template>
-  <Header />
   <KakaoMap />
   <div></div>
   <Footer />

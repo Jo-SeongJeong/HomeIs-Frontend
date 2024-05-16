@@ -1,9 +1,18 @@
 <script setup></script>
 
 <template>
-  <div>
-    <h3>주택 청약</h3>
+  <div id="subscription-main">
+    <a>주택</a>
   </div>
 </template>
 
-<style scoped></style>
+<style scoped>
+#subscription-main {
+  width: 100vw;
+  height: 100vh;
+  background-color: aqua;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+</style>

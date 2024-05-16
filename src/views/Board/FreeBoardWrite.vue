@@ -18,6 +18,7 @@ const write = async () => {
 };
 </script>
 
+
 <template>
   <div>
     <form @submit.prevent="write(event)">
@@ -35,5 +36,4 @@ const write = async () => {
     </form>
   </div>
 </template>
-
 <style scoped></style>
