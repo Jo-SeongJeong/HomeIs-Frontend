@@ -2,10 +2,12 @@
 import axios from "axios";
 import { ref } from "vue";
 import { useRouter } from "vue-router";
+import { useAuthStore } from "@/stores/auth";
+const authStore = useAuthStore();
 const router = useRouter();
 
 const noticeInfo = ref({});
-const qnaList = ref([]);
+const qnaInfo = ref({});
 
 const noticeSelectAll = async () => {
   const url = "http://localhost:80/homeis/notice/list";
@@ -22,11 +24,10 @@ const noticeGoDetail = (id) => {
 };
 
 const qnaSelectAll = async () => {
-  const url = "http://localhost:80/homeis/qna/list";
-
+  console.log(authStore.user);
+  const url = "http://localhost:80/homeis/qna/list/" + authStore.user.id;
   const { data } = await axios.get(url);
-
-  qnaList.value = data;
+  qnaInfo.value = data;
 };
 
 qnaSelectAll();
@@ -59,7 +60,11 @@ const qnaGoDetail = (id) => {
   <h1>문의사항</h1>
   <router-link to="/board/qna/write">글쓰기</router-link>
   <table>
-    <tr v-for="qna in qnaList" :key="qna.id" @click="qnaGoDetail(qna.id)">
+    <tr
+      v-for="qna in qnaInfo.qnaList"
+      :key="qna.id"
+      @click="qnaGoDetail(qna.id)"
+    >
       <td>{{ qna.title }}</td>
       <td>{{ qna.createTime }}</td>
     </tr>
