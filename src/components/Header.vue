@@ -1,10 +1,16 @@
 <script setup>
 import { useRouter } from "vue-router";
+import { useAuthStore } from "@/stores/auth";
 const router = useRouter();
+const authStore = useAuthStore();
 const goHome = () => {
   router.push({
     path: "/",
   });
+};
+
+const logout = () => {
+  authStore.logout();
 };
 </script>
 
@@ -19,9 +25,12 @@ const goHome = () => {
       <p><router-link to="/interest-area">관심 지역</router-link></p>
     </div>
     <div id="space-1"></div>
-    <div id="div-3">
+    <div id="div-3" v-if="authStore.user == null">
       <a><router-link to="/login">로그인</router-link></a>
       <a><router-link to="/sign-up">회원가입</router-link></a>
+    </div>
+    <div id="div-3" v-if="authStore.user != null">
+      <button @click="logout">로그아웃</button>
     </div>
     <div id="space-2"></div>
   </div>
