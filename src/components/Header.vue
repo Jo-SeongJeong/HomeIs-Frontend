@@ -1,14 +1,22 @@
-<script setup></script>
+<script setup>
+import { useRouter } from "vue-router";
+const router = useRouter();
+const goHome = () => {
+  router.push({
+    path: "/",
+  });
+};
+</script>
 
 <template>
   <div id="main">
-    <div id="div-1"></div>
+    <div id="div-1" @click="goHome"></div>
     <div id="div-2">
-      <a><router-link to="/board/free-board">커뮤니티</router-link></a>
-      <a><router-link to="/subscription">주택 청약</router-link></a>
-      <a><router-link to="/loan">대출 상품</router-link></a>
-      <a><router-link to="/map">지도</router-link></a>
-      <a><router-link to="/interest-area">관심 지역</router-link></a>
+      <p><router-link to="/board/free-board">커뮤니티</router-link></p>
+      <p><router-link to="/subscription">주택 청약</router-link></p>
+      <p><router-link to="/loan">대출 상품</router-link></p>
+      <p><router-link to="/map">지도</router-link></p>
+      <p><router-link to="/interest-area">관심 지역</router-link></p>
     </div>
     <div id="space-1"></div>
     <div id="div-3">
@@ -22,19 +30,21 @@
 <style scoped>
 #main {
   width: 99vw;
-  height: 10vh;
+  height: 8vh;
   position: fixed;
   border-bottom: 1px solid black;
+  background-color: rgb(55, 100, 141);
   display: flex;
   flex-direction: row;
-  background-color: rgb(55, 100, 141);
+  align-items: center;
 }
 #div-1 {
   width: 10%;
-  height: 100%;
+  height: 80%;
   background-image: url("../assets/img/logo-size-s.png");
   background-size: contain;
   background-repeat: no-repeat;
+  cursor: pointer;
 }
 #div-2 {
   width: 35%;

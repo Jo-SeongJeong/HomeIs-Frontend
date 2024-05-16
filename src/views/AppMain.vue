@@ -5,7 +5,6 @@ import MainBackGround from "@/components/main/MainBackGround.vue";
 </script>
 
 <template>
-  <Header />
   <div>
     <MainBackGround></MainBackGround>
     <div id="main-content">
