@@ -34,14 +34,14 @@ const setTitle = (event) => {
           to="/board/notice"
           @click="setTitle"
           v-if="title === '공지 및 문의'"
-          style="color: black; text-decoration: none; font-weight: 700"
+          style="color: black; text-decoration: none"
           >공지 및 문의</router-link
         >
         <router-link
           to="/board/notice"
           @click="setTitle"
           v-else
-          style="color: gray; text-decoration: none; font-weight: 700"
+          style="color: gray; text-decoration: none"
           >공지 및 문의</router-link
         >
       </div>
@@ -50,14 +50,14 @@ const setTitle = (event) => {
           to="/board/free-board"
           @click="setTitle"
           v-if="title === '자유게시판'"
-          style="color: black; text-decoration: none; font-weight: 700"
+          style="color: black; text-decoration: none"
           >자유게시판</router-link
         >
         <router-link
           to="/board/free-board"
           @click="setTitle"
           v-else
-          style="color: gray; text-decoration: none; font-weight: 700"
+          style="color: gray; text-decoration: none"
           >자유게시판</router-link
         >
       </div>
@@ -66,14 +66,14 @@ const setTitle = (event) => {
           to="/board/homestagram"
           @click="setTitle"
           v-if="title === '홈스타그램'"
-          style="color: black; text-decoration: none; font-weight: 700"
+          style="color: black; text-decoration: none"
           >홈스타그램</router-link
         >
         <router-link
           to="/board/homestagram"
           @click="setTitle"
           v-else
-          style="color: gray; text-decoration: none; font-weight: 700"
+          style="color: gray; text-decoration: none"
           >홈스타그램</router-link
         >
       </div>
@@ -86,7 +86,7 @@ const setTitle = (event) => {
 
 <style scoped>
 #board-main {
-  width: 99vw;
+  width: 100vw;
   height: 12vh;
 }
 #board-nav {
@@ -96,6 +96,7 @@ const setTitle = (event) => {
   flex-direction: row;
   justify-content: center;
   align-items: end;
+  font-size: 1.2rem;
 }
 #nav-chose {
   text-align: center;

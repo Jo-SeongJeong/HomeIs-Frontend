@@ -20,7 +20,7 @@ import { useRouter } from "vue-router";
             <hr id="hr-1" />
             <hr id="hr-2" />
           </div>
-          <div id="text-4"><h2>영역 지정, 초기 재개발·재건축 검토</h2></div>
+          <div id="text-4"><h2>영역 지정, 초기 재개발 · 재건축 검토</h2></div>
           <div id="text-5">
             <h3>#토지 #건물 #노후도 #과소필지 #접도율 #호수밀도</h3>
             <h3>#세대수 #영역내필지목록 #용도지역 #소유구분</h3>
@@ -44,8 +44,6 @@ import { useRouter } from "vue-router";
   background-image: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.3)),
     url("../../assets/img/mainbg.jpg");
   background-size: cover;
-  /* opacity: 0.85; */
-  /* filter: brightness(50%); */
   display: flex;
   align-items: center;
   justify-content: center;
@@ -70,11 +68,13 @@ import { useRouter } from "vue-router";
     #text-2 {
       width: 100%;
       height: 30%;
+      font-size: 1.6rem;
     }
     #text-3 {
       width: 100%;
       height: 10%;
       display: flex;
+      justify-content: space-between;
       #hr-1 {
         width: 20%;
         height: 5px;
@@ -91,10 +91,12 @@ import { useRouter } from "vue-router";
     #text-4 {
       width: 100%;
       height: 10%;
+      font-size: 1.4rem;
     }
     #text-5 {
       width: 100%;
       height: 30%;
+      font-size: 0.9rem;
     }
   }
   #content-right {
