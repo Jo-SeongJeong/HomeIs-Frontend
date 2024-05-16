@@ -18,7 +18,7 @@ body {
   margin: 0;
 }
 #main-content {
-  width: 69vw;
+  width: 99vw;
   height: 100vh;
   background-color: aqua;
   padding-left: 15vw;
