@@ -13,7 +13,7 @@ const joinForm = ref({
   address: "부천",
   birth: "1999-09-05",
   point: 0,
-  job: "관리자",
+  job: "싸피생",
   married: 0,
 });
 
