@@ -1,14 +1,20 @@
 <script setup>
-import Header from "@/components/Header.vue";
 import Footer from "@/components/Footer.vue";
 import MainBackGround from "@/components/main/MainBackGround.vue";
+import NoticeList from "@/components/notice/NoticeList.vue";
+import FreeBoard from "@/components/freeBoard/FreeBoardList.vue";
 </script>
 
 <template>
   <div>
     <MainBackGround></MainBackGround>
     <div id="main-content">
-      <div id="box"></div>
+      <div id="box-1">
+        <FreeBoard />
+      </div>
+      <div id="box-2">
+        <NoticeList />
+      </div>
     </div>
   </div>
   <Footer />
@@ -24,9 +30,12 @@ body {
   padding-left: 15vw;
   padding-right: 15vw;
 }
-#box {
+#box-1 {
   width: 100%;
-  height: 100%;
   background-color: aquamarine;
+}
+#box-2 {
+  width: 100%;
+  background-color: beige;
 }
 </style>

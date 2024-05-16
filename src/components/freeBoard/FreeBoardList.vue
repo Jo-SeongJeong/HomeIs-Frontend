@@ -4,39 +4,39 @@ import { ref } from "vue";
 import { useRouter } from "vue-router";
 const router = useRouter();
 
-const noticeInfo = ref({});
+const freeBoardInfo = ref({});
 
-const noticeSelectAll = async () => {
-  const url = "http://localhost:80/homeis/notice/list";
+const freeBoardSelectAll = async () => {
+  const url = "http://localhost:80/homeis/board/list";
 
   const { data } = await axios.get(url);
-  console.log("NOTICE = ", data);
-  noticeInfo.value = data;
+  console.log("Free = ", data);
+  freeBoardInfo.value = data;
 };
 
-noticeSelectAll();
+freeBoardSelectAll();
 </script>
 
 <template>
-  <div id="notice-main">
-    <div id="notice-header">
-      <h1>공지 사항</h1>
+  <div id="freeBoard-main">
+    <div id="freeBoard-header">
+      <h1>자유 게시판</h1>
       <a>더보기</a>
     </div>
     <hr />
     <table>
-      <tr v-for="notice in noticeInfo.noticeList" :key="notice.id">
-        <td>{{ notice.title }}</td>
-        <td>{{ notice.createTime }}</td>
+      <tr v-for="freeBoard in freeBoardInfo.boardList" :key="freeBoard.id">
+        <td>{{ freeBoard.title }}</td>
+        <td>{{ freeBoard.createTime }}</td>
       </tr>
     </table>
   </div>
 </template>
 
 <style scoped>
-#notice-main {
+#freeBoard-main {
   width: 50%;
-  #notice-header {
+  #freeBoard-header {
     display: flex;
     flex-direction: row;
     justify-content: space-between;
