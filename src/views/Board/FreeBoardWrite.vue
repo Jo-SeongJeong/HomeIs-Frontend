@@ -1,6 +1,4 @@
-<script setup>
-
-</script>
+<script setup></script>
 
 <template>
   <div>
@@ -13,5 +11,4 @@
     </form>
   </div>
 </template>
-
 <style scoped></style>
