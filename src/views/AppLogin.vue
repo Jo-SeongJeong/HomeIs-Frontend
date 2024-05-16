@@ -13,8 +13,7 @@ const loginForm = ref({
 const login = async () => {
   try {
     await authStore.login(loginForm.value);
-    console.log("Token : ", authStore.token);
-    console.log("User : ", authStore.user);
+
     router.push({
       path: "/",
     });

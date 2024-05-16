@@ -16,7 +16,9 @@
     "pinia-plugin-persistedstate": "^3.2.1",
     "vue": "^3.4.21",
     "vue-router": "^4.3.0",
-    "vue3-kakao-maps": "^2.3.4"
+    "vue3-kakao-maps": "^2.3.4",
+    "vuex": "^4.1.0",
+    "vuex-persistedstate": "^4.1.0"
   },
   "devDependencies": {
     "@vitejs/plugin-vue": "^5.0.4",

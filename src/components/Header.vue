@@ -4,14 +4,6 @@ import { useAuthStore } from "@/stores/auth";
 const router = useRouter();
 const authStore = useAuthStore();
 
-const isExistUser = () => {
-  console.log("FUCK USER : ", JSON.parse(localStorage.getItem("user")));
-
-  if (JSON.parse(localStorage.getItem("user")) == null) {
-    return false;
-  }
-  return true;
-};
 const goHome = () => {
   router.push({
     path: "/",
@@ -49,7 +41,7 @@ const logout = () => {
       >
     </div>
     <div id="space-1"></div>
-    <div id="div-3" v-if="!isExistUser()">
+    <div id="div-3" v-if="authStore.token == null">
       <a><router-link to="/login">로그인</router-link></a>
       <a><router-link to="/sign-up">회원가입</router-link></a>
     </div>

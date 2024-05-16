@@ -18,16 +18,13 @@ export const useAuthStore = defineStore("auth", () => {
     token.value = response.data;
     user.value = jwtDecode(token.value);
 
-    localStorage.setItem("user", JSON.stringify(user.value));
-    //토큰 정보 및 유저 정보 세팅
   };
 
   const logout = () => {
     //토큰 정보 및 유저 정보 삭제
     token.value = null;
     user.value = null;
-    localStorage.removeItem("user");
   };
 
   return { user, token, join, login, logout };
-});
+}, { persist : true });
