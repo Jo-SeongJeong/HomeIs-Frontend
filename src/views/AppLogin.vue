@@ -15,7 +15,9 @@ const login = async () => {
     await authStore.login(loginForm.value);
     console.log("Token : ", authStore.token);
     console.log("User : ", authStore.user);
-    router.push("/");
+    router.push({
+      path: "/",
+    });
   } catch (error) {
     console.error("에러:", error);
     alert("로그인에 실패하였습니다!");

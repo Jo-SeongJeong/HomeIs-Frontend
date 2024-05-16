@@ -3,6 +3,15 @@ import { useRouter } from "vue-router";
 import { useAuthStore } from "@/stores/auth";
 const router = useRouter();
 const authStore = useAuthStore();
+
+const isExistUser = () => {
+  console.log("FUCK USER : ", JSON.parse(localStorage.getItem("user")));
+
+  if (JSON.parse(localStorage.getItem("user")) == null) {
+    return false;
+  }
+  return true;
+};
 const goHome = () => {
   router.push({
     path: "/",
@@ -11,6 +20,9 @@ const goHome = () => {
 
 const logout = () => {
   authStore.logout();
+  router.push({
+    path: "/",
+  });
 };
 </script>
 
@@ -37,11 +49,11 @@ const logout = () => {
       >
     </div>
     <div id="space-1"></div>
-    <div id="div-3" v-if="authStore.user == null">
+    <div id="div-3" v-if="!isExistUser()">
       <a><router-link to="/login">로그인</router-link></a>
       <a><router-link to="/sign-up">회원가입</router-link></a>
     </div>
-    <div id="div-3" v-if="authStore.user != null">
+    <div id="div-3" v-else>
       <button @click="logout">로그아웃</button>
     </div>
     <div id="space-2"></div>

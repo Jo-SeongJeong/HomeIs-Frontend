@@ -7,6 +7,7 @@ const router = createRouter({
       path: "/",
       name: "main",
       component: () => import("@/views/AppMain.vue"),
+      meta: { reload: true },
     },
     {
       path: "/board",
@@ -46,6 +47,11 @@ const router = createRouter({
           path: "qna/write",
           name: "qna",
           component: () => import("@/views/Qna/QnaWriteView.vue"),
+        },
+        {
+          path: "qna/:id",
+          name: "QnaDetail",
+          component: () => import("@/views/Qna/QnaDetail.vue"),
         },
         {
           path: "homestagram",
