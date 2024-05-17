@@ -3,11 +3,15 @@ import axios from "axios";
 import { ref } from "vue";
 import { useRouter } from "vue-router";
 import { useAuthStore } from "@/stores/auth";
+import boardApi from "@/api/boardApi";
+
 const authStore = useAuthStore();
 const router = useRouter();
 
 const noticeInfo = ref({});
 const qnaInfo = ref({});
+const user = ref({});
+user.value = JSON.parse(localStorage.getItem("auth"));
 
 const noticeSelectAll = async () => {
   const url = "http://localhost:80/homeis/notice/list";
@@ -24,13 +28,30 @@ const noticeGoDetail = (id) => {
 };
 
 const qnaSelectAll = async () => {
-  console.log(authStore.user);
-  const url = "http://localhost:80/homeis/qna/list/" + authStore.user.id;
-  const { data } = await axios.get(url);
-  qnaInfo.value = data;
-};
+  if (user.value.user == null) return;
+  const userId = user.value.user.id;
+  console.log("UserId = ", userId);
 
+  const { data } = await boardApi.get("/qna/list/" + userId);
+  qnaInfo.value = data;
+  console.log("QNA INFO = ", qnaInfo.value);
+
+  // console.log(authStore.user);
+  // const url = "http://localhost:80/homeis/qna/list/" + authStore.user.id;
+  // const { data } = await axios.get(url, {
+  //   headers: {
+  //     Authorization: `Bearer ${authStore.token}`,
+  //   },
+  // });
+};
 qnaSelectAll();
+
+const isAdmin = () => {
+  if (user.value.user != null) {
+    return user.value.user.job == "관리자";
+  }
+  return "";
+};
 
 const qnaGoDetail = (id) => {
   router.push({ name: "QnaDetail", params: { id } });
@@ -45,7 +66,7 @@ const qnaGoDetail = (id) => {
     height="500px"
   />
   <h1>공지사항</h1>
-  <router-link to="" v-if="id === 'job'">글쓰기</router-link>
+  <router-link to="" v-if="isAdmin()">글쓰기</router-link>
   <table>
     <tr
       v-for="notice in noticeInfo.noticeList"

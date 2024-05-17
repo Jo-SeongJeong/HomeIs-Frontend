@@ -22,6 +22,18 @@ selectAll();
 const goDetail = (id) => {
   router.push({ name: "FreeBoardDetail", params: { id } });
 };
+
+const goWrite = () => {
+  const user = JSON.parse(localStorage.getItem("auth"));
+  console.log("USER = ", user);
+  if (user.user == null) {
+    alert("권한이 없습니다!");
+    return;
+  }
+  router.push({
+    path: "/board/free-board/write",
+  });
+};
 </script>
 
 <template>
@@ -29,7 +41,7 @@ const goDetail = (id) => {
     활동지수 랭킹
   </div>
   <h1>자유게시판</h1>
-  <router-link to="/board/free-board/write">+ 글쓰기</router-link>
+  <a @click="goWrite" style="color: red">+ 글쓰기</a>
   <div>
     <table>
       <tr
