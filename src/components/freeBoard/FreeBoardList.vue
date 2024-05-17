@@ -7,7 +7,7 @@ const router = useRouter();
 const freeBoardInfo = ref({});
 
 const freeBoardSelectAll = async () => {
-  const url = "http://localhost:80/homeis/board/list";
+  const url = "http://localhost:80/homeis/board/list?size=5";
 
   const { data } = await axios.get(url);
   console.log("Free = ", data);
@@ -35,6 +35,10 @@ freeBoardSelectAll();
 
 <style scoped>
 #freeBoard-main {
+  background-color: white;
+  padding: 1vw;
+  border-radius: 15px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   width: 50%;
   #freeBoard-header {
     display: flex;
@@ -46,9 +50,19 @@ freeBoardSelectAll();
     width: 100%;
     font-size: 1.2rem;
     tr {
+      margin: 1vw;
       display: flex;
       justify-content: space-between;
     }
+  }
+  hr {
+    margin-top: 1vh;
+    height: 1px;
+    background: #8f1414;
+    background-image: -webkit-linear-gradient(left, #eee, #777, #eee);
+    background-image: -moz-linear-gradient(left, #eee, #777, #eee);
+    background-image: -ms-linear-gradient(left, #eee, #777, #eee);
+    background-image: -o-linear-gradient(left, #eee, #777, #eee);
   }
 }
 </style>
