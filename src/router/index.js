@@ -44,6 +44,11 @@ const router = createRouter({
           component: () => import("@/views/Notice/NoticeDetail.vue"),
         },
         {
+          path: "notice/update/:id",
+          name: "NoticeUpdate",
+          component: () => import("@/views/Notice/NoticeUpdateView.vue"),
+        },
+        {
           path: "qna/write",
           name: "qna",
           component: () => import("@/views/Qna/QnaWriteView.vue"),

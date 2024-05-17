@@ -66,7 +66,7 @@ const qnaGoDetail = (id) => {
     height="500px"
   />
   <h1>공지사항</h1>
-  <router-link to="" v-if="isAdmin()">글쓰기</router-link>
+  <router-link to="/board/notice/write" v-if="isAdmin()">글쓰기</router-link>
   <table>
     <tr
       v-for="notice in noticeInfo.noticeList"
