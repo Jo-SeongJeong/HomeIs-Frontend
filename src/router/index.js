@@ -63,6 +63,11 @@ const router = createRouter({
           name: "HomestagramView",
           component: () => import("@/views/Homestagram/HomestagramView.vue"),
         },
+        {
+          path: "homestagram/write",
+          name: "HomestagramWrite",
+          component: () => import("@/views/Homestagram/HomestagramWrite.vue"),
+        },
       ],
     },
     {
