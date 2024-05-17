@@ -12,6 +12,9 @@
   box-sizing: border-box;
 }
 
+hr {
+  border: 0;
+}
 body {
   font-family: "Pretendard-Regular";
 }
