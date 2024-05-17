@@ -79,7 +79,7 @@ const setTitle = (event) => {
     </div>
   </div>
 
-  <router-view @setTitle="setTitle"></router-view>
+  <router-view></router-view>
   <Footer />
 </template>
 
