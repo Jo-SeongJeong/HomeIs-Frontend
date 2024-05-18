@@ -63,7 +63,7 @@ const logout = () => {
   flex-direction: row;
   align-items: center;
   font-size: 1.2rem;
-  z-index: 100;
+  z-index: 101;
 }
 #div-1 {
   width: 10%;
