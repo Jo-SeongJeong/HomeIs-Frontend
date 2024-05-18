@@ -22,7 +22,8 @@ const onLoadKakaoMap = (mapRef) => {
     :lat="lat"
     :lng="lng"
     @onLoadKakaoMap="onLoadKakaoMap"
-    width="100%"
+    width="100vw"
+    height="100vh"
   />
 </template>
 

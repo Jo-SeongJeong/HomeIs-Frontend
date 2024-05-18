@@ -4,9 +4,16 @@ import KakaoMap from "@/components/kakao/KakaoMapCom.vue";
 </script>
 
 <template>
-  <KakaoMap />
-  <div></div>
+  <div id="map-main">
+    <KakaoMap />
+    <div></div>
+  </div>
   <Footer />
 </template>
 
-<style scoped></style>
+<style scoped>
+#map-main{
+  width: 100vw;
+  height: 100vh;
+}
+</style>
