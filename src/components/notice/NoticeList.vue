@@ -13,6 +13,9 @@ const noticeSelectAll = async () => {
   console.log("NOTICE = ", data);
   noticeInfo.value = data;
 };
+const noticeGoDetail = (id) => {
+  router.push({ name: "NoticeDetail", params: { id } });
+};
 
 noticeSelectAll();
 </script>
@@ -25,7 +28,11 @@ noticeSelectAll();
     </div>
     <hr />
     <table>
-      <tr v-for="notice in noticeInfo.noticeList" :key="notice.id">
+      <tr
+        v-for="notice in noticeInfo.noticeList"
+        :key="notice.id"
+        @click="noticeGoDetail(notice.id)"
+      >
         <td>{{ notice.title }}</td>
         <td>{{ notice.createTime }}</td>
       </tr>

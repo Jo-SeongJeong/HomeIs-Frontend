@@ -42,11 +42,22 @@ const logout = () => {
     </div>
     <div id="space-1"></div>
     <div id="div-3" v-if="authStore.token == null">
-      <a><router-link to="/login">로그인</router-link></a>
-      <a><router-link to="/sign-up">회원가입</router-link></a>
+      <a
+        ><router-link to="/login" style="text-decoration: none; cursor: pointer"
+          >로그인</router-link
+        ></a
+      >
+      <a
+        ><router-link
+          to="/sign-up"
+          style="text-decoration: none; cursor: pointer"
+          >회원가입</router-link
+        ></a
+      >
     </div>
     <div id="div-3" v-else>
-      <button @click="logout">로그아웃</button>
+      <p>{{ authStore.user.id }} 님</p>
+      <a @click="logout" style="cursor: pointer">로그아웃</a>
     </div>
     <div id="space-2"></div>
   </div>
@@ -88,7 +99,7 @@ const logout = () => {
   width: 48%;
 }
 #div-3 {
-  width: 10%;
+  width: 15%;
   height: 100%;
   display: flex;
   justify-content: space-around;

@@ -5,7 +5,7 @@ import Footer from "@/components/Footer.vue";
 import KakaoMap from "@/components/kakao/KakaoMapCom.vue";
 import sideBar from "@/components/map/sideBar.vue";
 
-const sidebarFlag = ref(false);
+const sidebarFlag = ref(true);
 const clickFuntion = () => {
   if (sidebarFlag.value) {
     sidebarFlag.value = false;
