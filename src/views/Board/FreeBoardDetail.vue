@@ -59,6 +59,18 @@ const getCommentLength = () => {
   }
   return board.value.commentList.length;
 }
+
+const addLike = async () => {
+  try {
+    await boardApi.post("/board/like", {boardId: id, userId: JSON.parse(localStorage.getItem("auth")).user.id})
+  }
+  catch(error) {
+    if (error.response.status === 500) {
+      await boardApi.put("/board/like", {boardId: id, userId: JSON.parse(localStorage.getItem("auth")).user.id})
+    }
+  }
+  router.go(0);
+}
 </script>
 
 <template>
@@ -67,6 +79,9 @@ const getCommentLength = () => {
     <button v-if="isSameId()" @click="deleteBoard">삭제</button>
     <div>{{ board.createTime }}</div>
     <div>{{ board.content }}</div>
+    <div>조회수 {{ board.view }}</div>
+    <div>좋아요 {{ board.totalLike }}</div>
+    <button @click="addLike()">좋아용!!</button>
 
     <hr />
 
@@ -77,7 +92,8 @@ const getCommentLength = () => {
     </div>
     <table v-else>
       <tr v-for="comment in board.commentList" :key="board.id">
-        <td>작성자 : {{ comment.comment }}</td>
+        <td>작성자 : {{ comment.userId }}</td>
+        <td>내용 : {{ comment.comment }}</td>
         <td>작성 시간 : {{ comment.createTime }}</td>
       </tr>
     </table>
