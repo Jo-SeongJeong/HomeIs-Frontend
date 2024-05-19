@@ -7,6 +7,11 @@ import boardApi from "@/api/boardApi";
 const route = useRoute();
 const id = route.params.id;
 const board = ref({});
+const commentInfo = ref({
+  boardId: "",
+  userId: "",
+  comment: ""
+});
 
 const isSameId = () => {
   const user = JSON.parse(localStorage.getItem("auth")).user;
@@ -33,6 +38,27 @@ const deleteBoard = async () => {
   router.replace({ name: "FreeBoardList" });
   alert("정상적으로 삭제되었습니다!");
 };
+
+const isCommentEmpty = () => {
+  if (board.value.commentList == null || board.value.commentList.length === 0) {
+    return true;
+  }
+  return false;
+}
+
+const addComment = async () => {
+  commentInfo.value.boardId = id;
+  commentInfo.value.userId = JSON.parse(localStorage.getItem("auth")).user.id;
+  await boardApi.post("/board/insert-comment", commentInfo.value);
+  router.go(0);
+}
+
+const getCommentLength = () => {
+  if (board.value.commentList == null || board.value.commentList.length === 0) {
+    return 0;
+  }
+  return board.value.commentList.length;
+}
 </script>
 
 <template>
@@ -44,12 +70,20 @@ const deleteBoard = async () => {
 
     <hr />
 
-    <table>
+    <br>
+    <h3>댓글 ({{ getCommentLength() }})</h3>
+    <div v-if="isCommentEmpty()">
+      <h4>- 현재 달린 댓글이 없어용! 댓글을 달아보세용! -</h4>
+    </div>
+    <table v-else>
       <tr v-for="comment in board.commentList" :key="board.id">
-        <td>{{ comment.comment }}</td>
-        <td>{{ comment.createTime }}</td>
+        <td>작성자 : {{ comment.comment }}</td>
+        <td>작성 시간 : {{ comment.createTime }}</td>
       </tr>
     </table>
+
+    <textarea name="" id="" v-model="commentInfo.comment" style="width:400px;height: 100px"></textarea>
+    <button @click="addComment()">댓글 등록</button>
   </div>
 </template>
 
