@@ -73,6 +73,11 @@ const goWrite = () => {
     path: "/board/free-board/write",
   });
 };
+
+const updatePageNum = () => {
+  currentPage.value = 0;
+  selectAll();
+}
 </script>
 
 <template>
@@ -81,7 +86,7 @@ const goWrite = () => {
   </div>
   <h1>자유게시판</h1>
   <a @click="goWrite" style="color: red">+ 글쓰기</a>
-  <select name="" id="" v-model="PAGE_PER_SECTION" @change="selectAll()">
+  <select name="" id="" v-model="PAGE_PER_SECTION" @change="updatePageNum()">
     <option value="1">1개씩 보기</option>
     <option value="5">5개씩 보기</option>
     <option value="10">10개씩 보기</option>
