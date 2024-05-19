@@ -1,69 +1,52 @@
 <script setup>
 import Footer from "@/components/Footer.vue";
-import { ref, onUnmounted } from "vue";
-import { useHeaderTitleStore } from "@/stores/head";
-const titleStore = useHeaderTitleStore();
+import { ref } from "vue";
 
-onUnmounted(() => {
-  console.log("titleSTORE = ", titleStore.title);
-  titleStore.title = '자유게시판';
-})
-
-
-const title = ref(titleStore.title);
-
-const setTitle = (event) => {
-  titleStore.title = event.target.innerText;
-  title.value = titleStore.title;
-};
+const title = () => {
+ return JSON.parse(localStorage.getItem('headerTitle')).title;
+}  
 </script>
 
 <template>
   <div id="board-main">
     <div id="board-nav">
-      <div id="nav-chose" :class="{ chosen: title == '공지 및 문의' }">
+      <div id="nav-chose" :class="{ chosen: title() == '공지 및 문의' }">
         <router-link
           to="/board/notice"
-          @click="setTitle"
-          v-if="title === '공지 및 문의'"
+          v-if="title() === '공지 및 문의'"
           style="color: black; text-decoration: none"
           >공지 및 문의</router-link
         >
         <router-link
           to="/board/notice"
-          @click="setTitle"
           v-else
           style="color: gray; text-decoration: none"
           >공지 및 문의</router-link
         >
       </div>
-      <div id="nav-chose" :class="{ chosen: title == '자유게시판' }">
+      <div id="nav-chose" :class="{ chosen: title() == '자유게시판' }">
         <router-link
           to="/board/free-board"
-          @click="setTitle"
-          v-if="title === '자유게시판'"
+          v-if="title() === '자유게시판'"
           style="color: black; text-decoration: none"
           >자유게시판</router-link
         >
         <router-link
           to="/board/free-board"
-          @click="setTitle"
           v-else
           style="color: gray; text-decoration: none"
           >자유게시판</router-link
         >
       </div>
-      <div id="nav-chose" :class="{ chosen: title == '홈스타그램' }">
+      <div id="nav-chose" :class="{ chosen: title() == '홈스타그램' }">
         <router-link
           to="/board/homestagram"
-          @click="setTitle"
-          v-if="title === '홈스타그램'"
+          v-if="title() === '홈스타그램'"
           style="color: black; text-decoration: none"
           >홈스타그램</router-link
         >
         <router-link
           to="/board/homestagram"
-          @click="setTitle"
           v-else
           style="color: gray; text-decoration: none"
           >홈스타그램</router-link
