@@ -23,6 +23,15 @@
           <div id="count">{777}</div>
         </div>
       </div>
+      <div id="load-view">이곳에 로드뷰 연동</div>
+      <div id="trade-log">
+        <div id="trade-log-header">시세 조회</div>
+        <div id="trade-log-content"></div>
+      </div>
+      <div id="info">
+        <div id="info-title">건물 정보</div>
+        <div id="info-content"></div>
+      </div>
     </div>
   </div>
 </template>
@@ -98,5 +107,35 @@
 }
 #count {
   background-color: aqua;
+}
+#load-view {
+  width: 100%;
+  height: 50vh;
+  padding: 3vh;
+  /* background-color: aqua; */
+  border-bottom: 1px solid black;
+}
+#trade-log {
+  width: 100%;
+  height: 50vh;
+  #trade-log-header {
+    padding: 2vh;
+    font-size: 1.5rem;
+  }
+  #trade-log-content {
+    width: 100%;
+  }
+}
+#info {
+  width: 100%;
+  height: 50vh;
+  #info-title {
+    padding: 2vh;
+    font-size: 1.5rem;
+  }
+  #info-content {
+    width: 100%;
+    height: 100%;
+  }
 }
 </style>
