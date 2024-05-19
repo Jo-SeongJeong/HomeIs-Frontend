@@ -1,9 +1,14 @@
 <script setup>
 import Footer from "@/components/Footer.vue";
-import { ref } from "vue";
+import { ref, onUnmounted } from "vue";
 import { useHeaderTitleStore } from "@/stores/head";
-
 const titleStore = useHeaderTitleStore();
+
+onUnmounted(() => {
+  console.log("titleSTORE = ", titleStore.title);
+  titleStore.title = '자유게시판';
+})
+
 
 const title = ref(titleStore.title);
 

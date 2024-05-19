@@ -2,6 +2,7 @@
 import axios from "axios";
 import { ref } from "vue";
 import { useRouter } from "vue-router";
+
 const router = useRouter();
 
 const boardInfo = ref({});
