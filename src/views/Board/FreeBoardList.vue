@@ -1,12 +1,12 @@
 <script setup>
 import axios from "axios";
 import { ref } from "vue";
-import { useRouter } from "vue-router";
-
+import { useRoute, useRouter } from "vue-router";
+const route = useRoute();
 const router = useRouter();
 
 const boardInfo = ref({});
-const currentPage = ref(0); //0부터 시작해야함 1~10 x | 0~9 o
+const currentPage = ref(route.params.page); //0부터 시작해야함 1~10 x | 0~9 o
 const SECTION_MAX_RANGE = ref(10); //섹션 최대 범위
 const SECTION_MAX_NUM = ref(0); 
 const SECTION_START_NUM = ref(0); //섹션 시작 숫자
@@ -55,8 +55,8 @@ const movePage = (page) => {
 
 selectAll();
 
-const goDetail = (id) => {
-  router.push({ name: "FreeBoardDetail", params: { id } });
+const goDetail = (id, page) => {
+  router.push({ name: "FreeBoardDetail", params: { id, page } });
 };
 
 const goWrite = () => {
@@ -96,7 +96,7 @@ const goWrite = () => {
       <tr
         v-for="board in boardInfo.boardList"
         :key="board.id"
-        @click="goDetail(board.id)"
+        @click="goDetail(board.id, currentPage)"
       >
         <td>{{ board.title }}</td>
         <td>{{ board.userId }}</td>

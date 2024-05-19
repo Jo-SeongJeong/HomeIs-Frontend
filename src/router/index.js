@@ -32,7 +32,7 @@ const router = createRouter({
       },
       children: [
         {
-          path: "free-board",
+          path: "free-board/:page",
           name: "FreeBoardList",
           beforeEnter: (to, from, next) => {
             localStorage.setItem("headerTitle", JSON.stringify({title: '자유게시판'}));
@@ -41,7 +41,7 @@ const router = createRouter({
           component: () => import("@/views/Board/FreeBoardList.vue"),
         },
         {
-          path: "free-board/:id",
+          path: "free-board/detail/:id/:page",
           name: "FreeBoardDetail",
           component: () => import("@/views/Board/FreeBoardDetail.vue"),
         },

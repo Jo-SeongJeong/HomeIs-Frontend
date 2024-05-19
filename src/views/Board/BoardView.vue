@@ -26,7 +26,7 @@ const title = () => {
       </div>
       <div id="nav-chose" :class="{ chosen: title() == '자유게시판' }">
         <router-link
-          to="/board/free-board"
+          to="/board/free-board/0"
           v-if="title() === '자유게시판'"
           style="color: black; text-decoration: none"
           >자유게시판</router-link

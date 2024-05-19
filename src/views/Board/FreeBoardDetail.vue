@@ -6,6 +6,7 @@ import boardApi from "@/api/boardApi";
 
 const route = useRoute();
 const id = route.params.id;
+const page = route.params.page;
 const board = ref({});
 const commentInfo = ref({
   boardId: "",
@@ -71,6 +72,10 @@ const addLike = async () => {
   }
   router.go(0);
 }
+
+const backPage = () => {
+  router.push({ name: "FreeBoardList", params: { page } });
+}
 </script>
 
 <template>
@@ -101,6 +106,8 @@ const addLike = async () => {
 
     <textarea name="" id="" v-model="commentInfo.comment" style="width:400px;height: 100px"></textarea>
     <button @click="addComment()">댓글 등록</button>
+
+    <button type="button" @click="backPage()">목록</button>
   </div>
 </template>
 

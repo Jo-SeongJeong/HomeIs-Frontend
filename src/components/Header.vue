@@ -22,7 +22,7 @@ const logout = () => {
   <div id="main">
     <div id="div-1" @click="goHome"></div>
     <div id="div-2">
-      <router-link to="/board/free-board" style="text-decoration: none"
+      <router-link to="/board/free-board/0" style="text-decoration: none"
         >커뮤니티</router-link
       >
 
