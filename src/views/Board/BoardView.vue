@@ -32,7 +32,7 @@ const title = () => {
           >자유게시판</router-link
         >
         <router-link
-          to="/board/free-board"
+          to="/board/free-board/0"
           v-else
           style="color: gray; text-decoration: none"
           >자유게시판</router-link
