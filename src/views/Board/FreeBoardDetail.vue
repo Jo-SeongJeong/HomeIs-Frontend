@@ -81,7 +81,8 @@ const addLike = async () => {
     <div>{{ board.content }}</div>
     <div>조회수 {{ board.view }}</div>
     <div>좋아요 {{ board.totalLike }}</div>
-    <button @click="addLike()">좋아용!!</button>
+    <button @click="addLike()" v-if="board.isLike == 0">좋아용!!</button>
+    <button @click="addLike()" v-else-if="board.isLike == 1">좋아용 취소!!</button>
 
     <hr />
 
