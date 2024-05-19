@@ -1,34 +1,22 @@
 <script setup>
 import Footer from "@/components/Footer.vue";
 import { ref } from "vue";
+import { useHeaderTitleStore } from "@/stores/head";
 
-const title = ref("자유게시판");
-const flagFree = ref(true);
-const flagNotice = ref(false);
-const flagHomeSta = ref(false);
+const titleStore = useHeaderTitleStore();
+
+const title = ref(titleStore.title);
+
 const setTitle = (event) => {
-  title.value = event.target.innerText;
-  if (title.value === "공지 및 문의") {
-    flagFree.value = false;
-    flagNotice.value = true;
-    flagHomeSta.value = false;
-  } else if (title.value === "자유게시판") {
-    flagFree.value = true;
-    flagNotice.value = false;
-    flagHomeSta.value = false;
-  } else if (title.value === "홈스타그램") {
-    flagFree.value = false;
-    flagNotice.value = false;
-    flagHomeSta.value = true;
-  }
-  console.log(title.value);
+  titleStore.title = event.target.innerText;
+  title.value = titleStore.title;
 };
 </script>
 
 <template>
   <div id="board-main">
     <div id="board-nav">
-      <div id="nav-chose" :class="{ chosen: flagNotice }">
+      <div id="nav-chose" :class="{ chosen: title == '공지 및 문의' }">
         <router-link
           to="/board/notice"
           @click="setTitle"
@@ -44,7 +32,7 @@ const setTitle = (event) => {
           >공지 및 문의</router-link
         >
       </div>
-      <div id="nav-chose" :class="{ chosen: flagFree }">
+      <div id="nav-chose" :class="{ chosen: title == '자유게시판' }">
         <router-link
           to="/board/free-board"
           @click="setTitle"
@@ -60,7 +48,7 @@ const setTitle = (event) => {
           >자유게시판</router-link
         >
       </div>
-      <div id="nav-chose" :class="{ chosen: flagHomeSta }">
+      <div id="nav-chose" :class="{ chosen: title == '홈스타그램' }">
         <router-link
           to="/board/homestagram"
           @click="setTitle"
