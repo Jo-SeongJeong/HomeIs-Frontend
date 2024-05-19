@@ -44,19 +44,19 @@ const logout = () => {
     <div id="div-3" v-if="authStore.token == null">
       <a
         ><router-link to="/login" style="text-decoration: none; cursor: pointer"
-          >로그인</router-link
+          >로그인 / 회원가입</router-link
         ></a
       >
-      <a
+      <!-- <a
         ><router-link
           to="/sign-up"
           style="text-decoration: none; cursor: pointer"
           >회원가입</router-link
         ></a
-      >
+      > -->
     </div>
     <div id="div-3" v-else>
-      <p>{{ authStore.user.id }} 님</p>
+      <p>{{ authStore.user.name }} 님</p>
       <a @click="logout" style="cursor: pointer">로그아웃</a>
     </div>
     <div id="space-2"></div>
@@ -104,6 +104,9 @@ const logout = () => {
   display: flex;
   justify-content: space-around;
   align-items: center;
+  p {
+    color: white;
+  }
   a {
     color: white;
   }
