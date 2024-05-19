@@ -45,12 +45,22 @@ const goWrite = () => {
   <a @click="goWrite" style="color: red">+ 글쓰기</a>
   <div>
     <table>
+      <thead>
+        <th>제목</th>
+        <th>작성자</th>
+        <th>조회수</th>
+        <th>좋아요</th>
+        <th>등록시간</th>
+      </thead>
       <tr
         v-for="board in boardInfo.boardList"
         :key="board.id"
         @click="goDetail(board.id)"
       >
         <td>{{ board.title }}</td>
+        <td>{{ board.userId }}</td>
+        <td>{{ board.view }}</td>
+        <td>{{ board.totalLike }}</td>
         <td>{{ board.createTime }}</td>
       </tr>
     </table>

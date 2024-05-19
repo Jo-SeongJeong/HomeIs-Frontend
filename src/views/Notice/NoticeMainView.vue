@@ -68,12 +68,18 @@ const qnaGoDetail = (id) => {
   <h1>공지사항</h1>
   <router-link to="/board/notice/write" v-if="isAdmin()">글쓰기</router-link>
   <table>
+    <thead>
+      <th>제목</th>
+      <th>작성자</th>
+      <th>작성시간</th>
+    </thead>
     <tr
       v-for="notice in noticeInfo.noticeList"
       :key="notice.id"
       @click="noticeGoDetail(notice.id)"
     >
       <td>{{ notice.title }}</td>
+      <td>{{ notice.userId }}</td>
       <td>{{ notice.createTime }}</td>
     </tr>
   </table>
@@ -81,6 +87,10 @@ const qnaGoDetail = (id) => {
   <h1>문의사항</h1>
   <router-link to="/board/qna/write">글쓰기</router-link>
   <table>
+    <thead>
+      <th>질문자</th>
+      <th>작성시간</th>
+    </thead>
     <tr
       v-for="qna in qnaInfo.qnaList"
       :key="qna.id"
