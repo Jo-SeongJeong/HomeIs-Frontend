@@ -107,6 +107,7 @@ const backPage = () => {
     <textarea name="" id="" v-model="commentInfo.comment" style="width:400px;height: 100px"></textarea>
     <button @click="addComment()">댓글 등록</button>
 
+    <br>
     <button type="button" @click="backPage()">목록</button>
   </div>
 </template>
