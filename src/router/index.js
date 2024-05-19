@@ -12,6 +12,15 @@ const router = createRouter({
     {
       path: "/board",
       component: () => import("@/views/Board/BoardView.vue"),
+      beforeEnter: (to, from, next) => {
+        const auth = JSON.parse(localStorage.getItem("auth"));
+        if (auth.user == null) {
+          alert('접근 권한이 없습니다.');
+          next("/");
+          return;
+        }
+        next();
+      },
       children: [
         {
           path: "free-board",
@@ -73,16 +82,43 @@ const router = createRouter({
     {
       path: "/loan",
       name: "loan",
+      beforeEnter: (to, from, next) => {
+        const auth = JSON.parse(localStorage.getItem("auth"));
+        if (auth.user == null) {
+          alert('접근 권한이 없습니다.');
+          next("/");
+          return;
+        }
+        next();
+      },
       component: () => import("@/views/Loan/AppLoan.vue"),
     },
     {
       path: "/interest-area",
       name: "interest-area",
+      beforeEnter: (to, from, next) => {
+        const auth = JSON.parse(localStorage.getItem("auth"));
+        if (auth.user == null) {
+          alert('접근 권한이 없습니다.');
+          next("/");
+          return;
+        }
+        next();
+      },
       component: () => import("@/views/InterestArea/InterestAreaView.vue"),
     },
     {
       path: "/subscription",
       name: "subscription",
+      beforeEnter: (to, from, next) => {
+        const auth = JSON.parse(localStorage.getItem("auth"));
+        if (auth.user == null) {
+          alert('접근 권한이 없습니다.');
+          next("/");
+          return;
+        }
+        next();
+      },
       component: () => import("@/views/SubScription/AppSubScription.vue"),
     },
     {
