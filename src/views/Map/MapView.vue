@@ -5,12 +5,15 @@ import Footer from "@/components/Footer.vue";
 import KakaoMap from "@/components/kakao/KakaoMapCom.vue";
 import sideBar from "@/components/map/sideBar.vue";
 
-const sidebarFlag = ref(true);
+const sidebarFlag = ref(false);
+const sidebarText = ref("<");
 const clickFuntion = () => {
   if (sidebarFlag.value) {
     sidebarFlag.value = false;
+    sidebarText.value = "<";
   } else {
     sidebarFlag.value = true;
+    sidebarText.value = ">";
   }
 };
 </script>
@@ -23,7 +26,7 @@ const clickFuntion = () => {
       id="sideBar-toggle"
       @click="clickFuntion"
       :class="{ activeButton: !sidebarFlag }"
-    ></div>
+    >{{ sidebarText }}</div>
   </div>
   <Footer />
 </template>
@@ -38,10 +41,17 @@ const clickFuntion = () => {
   display: none;
 }
 #sideBar-toggle {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  text-align: center;
+  font-size: 40px;
+  font-weight: bold;
+  color: gray;
   position: absolute;
-  width: 3vw;
+  width: 2.5vw;
   height: 5vw;
-  background-color: bisque;
+  background-color: whitesmoke;
   z-index: 100;
   top: 45%;
 }
