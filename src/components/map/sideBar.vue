@@ -1,4 +1,17 @@
-<script setup></script>
+<script setup>
+import axios from "axios";
+import { ref } from "vue";
+import LineChart from "../../components/map/chart/LineChart.vue";
+const logdata = ref(null);
+const aptCode = ref("11110000000001");
+const getLog = async () => {
+  // const url = `http://localhost:80/homeis/map/apartDealInfo/${aptCode.value}`;
+  // const { data } = await axios.get(url);
+  // logdata.value = data.aptDealInfoList;
+  // console.log(logdata.value);
+};
+getLog();
+</script>
 
 <template>
   <div id="side-main">
@@ -26,7 +39,9 @@
       <div id="load-view">이곳에 로드뷰 연동</div>
       <div id="trade-log">
         <div id="trade-log-header">시세 조회</div>
-        <div id="trade-log-content"></div>
+        <div id="trade-log-content">
+          <LineChart />
+        </div>
       </div>
       <div id="info">
         <div id="info-title">건물 정보</div>
@@ -124,6 +139,7 @@
   }
   #trade-log-content {
     width: 100%;
+    height: 100vh;
   }
 }
 #info {
