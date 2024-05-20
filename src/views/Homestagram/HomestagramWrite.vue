@@ -1,5 +1,5 @@
 <script setup>
-import axios from "axios";
+import boardApi from "@/api/boardApi";
 import { ref } from "vue";
 import { useRouter } from "vue-router";
 import homestaApi from "@/api/homestaApi";
@@ -11,17 +11,9 @@ const board = ref({
   title: "",
   content: "",
 });
+
 const router = useRouter();
-const write = async () => {
-  console.log(board.value);
 
-  if (!confirm("정말 등록하시겠습니까?")) return;
-
-  console.log("board = ", JSON.stringify(board.value));
-  await homestaApi.post("//insert", board.value);
-  router.replace({ name: "FreeBoardList" });
-  alert("글이 정상적으로 등록되었습니다.");
-};
 const tagName = ref("");
 const tagFullValue = ref("");
 const addTag = () => {
@@ -87,16 +79,42 @@ const addTag = () => {
   tagBox.appendChild(newTag);
 
   tagFullValue.value += "#" + tagName.value;
+  board.value.content = tagFullValue.value;
   tagName.value = "";
   console.log(tagFullValue.value);
+};
+
+const receivedFiles = ref([]);
+const sendFileHandler = (files) => {
+  receivedFiles.value = files;
+  console.log("RECEIVED FILE = ", receivedFiles.value);
+};
+
+const registHomesta = async () => {
+  if (!confirm("정말 등록하시겠습니까?")) return;
+
+  const formData = new FormData();
+  formData.append("userId", board.value.userId);
+  formData.append("title", board.value.title);
+  formData.append("content", board.value.content);
+  for (const fileObj of receivedFiles.value) {
+    formData.append(`upfile`, fileObj.file);
+  }
+  await boardApi.post("/homesta/", formData, {
+    headers: {
+      "Content-Type": "multipart/form-data",
+    },
+  });
 };
 </script>
 
 <template>
   <div id="homesta-write-main">
-    <form @submit.prevent="write(event)">
+    <form @submit.prevent="registHomesta()">
       <div id="write-left">
-        <div id="image_container"><imageUpload></imageUpload></div>
+        <div id="image_container">
+          <imageUpload @send-file="sendFileHandler"></imageUpload>
+        </div>
       </div>
       <div id="write-right">
         <input
