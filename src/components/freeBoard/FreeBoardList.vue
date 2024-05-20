@@ -21,7 +21,7 @@ freeBoardSelectAll();
   <div id="freeBoard-main">
     <div id="freeBoard-header">
       <h1>자유 게시판</h1>
-      <a>더보기</a>
+      <a href="/board/free-board/0">더보기</a>
     </div>
     <hr />
     <table>
@@ -63,6 +63,10 @@ freeBoardSelectAll();
     background-image: -moz-linear-gradient(left, #eee, #777, #eee);
     background-image: -ms-linear-gradient(left, #eee, #777, #eee);
     background-image: -o-linear-gradient(left, #eee, #777, #eee);
+  }
+  a {
+    text-decoration-line: none;
+    color: black;
   }
 }
 </style>
