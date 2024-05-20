@@ -289,6 +289,7 @@ const showSignUp = () => {
   height: 10vh;
   background-size: contain;
   background-image: url("../assets/img/logo-size-s.png");
+  background-repeat: no-repeat;
 }
 
 #login-main {
