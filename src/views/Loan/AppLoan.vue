@@ -1,7 +1,18 @@
-<script setup></script>
+<script setup>
+import Footer from "@/components/Footer.vue";
+</script>
 
 <template>
-  <div>loan</div>
+  <div id="loan-main">loan</div>
+  <Footer />
 </template>
 
-<style scoped></style>
+<style scoped>
+#loan-main {
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+</style>
