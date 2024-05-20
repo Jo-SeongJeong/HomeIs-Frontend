@@ -11,7 +11,7 @@ const board = ref({});
 const commentInfo = ref({
   boardId: "",
   userId: "",
-  comment: ""
+  comment: "",
 });
 
 const isSameId = () => {
@@ -22,9 +22,9 @@ const isSameId = () => {
 };
 
 const getBoard = async () => {
-  const url = "http://localhost:80/homeis/board/detail/" + id;
+  const url = "/board/detail/" + id;
   console.log(url);
-  const data = await axios.get(url);
+  const data = await boardApi.get(url);
   console.log(data);
   board.value = data.data;
 };
@@ -45,37 +45,42 @@ const isCommentEmpty = () => {
     return true;
   }
   return false;
-}
+};
 
 const addComment = async () => {
   commentInfo.value.boardId = id;
   commentInfo.value.userId = JSON.parse(localStorage.getItem("auth")).user.id;
   await boardApi.post("/board/insert-comment", commentInfo.value);
   router.go(0);
-}
+};
 
 const getCommentLength = () => {
   if (board.value.commentList == null || board.value.commentList.length === 0) {
     return 0;
   }
   return board.value.commentList.length;
-}
+};
 
 const addLike = async () => {
   try {
-    await boardApi.post("/board/like", {boardId: id, userId: JSON.parse(localStorage.getItem("auth")).user.id})
-  }
-  catch(error) {
+    await boardApi.post("/board/like", {
+      boardId: id,
+      userId: JSON.parse(localStorage.getItem("auth")).user.id,
+    });
+  } catch (error) {
     if (error.response.status === 500) {
-      await boardApi.put("/board/like", {boardId: id, userId: JSON.parse(localStorage.getItem("auth")).user.id})
+      await boardApi.put("/board/like", {
+        boardId: id,
+        userId: JSON.parse(localStorage.getItem("auth")).user.id,
+      });
     }
   }
   router.go(0);
-}
+};
 
 const backPage = () => {
   router.push({ name: "FreeBoardList", params: { page } });
-}
+};
 </script>
 
 <template>
@@ -87,11 +92,13 @@ const backPage = () => {
     <div>조회수 {{ board.view }}</div>
     <div>좋아요 {{ board.totalLike }}</div>
     <button @click="addLike()" v-if="board.isLike == 0">좋아용!!</button>
-    <button @click="addLike()" v-else-if="board.isLike == 1">좋아용 취소!!</button>
+    <button @click="addLike()" v-else-if="board.isLike == 1">
+      좋아용 취소!!
+    </button>
 
     <hr />
 
-    <br>
+    <br />
     <h3>댓글 ({{ getCommentLength() }})</h3>
     <div v-if="isCommentEmpty()">
       <h4>- 현재 달린 댓글이 없어용! 댓글을 달아보세용! -</h4>
@@ -104,10 +111,15 @@ const backPage = () => {
       </tr>
     </table>
 
-    <textarea name="" id="" v-model="commentInfo.comment" style="width:400px;height: 100px"></textarea>
+    <textarea
+      name=""
+      id=""
+      v-model="commentInfo.comment"
+      style="width: 400px; height: 100px"
+    ></textarea>
     <button @click="addComment()">댓글 등록</button>
 
-    <br>
+    <br />
     <button type="button" @click="backPage()">목록</button>
   </div>
 </template>

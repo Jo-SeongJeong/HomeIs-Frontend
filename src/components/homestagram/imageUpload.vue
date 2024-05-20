@@ -3,8 +3,10 @@ import { ref } from "vue";
 const files = ref([]);
 const uploadImageIndex = ref(0);
 const fileInput = ref(null);
+const emit = defineEmits(["sendFile"]);
 
 const imageUpload = () => {
+  console.log("fileInput = ", fileInput);
   const fileList = fileInput.value.files;
   if (files.value.length + fileList.length > 6) {
     alert("사진이 너무 많습니다! 최대 6장");
@@ -21,9 +23,12 @@ const imageUpload = () => {
       },
     ];
     num = i;
+    console.log(files);
   }
+
   uploadImageIndex.value = files.value.length;
   console.log(uploadImageIndex.value);
+  emit("sendFile", files.value);
 };
 
 const imageAddUpload = () => {
@@ -46,6 +51,7 @@ const imageAddUpload = () => {
   }
   uploadImageIndex.value = files.value.length;
   console.log(uploadImageIndex.value);
+  emit("sendFile", files.value);
 };
 
 const fileDeleteButton = (number) => {

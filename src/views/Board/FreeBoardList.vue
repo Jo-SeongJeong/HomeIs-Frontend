@@ -8,14 +8,21 @@ const router = useRouter();
 const boardInfo = ref({});
 const currentPage = ref(parseInt(route.params.page)); //0부터 시작해야함 1~10 x | 0~9 o
 const SECTION_MAX_RANGE = ref(10); //섹션 최대 범위
-const SECTION_MAX_NUM = ref(0); 
+const SECTION_MAX_NUM = ref(0);
 const SECTION_START_NUM = ref(0); //섹션 시작 숫자
 const PAGE_PER_SECTION = ref(10); //페이지당 보여줄 개수
+const CATEGORY = ref("id");
 
 const selectAll = async () => {
   const url = "http://localhost:80/homeis/board/list";
 
-  const { data } = await axios.get(url, { params: {page: currentPage.value + 1, size: PAGE_PER_SECTION.value}});
+  const { data } = await axios.get(url, {
+    params: {
+      page: currentPage.value + 1,
+      size: PAGE_PER_SECTION.value,
+      category: CATEGORY.value,
+    },
+  });
 
   console.log(data);
 
@@ -24,37 +31,37 @@ const selectAll = async () => {
   const startPage = parseInt(currentPage.value / SECTION_MAX_RANGE.value) + 1;
   SECTION_START_NUM.value = (startPage - 1) * SECTION_MAX_RANGE.value;
   const totalPages = boardInfo.value.totalPages;
-  console.log("CURRENTT PAGE = ",currentPage.value);
-  console.log("START PAGE = ",startPage);
-  console.log("ALL PAGE = ", totalPages );
+  console.log("CURRENTT PAGE = ", currentPage.value);
+  console.log("START PAGE = ", startPage);
+  console.log("ALL PAGE = ", totalPages);
   console.log(SECTION_START_NUM.value);
-  if (SECTION_START_NUM.value + 9 <= totalPages ) {
+  if (SECTION_START_NUM.value + 9 <= totalPages) {
     SECTION_MAX_NUM.value = startPage + 9;
   } else {
     SECTION_MAX_NUM.value = totalPages % SECTION_MAX_RANGE.value;
   }
-  console.log("NUM = ",SECTION_MAX_NUM.value);
-  console.log("START NUM = ",SECTION_START_NUM.value);
+  console.log("NUM = ", SECTION_MAX_NUM.value);
+  console.log("START NUM = ", SECTION_START_NUM.value);
   //console.log("BOARD: ", boardInfo.value.boardList[0]);
 };
 
-onMounted (() => {
+onMounted(() => {
   selectAll();
-})
+});
 const prevPage = () => {
   if (currentPage.value == 0) return;
   currentPage.value -= 1;
   selectAll();
-}
+};
 const nextPage = () => {
   if (currentPage.value == boardInfo.value.totalPages - 1) return;
   currentPage.value += 1;
   selectAll();
-}
+};
 const movePage = (page) => {
   currentPage.value = page;
   selectAll();
-}
+};
 
 selectAll();
 
@@ -77,7 +84,17 @@ const goWrite = () => {
 const updatePageNum = () => {
   currentPage.value = 0;
   selectAll();
-}
+};
+
+const getRecent = () => {
+  CATEGORY.value = "id";
+  selectAll();
+};
+
+const getHot = () => {
+  CATEGORY.value = "hot";
+  selectAll();
+};
 </script>
 
 <template>
@@ -92,6 +109,9 @@ const updatePageNum = () => {
     <option value="10">10개씩 보기</option>
     <option value="20">20개씩 보기</option>
   </select>
+
+  <button @click="getRecent()" type="button">최신순</button>
+  <button @click="getHot()" type="button">인기순</button>
   <div>
     <table>
       <thead>
@@ -116,18 +136,24 @@ const updatePageNum = () => {
 
     <div class="page-div">
       <span @click="prevPage()">< 이전</span>
-      <span v-for="i in SECTION_MAX_NUM" :key="i" @click="movePage(SECTION_START_NUM + i - 1)" :class="{pickPage: currentPage == SECTION_START_NUM + i - 1}">{{ SECTION_START_NUM + i }}</span>
+      <span
+        v-for="i in SECTION_MAX_NUM"
+        :key="i"
+        @click="movePage(SECTION_START_NUM + i - 1)"
+        :class="{ pickPage: currentPage == SECTION_START_NUM + i - 1 }"
+        >{{ SECTION_START_NUM + i }}</span
+      >
       <span @click="nextPage()">다음 ></span>
     </div>
   </div>
 </template>
 
 <style scoped>
-  .page-div span{
-    margin: 10px;
-  }
+.page-div span {
+  margin: 10px;
+}
 
-  .pickPage {
-    font-size: 20px;
-  }
+.pickPage {
+  font-size: 20px;
+}
 </style>
