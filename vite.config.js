@@ -14,7 +14,7 @@ export default defineConfig({
   },
   server: {
     proxy: {
-      "/img": "http://localhost/homeis/img",
+      "/img": "http://localhost:80/homeis/img",
     },
   },
 });
