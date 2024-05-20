@@ -32,6 +32,7 @@ const clickFuntion = () => {
 #map-main {
   width: 100vw;
   height: 100vh;
+  padding-top: 7vh;
 }
 .active {
   display: none;
