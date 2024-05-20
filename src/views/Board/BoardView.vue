@@ -3,8 +3,8 @@ import Footer from "@/components/Footer.vue";
 import { ref } from "vue";
 
 const title = () => {
- return JSON.parse(localStorage.getItem('headerTitle')).title;
-}  
+  return JSON.parse(localStorage.getItem("headerTitle")).title;
+};
 </script>
 
 <template>
