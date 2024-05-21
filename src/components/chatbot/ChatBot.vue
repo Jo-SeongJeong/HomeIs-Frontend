@@ -1,6 +1,5 @@
 <script setup>
 import { ref } from "vue";
-import axios from "axios";
 import boardApi from "@/api/boardApi";
 
 // 상태 정의
