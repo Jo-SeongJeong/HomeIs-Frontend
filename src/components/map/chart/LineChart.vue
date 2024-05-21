@@ -1,8 +1,7 @@
 <script setup>
-import { ref, reactive } from "vue";
+import { ref, defineProps, watch } from "vue";
 import axios from "axios";
 
-const aptCode = ref("11110000000002");
 const tradeLog = ref("");
 
 const series = ref([
@@ -56,12 +55,14 @@ const props = defineProps({
       ],
     }),
   },
+  aptCode: String,
 });
 
 // 거래 로그 데이터를 가져와서 차트 시리즈에 매핑하는 함수
-const getTradeLog = async () => {
+const getTradeLog = async (aptCodeValue) => {
   try {
-    const url = `http://localhost:80/homeis/map/apartDealInfo/${aptCode.value}`;
+    const url = `http://localhost:80/homeis/map/apartDealInfo/${aptCodeValue}`;
+    console.log("url = ", url);
     const { data } = await axios.get(url);
     console.log("112321312");
     const prices = data.aptDealInfoList.map((item) => {
@@ -87,7 +88,10 @@ const getTradeLog = async () => {
   }
 };
 
-getTradeLog();
+watch(props, (nv) => {
+  console.log("WATCH!!");
+  getTradeLog(nv.aptCode);
+});
 </script>
 
 <template>

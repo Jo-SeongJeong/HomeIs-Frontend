@@ -1,6 +1,5 @@
 <script setup>
-import { ref } from "vue";
-import { useRouter } from "vue-router";
+import { ref, defineProps } from "vue";
 import Footer from "@/components/Footer.vue";
 import KakaoMap from "@/components/kakao/KakaoMapCom.vue";
 import sideBar from "@/components/map/sideBar.vue";
@@ -17,12 +16,18 @@ const clickFuntion = () => {
     sidebarText.value = ">";
   }
 };
+
+const aptCodeProp = ref("");
+const aptCodeHandler = (aptCode) => {
+  console.log("RECEIVED CODE = ", aptCode);
+  aptCodeProp.value = aptCode;
+};
 </script>
 
 <template>
   <div id="map-main">
-    <KakaoMap dongCodeList="dongCodeProp" />
-    <sideBar :class="{ active: sidebarFlag }" />
+    <KakaoMap dongCodeList="dongCodeProp" @send-apt-code="aptCodeHandler" />
+    <sideBar :class="{ active: sidebarFlag }" :aptCode="aptCodeProp" />
     <div
       id="sideBar-toggle"
       @click="clickFuntion"

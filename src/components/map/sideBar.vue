@@ -1,26 +1,82 @@
 <script setup>
 import axios from "axios";
-import { ref } from "vue";
+import { ref, defineProps, watch } from "vue";
 import LineChart from "../../components/map/chart/LineChart.vue";
-const logdata = ref(null);
-const aptCode = ref("11110000000001");
-const getLog = async () => {
-  // const url = `http://localhost:80/homeis/map/apartDealInfo/${aptCode.value}`;
-  // const { data } = await axios.get(url);
-  // logdata.value = data.aptDealInfoList;
-  // console.log(logdata.value);
+
+const props = defineProps({
+  aptCode: String,
+});
+
+const apartDealInfoList = ref({});
+
+const getApartDealInfoList = async (aptCode) => {
+  const url = `http://localhost:80/homeis/map/apartDealInfo/${aptCode}`;
+  const { data } = await axios.get(url);
+  apartDealInfoList.value = data;
+  console.log("DEAL INFO LIST = ", apartDealInfoList);
 };
-getLog();
+
+const isEmptyList = () => {
+  if (
+    apartDealInfoList.value.aptDealInfoList == null ||
+    apartDealInfoList.value.aptDealInfoList.length == 0
+  ) {
+    return true;
+  }
+  return false;
+};
+
+const getApartmentName = () => {
+  if (isEmptyList()) {
+    return "NULL TEXT!!";
+  }
+  return apartDealInfoList.value.aptDealInfoList[0].apartmentName;
+};
+
+const getAddress = () => {
+  if (isEmptyList()) {
+    return "NULL TEXT!!";
+  }
+  const dongStr = apartDealInfoList.value.aptDealInfoList[0].dong;
+  const jibunStr = apartDealInfoList.value.aptDealInfoList[0].jibun;
+  return dongStr + " " + jibunStr;
+};
+
+const getRoadAddress = () => {
+  if (isEmptyList()) {
+    return "NULL TEXT!!";
+  }
+  const roadNameStr = apartDealInfoList.value.aptDealInfoList[0].roadName;
+  return roadNameStr;
+};
+
+const getLike = () => {
+  if (isEmptyList()) {
+    return "NULL TEXT!!";
+  }
+  const likeStr = apartDealInfoList.value.aptDealInfoList[0].totalLike;
+  return likeStr;
+};
+
+const getView = () => {
+  if (isEmptyList()) {
+    return "NULL TEXT!!";
+  }
+  const viewStr = apartDealInfoList.value.aptDealInfoList[0].view;
+  return viewStr;
+};
+
+watch(props, (nv) => {
+  getApartDealInfoList(nv.aptCode);
+});
 </script>
 
 <template>
   <div id="side-main">
     <div id="side-content">
-      <div id="content-name">{이부분에 아파트 이름}</div>
-      <div id="content-address">
-        {이부분에 아파트 주소 예를 들어 대전 덕명동 어쩌구 저쩌구
-        가나다라마바사}
-      </div>
+      <div id="content-name">{{ getApartmentName() }}</div>
+      <div id="content-address">주소 : {{ getAddress() }}</div>
+      <div id="content-road-address">도로명주소 : {{ getRoadAddress() }}</div>
       <div id="content-navbar">
         <div id="content-navbar-chose">시세</div>
         <div id="content-navbar-chose">건물정보</div>
@@ -31,20 +87,20 @@ getLog();
           <button type="button" class="Btn">
             <i class="fa-solid fa-thumbs-up" style="font-size: 40px"></i>
           </button>
-          <div id="count">{777}</div>
+          <div id="count">{{ getLike() }}</div>
         </div>
         <div id="view">
           <button type="button" class="Btn">
             <i class="fa-solid fa-eye" style="font-size: 40px"></i>
           </button>
-          <div id="count">{777}</div>
+          <div id="count">{{ getView() }}</div>
         </div>
       </div>
       <div id="load-view">이곳에 로드뷰 연동</div>
       <div id="trade-log">
         <div id="trade-log-header">시세 조회</div>
         <div id="trade-log-content">
-          <LineChart />
+          <LineChart :aptCode="aptCode" />
         </div>
       </div>
       <div id="info">
@@ -81,6 +137,14 @@ getLog();
   background-color: aqua;
 }
 #content-address {
+  width: 100%;
+  padding-left: 3vh;
+  padding-right: 3vh;
+  font-size: 1.2rem;
+  margin-bottom: 1vh;
+}
+
+#content-road-address {
   width: 100%;
   padding-left: 3vh;
   padding-right: 3vh;

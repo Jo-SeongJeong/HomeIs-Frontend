@@ -44,10 +44,10 @@ const moveMap = () => {
   }
 };
 
+const emit = defineEmits(["sendAptCode"]);
 const visibleRef = ref(false);
-
 const onClickKakaoMapMarker = (aptCode) => {
-  console.log("APTCODE = ", aptCode);
+  emit("sendAptCode", aptCode);
 };
 </script>
 
