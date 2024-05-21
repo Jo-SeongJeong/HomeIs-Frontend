@@ -63,6 +63,11 @@ const router = createRouter({
           component: () => import("@/views/Board/FreeBoardWrite.vue"),
         },
         {
+          path: "free-board/update/:id/:page",
+          name: "FreeBoardUpdate",
+          component: () => import("@/views/Board/FreeBoardUpdate.vue"),
+        },
+        {
           path: "notice",
           name: "Notice",
           beforeEnter: (to, from, next) => {

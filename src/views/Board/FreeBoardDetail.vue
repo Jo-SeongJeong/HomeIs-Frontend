@@ -40,6 +40,11 @@ const deleteBoard = async () => {
   alert("정상적으로 삭제되었습니다!");
 };
 
+
+const updateBoard = () => {
+  router.push({ name: "FreeBoardUpdate" ,params: { id, page }});
+};
+
 const isCommentEmpty = () => {
   if (board.value.commentList == null || board.value.commentList.length === 0) {
     return true;
@@ -104,7 +109,7 @@ const backPage = () => {
 
     <div class="notice-actions">
       
-      <!-- <button class="btn-update" v-if="isSameId()" @click="">수정</button> -->
+      <button class="btn-update" v-if="isSameId()" @click="updateBoard">수정</button>
       <button class="btn-delete" v-if="isSameId()" @click="deleteBoard">삭제</button>
     </div>
 
