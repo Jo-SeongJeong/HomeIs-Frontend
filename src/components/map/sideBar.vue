@@ -2,18 +2,27 @@
 import axios from "axios";
 import { ref, defineProps, watch } from "vue";
 import LineChart from "../../components/map/chart/LineChart.vue";
+import KakaoMapRoadView from "@/components/kakao/KaKaoMapRoadView.vue";
+import boardApi from "@/api/boardApi";
 
 const props = defineProps({
   aptCode: String,
 });
 
 const apartDealInfoList = ref({});
+const position = ref({
+  lng: "",
+  lat: ""
+});
 
 const getApartDealInfoList = async (aptCode) => {
   const url = `http://localhost:80/homeis/map/apartDealInfo/${aptCode}`;
   const { data } = await axios.get(url);
   apartDealInfoList.value = data;
-  console.log("DEAL INFO LIST = ", apartDealInfoList);
+  
+  if (isEmptyList()) return;
+  position.value.lng = apartDealInfoList.value.aptDealInfoList[0].lng;
+  position.value.lat = apartDealInfoList.value.aptDealInfoList[0].lat;
 };
 
 const isEmptyList = () => {
@@ -24,6 +33,13 @@ const isEmptyList = () => {
     return true;
   }
   return false;
+};
+
+const getAptCode = () => {
+  if (isEmptyList()) {
+    return "NULL TEXT!!";
+  }
+  return apartDealInfoList.value.aptDealInfoList[0].aptCode;
 };
 
 const getApartmentName = () => {
@@ -40,6 +56,14 @@ const getAddress = () => {
   const dongStr = apartDealInfoList.value.aptDealInfoList[0].dong;
   const jibunStr = apartDealInfoList.value.aptDealInfoList[0].jibun;
   return dongStr + " " + jibunStr;
+};
+
+const getBuildYear = () => {
+  if (isEmptyList()) {
+    return "NULL TEXT!!";
+  }
+  const buildYearStr = apartDealInfoList.value.aptDealInfoList[0].buildYear;
+  return buildYearStr;
 };
 
 const getRoadAddress = () => {
@@ -66,6 +90,49 @@ const getView = () => {
   return viewStr;
 };
 
+const getArea = () => {
+  if (isEmptyList()) {
+    return "NULL TEXT!!";
+  }
+  const areaStr = apartDealInfoList.value.aptDealInfoList[0].area;
+  return areaStr;
+};
+
+const getReviewCount = () => {
+  if (isEmptyList() || apartDealInfoList.value.reviewList == null || apartDealInfoList.value.reviewList.length == 0) {
+    return 0;
+  }
+  return apartDealInfoList.value.reviewList.length;
+};
+
+const addLike = async () => {
+  try {
+    const te = await boardApi.post("/map/like", {
+      aptCode: getAptCode(),
+      userId: JSON.parse(localStorage.getItem("auth")).user.id,
+    });
+    console.log("LI = ", te);
+  } catch (error) {
+    console.log("ERROR = ", error);
+    if (error.response.status === 500) {
+      await boardApi.delete("/map/like/" + getAptCode());
+    }
+  }
+  getApartDealInfoList(getAptCode());
+};
+
+const isLike = async () => {
+  if (isEmptyList()) {
+    return false;
+  }
+  console.log("ISLIKE = ", apartDealInfoList.value.isLike);
+  const isLikeNum = apartDealInfoList.value.isLike;
+  if (isLikeNum == 1) {
+    return true;
+  }
+  return false;
+}
+
 watch(props, (nv) => {
   getApartDealInfoList(nv.aptCode);
 });
@@ -75,28 +142,37 @@ watch(props, (nv) => {
   <div id="side-main">
     <div id="side-content">
       <div id="content-name">{{ getApartmentName() }}</div>
+      
       <div id="content-address">주소 : {{ getAddress() }}</div>
       <div id="content-road-address">도로명주소 : {{ getRoadAddress() }}</div>
+      <div id="content-address">건축년도 : {{ getBuildYear() }}</div>
       <div id="content-navbar">
         <div id="content-navbar-chose">시세</div>
-        <div id="content-navbar-chose">건물정보</div>
+        <div id="content-navbar-chose">거래정보</div>
         <div id="content-navbar-chose">주변정보</div>
+        <div id="content-navbar-chose">리뷰</div>
       </div>
       <div id="content-view-good">
         <div id="good">
-          <button type="button" class="Btn">
-            <i class="fa-solid fa-thumbs-up" style="font-size: 40px"></i>
+          <button type="button" class="Btn" @click="addLike()" v-if="!isLike()">
+            <i class="fa-solid fa-heart" style="color: #ff0000;font-size: 50px;"></i>
+          </button>
+          <button type="button" class="Btn" @click="addLike()" v-else>
+            <i class="fa-regular fa-heart" style="color: #ff1100;font-size: 50px;"></i>
           </button>
           <div id="count">{{ getLike() }}</div>
         </div>
         <div id="view">
           <button type="button" class="Btn">
-            <i class="fa-solid fa-eye" style="font-size: 40px"></i>
+            <div style="font-size: 40px">&#128064</div>
           </button>
           <div id="count">{{ getView() }}</div>
         </div>
       </div>
-      <div id="load-view">이곳에 로드뷰 연동</div>
+      <div id="load-view">
+        <div id="road-view-header">로드 뷰</div>
+        <KakaoMapRoadView :position="position"/>
+      </div>
       <div id="trade-log">
         <div id="trade-log-header">시세 조회</div>
         <div id="trade-log-content">
@@ -104,8 +180,18 @@ watch(props, (nv) => {
         </div>
       </div>
       <div id="info">
-        <div id="info-title">건물 정보</div>
-        <div id="info-content"></div>
+        <div id="info-title">거래 정보</div>
+        <div id="info-content">
+          <div></div>
+          <div>면적 : {{ getArea() }}</div>
+        </div>
+      </div>
+      <div id="review">
+        <div id="review-title">생생 리뷰 ({{ getReviewCount() }})</div>
+        <div id="review-content">
+          <div></div>
+          <div>면적 : {{ getArea() }}</div>
+        </div>
       </div>
     </div>
   </div>
@@ -114,6 +200,7 @@ watch(props, (nv) => {
 <style scoped>
 .Btn {
   background-color: white;
+  border-style: none;
 }
 #side-main {
   position: absolute;
@@ -162,10 +249,10 @@ watch(props, (nv) => {
 }
 #content-view-good {
   width: 100%;
-  background-color: bisque;
   display: flex;
   justify-content: center;
   gap: 5vw;
+  padding-top: 30px;
 }
 #good {
   display: flex;
@@ -201,6 +288,10 @@ watch(props, (nv) => {
   /* background-color: aqua; */
   border-bottom: 1px solid black;
 }
+#road-view-header {
+  padding: 0.5vh;
+    font-size: 1.5rem;
+}
 #trade-log {
   width: 100%;
   height: 50vh;
@@ -221,6 +312,18 @@ watch(props, (nv) => {
     font-size: 1.5rem;
   }
   #info-content {
+    width: 100%;
+    height: 100%;
+  }
+}
+#review {
+  width: 100%;
+  height: 50vh;
+  #review-title {
+    padding: 2vh;
+    font-size: 1.5rem;
+  }
+  #review-content {
     width: 100%;
     height: 100%;
   }
