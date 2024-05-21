@@ -28,11 +28,15 @@ getLog();
       </div>
       <div id="content-view-good">
         <div id="good">
-          <div id="good-image"></div>
+          <button type="button" class="Btn">
+            <i class="fa-solid fa-thumbs-up" style="font-size: 40px"></i>
+          </button>
           <div id="count">{777}</div>
         </div>
         <div id="view">
-          <div id="view-image"></div>
+          <button type="button" class="Btn">
+            <i class="fa-solid fa-eye" style="font-size: 40px"></i>
+          </button>
           <div id="count">{777}</div>
         </div>
       </div>
@@ -52,6 +56,9 @@ getLog();
 </template>
 
 <style scoped>
+.Btn {
+  background-color: white;
+}
 #side-main {
   position: absolute;
   width: 35vw;
