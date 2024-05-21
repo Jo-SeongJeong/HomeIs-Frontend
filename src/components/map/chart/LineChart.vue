@@ -2,7 +2,7 @@
 import { ref, reactive } from "vue";
 import axios from "axios";
 
-const aptCode = ref("11110000000001");
+const aptCode = ref("11110000000002");
 const tradeLog = ref("");
 
 const series = ref([
