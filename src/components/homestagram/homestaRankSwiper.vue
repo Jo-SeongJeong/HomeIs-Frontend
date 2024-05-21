@@ -14,24 +14,32 @@ import axios from "axios";
 import { ref } from "vue";
 
 const modules = [Autoplay, Pagination, Navigation];
-const aptLikeList = ref([]);
-const aptViewList = ref([]);
 
-const getLikeRank = async () => {
-  const url = "http://localhost:80/homeis/map/like";
-  const { data } = await axios.get(url);
-  aptLikeList.value = data;
-  console.log("aptLikeList", aptLikeList.value);
+const homestaViewInfo = ref(null);
+const homestaHotInfo = ref(null);
+const getHotHomestaList = async () => {
+  const { data } = await axios.get("http://localhost:80/homeis/homesta/list", {
+    params: { category: "hot", size: 5 },
+  });
+  homestaHotInfo.value = data;
 };
-
-const getViewRank = async () => {
-  const url = "http://localhost:80/homeis/map/view";
-  const { data } = await axios.get(url);
-  aptViewList.value = data;
-  console.log("aptViewList", aptViewList.value);
+const getViewHomestaList = async () => {
+  const { data } = await axios.get("http://localhost:80/homeis/homesta/list", {
+    params: { category: "view", size: 5 },
+  });
+  homestaViewInfo.value = data;
 };
-getViewRank();
-getLikeRank();
+getHotHomestaList();
+getViewHomestaList();
+const getImgUrl = (homesta) => {
+  if (!homesta) {
+    return;
+  }
+  if (homesta.image.length > 0) {
+    return "http://localhost/homeis/img/" + homesta.image[0].saveName;
+  }
+  return "";
+};
 </script>
 
 <template>
@@ -50,49 +58,106 @@ getLikeRank();
     id="swiper-rank"
     style="margin-top: 2vh"
   >
-    <swiper-slide v-if="aptViewList.length > 0">
-      <div id="title">조회수 TOP 3</div>
+    <swiper-slide v-if="homestaHotInfo">
+      <div id="title">좋아요 TOP 3</div>
       <div id="views-rank">
-        <div id="rank-box02">
+        <div
+          id="rank-box02"
+          :style="{
+            backgroundImage: `url(${getImgUrl(homestaHotInfo.homestaList[1])})`,
+          }"
+        >
           <div id="rank-2"></div>
-          <div id="rank-title">{{ aptViewList[1].apartmentName }}</div>
-          <div id="rank-content">{{ aptViewList[1].view }} views</div>
+          <div id="rank-title">{{ homestaHotInfo.homestaList[1].title }}</div>
+          <div id="rank-content">
+            {{ homestaHotInfo.homestaList[1].totalLike }} likes
+          </div>
         </div>
-        <div id="rank-box01">
+        <div
+          id="rank-box01"
+          :style="{
+            backgroundImage: `url(${getImgUrl(homestaHotInfo.homestaList[0])})`,
+          }"
+        >
           <div id="rank-1"></div>
-          <div id="rank-title">{{ aptViewList[0].apartmentName }}</div>
-          <div id="rank-content">{{ aptViewList[0].view }} views</div>
+          <div id="rank-down">
+            <div id="rank-title">
+              {{ homestaHotInfo.homestaList[0].title }}
+            </div>
+            <div id="rank-content">
+              {{ homestaHotInfo.homestaList[0].totalLike }} likes
+            </div>
+          </div>
         </div>
-        <div id="rank-box03">
+        <div
+          id="rank-box03"
+          :style="{
+            backgroundImage: `url(${getImgUrl(homestaHotInfo.homestaList[2])})`,
+          }"
+        >
           <div id="rank-3"></div>
-          <div id="rank-title">{{ aptViewList[2].apartmentName }}</div>
-          <div id="rank-content">{{ aptViewList[2].view }} views</div>
+          <div id="rank-title">{{ homestaHotInfo.homestaList[2].title }}</div>
+          <div id="rank-content">
+            {{ homestaHotInfo.homestaList[2].totalLike }} likes
+          </div>
         </div>
       </div>
     </swiper-slide>
-    <swiper-slide v-if="aptLikeList.length > 0">
-      <div id="title">좋아요 TOP 3</div>
+    <swiper-slide v-if="homestaViewInfo">
+      <div id="title">조회수 TOP 3</div>
       <div id="like-rank">
-        <div id="rank-box02">
+        <div
+          id="rank-box02"
+          :style="{
+            backgroundImage: `url(${getImgUrl(
+              homestaViewInfo.homestaList[1]
+            )})`,
+          }"
+        >
           <div id="rank-2"></div>
-          <div id="rank-title">{{ aptLikeList[1].apartmentName }}</div>
-          <div id="rank-content">{{ aptLikeList[2].totalLike }} likes</div>
+          <div id="rank-title">{{ homestaViewInfo.homestaList[1].title }}</div>
+          <div id="rank-content">
+            {{ homestaViewInfo.homestaList[1].view }} view
+          </div>
         </div>
-        <div id="rank-box01">
+        <div
+          id="rank-box01"
+          :style="{
+            backgroundImage: `url(${getImgUrl(
+              homestaViewInfo.homestaList[0]
+            )})`,
+          }"
+        >
           <div id="rank-1"></div>
-          <div id="rank-title">{{ aptLikeList[0].apartmentName }}</div>
-          <div id="rank-content">{{ aptLikeList[2].totalLike }} likes</div>
+          <div id="rank-title">{{ homestaViewInfo.homestaList[0].title }}</div>
+          <div id="rank-content">
+            {{ homestaViewInfo.homestaList[0].view }} view
+          </div>
         </div>
-        <div id="rank-box03">
+        <div
+          id="rank-box03"
+          :style="{
+            backgroundImage: `url(${getImgUrl(
+              homestaViewInfo.homestaList[2]
+            )})`,
+          }"
+        >
           <div id="rank-3"></div>
-          <div id="rank-title">{{ aptLikeList[2].apartmentName }}</div>
-          <div id="rank-content">{{ aptLikeList[2].totalLike }} likes</div>
+          <div id="rank-title">{{ homestaViewInfo.homestaList[2].title }}</div>
+          <div id="rank-content">
+            {{ homestaViewInfo.homestaList[2].view }} view
+          </div>
         </div>
       </div>
     </swiper-slide>
   </swiper>
 </template>
 <style>
+#rank-down {
+  width: 100%;
+  display: flex;
+  justify-content: space-around;
+}
 #swiper-rank {
   width: 100%;
   height: 100%;
@@ -118,19 +183,14 @@ getLikeRank();
   #rank-box01 {
     width: 20%;
     height: 100%;
-    background-color: aqua;
     display: flex;
     flex-direction: column;
     justify-content: end;
     align-items: center;
-    background: url("../../assets/img/apt01.jpg");
     background-size: 100% 100%;
     font-size: 1.3rem;
     text-align: center;
-    color: white;
-    #rank-title {
-      width: 100%;
-    }
+    color: black;
     #rank-1 {
       width: 25%;
       height: 28%;
@@ -142,16 +202,14 @@ getLikeRank();
   #rank-box02 {
     width: 20%;
     height: 100%;
-    background-color: aqua;
     display: flex;
     flex-direction: column;
     justify-content: end;
     align-items: center;
-    background: url("../../assets/img/apt01.jpg");
     background-size: 100% 100%;
     font-size: 1.3rem;
     text-align: center;
-    color: white;
+    color: black;
     #rank-title {
       width: 100%;
     }
@@ -166,16 +224,14 @@ getLikeRank();
   #rank-box03 {
     width: 20%;
     height: 100%;
-    background-color: aqua;
     display: flex;
     flex-direction: column;
     justify-content: end;
     align-items: center;
-    background: url("../../assets/img/apt01.jpg");
     background-size: 100% 100%;
     font-size: 1.3rem;
     text-align: center;
-    color: white;
+    color: black;
     #rank-title {
       width: 100%;
     }
@@ -203,7 +259,6 @@ getLikeRank();
   #rank-box01 {
     width: 20%;
     height: 100%;
-    background-color: aqua;
     display: flex;
     flex-direction: column;
     justify-content: end;
@@ -212,7 +267,7 @@ getLikeRank();
     background-size: 100% 100%;
     font-size: 1.3rem;
     text-align: center;
-    color: white;
+    color: black;
     #rank-title {
       width: 100%;
     }
@@ -227,7 +282,6 @@ getLikeRank();
   #rank-box02 {
     width: 20%;
     height: 100%;
-    background-color: aqua;
     display: flex;
     flex-direction: column;
     justify-content: end;
@@ -236,7 +290,7 @@ getLikeRank();
     background-size: 100% 100%;
     font-size: 1.3rem;
     text-align: center;
-    color: white;
+    color: black;
     #rank-title {
       width: 100%;
     }
@@ -251,7 +305,6 @@ getLikeRank();
   #rank-box03 {
     width: 20%;
     height: 100%;
-    background-color: aqua;
     display: flex;
     flex-direction: column;
     justify-content: end;
@@ -260,7 +313,7 @@ getLikeRank();
     background-size: 100% 100%;
     font-size: 1.3rem;
     text-align: center;
-    color: white;
+    color: black;
     #rank-title {
       width: 100%;
     }

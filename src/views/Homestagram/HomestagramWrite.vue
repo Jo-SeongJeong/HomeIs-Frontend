@@ -154,7 +154,7 @@ const registHomesta = async () => {
         <input
           type="text"
           name="title"
-          id="title"
+          id="title-input"
           v-model="board.title"
           dir="rtl"
           placeholder="제목을 입력하세요"
@@ -233,7 +233,7 @@ const registHomesta = async () => {
   font-size: 1.4rem;
 }
 
-#title {
+#title-input {
   padding-right: 1vw;
   font-size: 1.5rem;
   width: 40vw;
@@ -243,10 +243,10 @@ const registHomesta = async () => {
   border-bottom: solid #aaaaaa 1px;
   background: none;
 }
-#title::placeholder {
+#title-input::placeholder {
   color: #aaaaaa;
 }
-#title:focus {
+#title-input:focus {
   outline: none;
 }
 </style>
