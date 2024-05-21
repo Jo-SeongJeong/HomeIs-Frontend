@@ -19,8 +19,9 @@ const clickFuntion = () => {
 
 const aptCodeProp = ref("");
 const aptCodeHandler = (aptCode) => {
-  console.log("RECEIVED CODE = ", aptCode);
   aptCodeProp.value = aptCode;
+  sidebarFlag.value = false;
+  sidebarText.value = "<";
 };
 </script>
 
