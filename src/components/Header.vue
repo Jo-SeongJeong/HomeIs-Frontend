@@ -27,7 +27,7 @@ const logout = () => {
       >
 
       <router-link to="/subscription" style="text-decoration: none"
-        >주택 청약</router-link
+        >이자 계산기</router-link
       >
 
       <router-link to="/loan" style="text-decoration: none"
