@@ -58,7 +58,7 @@ const router = createRouter({
           component: () => import("@/views/Board/FreeBoardDetail.vue"),
         },
         {
-          path: "free-board/write",
+          path: "free-board/write/:page",
           name: "FreeBoardWrite",
           component: () => import("@/views/Board/FreeBoardWrite.vue"),
         },
