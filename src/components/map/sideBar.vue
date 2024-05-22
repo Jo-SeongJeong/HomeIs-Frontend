@@ -3,7 +3,6 @@ import { ref, defineProps, watch } from "vue";
 import LineChart from "../../components/map/chart/LineChart.vue";
 import KakaoMapRoadView from "@/components/kakao/KaKaoMapRoadView.vue";
 import boardApi from "@/api/boardApi";
-
 const props = defineProps({
   aptCode: String,
 });
@@ -11,14 +10,14 @@ const props = defineProps({
 const apartDealInfoList = ref({});
 const position = ref({
   lng: "",
-  lat: ""
+  lat: "",
 });
 
 const getApartDealInfoList = async (aptCode) => {
   const url = `/map/apartDealInfo/${aptCode}`;
   const { data } = await boardApi.get(url);
   apartDealInfoList.value = data;
-  
+
   if (isEmptyList()) return;
   position.value.lng = apartDealInfoList.value.aptDealInfoList[0].lng;
   position.value.lat = apartDealInfoList.value.aptDealInfoList[0].lat;
@@ -98,7 +97,11 @@ const getArea = () => {
 };
 
 const getReviewCount = () => {
-  if (isEmptyList() || apartDealInfoList.value.reviewList == null || apartDealInfoList.value.reviewList.length == 0) {
+  if (
+    isEmptyList() ||
+    apartDealInfoList.value.reviewList == null ||
+    apartDealInfoList.value.reviewList.length == 0
+  ) {
     return 0;
   }
   return apartDealInfoList.value.reviewList.length;
@@ -106,7 +109,7 @@ const getReviewCount = () => {
 
 const isLoading = ref(false);
 const addLike = async () => {
-  if(isLoading.value) return;
+  if (isLoading.value) return;
 
   isLoading.value = true;
   const te = await boardApi.post("/map/like", {
@@ -114,25 +117,25 @@ const addLike = async () => {
     userId: JSON.parse(localStorage.getItem("auth")).user.id,
   });
   console.log("LI = ", te);
-  
-  const aptCodeTmp = getAptCode()
+
+  const aptCodeTmp = getAptCode();
   getApartDealInfoList(aptCodeTmp);
   console.log("ADDLIKE 이즈라이크 = ", apartDealInfoList.value.isLike);
   isLoading.value = false;
 };
 
 const deleteLike = async () => {
-  if(isLoading.value) return;
-  
+  if (isLoading.value) return;
+
   isLoading.value = true;
   const te = await boardApi.delete("/map/like/" + getAptCode());
   console.log("LI = ", te);
 
-  const aptCodeTmp = getAptCode()
+  const aptCodeTmp = getAptCode();
   getApartDealInfoList(aptCodeTmp);
   console.log("ADDLIKE 이즈라이크 = ", apartDealInfoList.value.isLike);
   isLoading.value = false;
-}
+};
 
 const isLike = () => {
   if (isEmptyList()) {
@@ -143,12 +146,12 @@ const isLike = () => {
     return true;
   }
   return false;
-}
+};
 
 const reviewObj = ref({
   aptCode: "",
   content: "",
-  score: "0.0"
+  score: "0.0",
 });
 
 const registReview = async () => {
@@ -165,21 +168,20 @@ const registReview = async () => {
 
   await boardApi.post("/map/review", reviewObj.value);
   reviewObj.value = {
-  aptCode: "",
-  content: "",
-  score: "0.0"
-};
+    aptCode: "",
+    content: "",
+    score: "0.0",
+  };
   getApartDealInfoList(getAptCode());
-}
+};
 
 const isSameUser = (writer) => {
   const user = JSON.parse(localStorage.getItem("auth")).user;
   if (user == null) return false;
-  
-  if (user.job === '관리자' || user.id == writer) return true;
-  else if (user.id != writer)    return false;
-  
-}
+
+  if (user.id == writer) return true;
+  else if (user.id != writer) return false;
+};
 
 const deleteReview = async (reviewId) => {
   if (!confirm("정말 리뷰를 삭제하시겠습니까?")) return;
@@ -187,15 +189,15 @@ const deleteReview = async (reviewId) => {
   await boardApi.delete("/map/review/" + reviewId);
   alert("정상적으로 리뷰를 삭제하였습니다.");
   getApartDealInfoList(getAptCode());
-}
+};
 
 watch(props, (nv) => {
   getApartDealInfoList(nv.aptCode);
   reviewObj.value = {
-  aptCode: "",
-  content: "",
-  score: "0.0"
-};
+    aptCode: "",
+    content: "",
+    score: "0.0",
+  };
 });
 </script>
 
@@ -203,7 +205,7 @@ watch(props, (nv) => {
   <div id="side-main">
     <div id="side-content" v-show="!isEmptyList()">
       <div id="content-name">{{ getApartmentName() }}</div>
-      
+
       <div id="content-address">주소 : {{ getAddress() }}</div>
       <div id="content-road-address">도로명주소 : {{ getRoadAddress() }}</div>
       <div id="content-address">건축년도 : {{ getBuildYear() }}</div>
@@ -215,24 +217,28 @@ watch(props, (nv) => {
       </div>
       <div id="content-view-good">
         <div id="good">
-          <button type="button" class="Btn" @click="deleteLike()" v-if="isLike()">
-            <i class="fa-solid fa-heart" style="color: #ff0000;font-size: 50px;"></i>
-          </button>
-          <button type="button" class="Btn" @click="addLike()" v-else>
-            <i class="fa-regular fa-heart" style="color: #ff1100;font-size: 50px;"></i>
-          </button>
+          <div @click="deleteLike()" v-if="isLike()">
+            <i
+              class="fa-solid fa-heart"
+              style="color: #ff0000; font-size: 50px"
+            ></i>
+          </div>
+          <div @click="addLike()" v-else>
+            <i
+              class="fa-regular fa-heart"
+              style="color: #ff1100; font-size: 50px"
+            ></i>
+          </div>
           <div id="count">{{ getLike() }}</div>
         </div>
         <div id="view">
-          <button type="button" class="Btn">
-            <div style="font-size: 40px">&#128064</div>
-          </button>
+          <div style="font-size: 40px">&#128064;</div>
           <div id="count">{{ getView() }}</div>
         </div>
       </div>
       <div id="load-view">
         <div id="road-view-header">로드 뷰</div>
-        <KakaoMapRoadView :position="position"/>
+        <KakaoMapRoadView :position="position" />
       </div>
       <div id="trade-log">
         <div id="trade-log-header">시세 조회</div>
@@ -265,39 +271,68 @@ watch(props, (nv) => {
       </div>
       <div id="review">
         <div id="review-title">생생 리뷰 ({{ getReviewCount() }})</div>
-        <div id="review-regist">
-          <select name="" id="" v-model="reviewObj.score">
-            <option value="0.0">0.0</option>
-            <option value="0.5">0.5</option>
-            <option value="1.0">1.0</option>
-            <option value="1.5">1.5</option>
-            <option value="2.0">2.0</option>
-            <option value="2.5">2.5</option>
-            <option value="3.0">3.0</option>
-            <option value="3.5">3.5</option>
-            <option value="4.0">4.0</option>
-            <option value="4.5">4.5</option>
-            <option value="5.0">5.0</option>
-          </select>
-          <br>
-          <textarea name="" id="" cols="30" rows="10" v-model="reviewObj.content"></textarea>
-          <button @click="registReview()">등록</button>
-        </div>
         <div id="review-content">
-          <div v-for="reviewInfo in apartDealInfoList.reviewList">
-            <div>작성자 {{ reviewInfo.userId }}</div>
-            <div>리뷰 {{ reviewInfo.content }}</div>
-            <div>작성시간 {{ reviewInfo.createTime }}</div>
-            <div>평점 {{ reviewInfo.score }}</div>
-            <button v-if="isSameUser(reviewInfo.userId)" @click="deleteReview(reviewInfo.id)">X</button>
+          <div
+            v-for="reviewInfo in apartDealInfoList.reviewList"
+            id="comment-row"
+          >
+            <div id="comment-head">
+              <div id="comment-writer">{{ reviewInfo.userId }}</div>
+              <div>{{ reviewInfo.createTime }}</div>
+              <a
+                v-if="isSameUser(reviewInfo.userId)"
+                @click="deleteReview(reviewInfo.id)"
+                id="comment-deleteBtn"
+              >
+                ✖
+              </a>
+            </div>
+            <div>{{ reviewInfo.content }}</div>
+            <div>평점: {{ reviewInfo.score }}</div>
           </div>
-          
+        </div>
+        <div id="review-regist-body">
+          <div id="review-regist">
+            <div id="select-star">
+              별점
+              <select
+                name=""
+                id=""
+                v-model="reviewObj.score"
+                style="width: 90%; text-align: center; border: none"
+              >
+                <option value="0.0">0.0</option>
+                <option value="0.5">0.5</option>
+                <option value="1.0">1.0</option>
+                <option value="1.5">1.5</option>
+                <option value="2.0">2.0</option>
+                <option value="2.5">2.5</option>
+                <option value="3.0">3.0</option>
+                <option value="3.5">3.5</option>
+                <option value="4.0">4.0</option>
+                <option value="4.5">4.5</option>
+                <option value="5.0">5.0</option>
+              </select>
+            </div>
+            <div id="comment-text">
+              <textarea
+                name=""
+                id=""
+                cols="30"
+                rows="10"
+                v-model="reviewObj.content"
+              ></textarea>
+            </div>
+            <div id="comment-btn">
+              <button @click="registReview()">등록</button>
+            </div>
+          </div>
         </div>
       </div>
     </div>
     <div v-show="isEmptyList()" id="no-data-div">
       <div>
-        <div><img src="/src/assets/img/search.png" alt=""></div>
+        <div><img src="/src/assets/img/search.png" alt="" /></div>
         <div><h3>대한민국에 있는 모든 동을 검색해보세요!</h3></div>
       </div>
     </div>
@@ -306,7 +341,6 @@ watch(props, (nv) => {
 
 <style scoped>
 .Btn {
-  background-color: white;
   border-style: none;
 }
 
@@ -325,8 +359,8 @@ watch(props, (nv) => {
   left: 0;
   top: 7vh;
   z-index: 100;
-  background-color: white;
   overflow: scroll;
+  background-image: linear-gradient(to top, #accbee 0%, #e7f0fd 100%);
   #side-content {
     width: 100%;
     height: 200vh;
@@ -337,7 +371,6 @@ watch(props, (nv) => {
   width: 100%;
   font-size: 2rem;
   padding: 3vh;
-  background-color: aqua;
 }
 #content-address {
   width: 100%;
@@ -357,7 +390,6 @@ watch(props, (nv) => {
 #content-navbar {
   width: 100%;
   padding: 3vh;
-  background-color: aqua;
   border-bottom: 1px solid black;
   border-top: 1px solid black;
   display: flex;
@@ -394,9 +426,7 @@ watch(props, (nv) => {
   background-repeat: no-repeat;
   background-image: url("../../assets/img/views.png");
 }
-#count {
-  background-color: aqua;
-}
+
 #load-view {
   width: 100%;
   height: 50vh;
@@ -406,7 +436,7 @@ watch(props, (nv) => {
 }
 #road-view-header {
   padding: 0.5vh;
-    font-size: 1.5rem;
+  font-size: 1.5rem;
 }
 #trade-log {
   width: 100%;
@@ -441,7 +471,77 @@ watch(props, (nv) => {
   }
   #review-content {
     width: 100%;
-    height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 3vh;
+  }
+}
+#comment-row {
+  background-color: antiquewhite;
+  border-radius: 12px;
+  width: 80%;
+  display: flex;
+  flex-direction: column;
+  gap: 5vh;
+  position: relative;
+  padding: 2vh 1vw 2vh 1vw;
+}
+#comment-head {
+  display: flex;
+  gap: 0.5vw;
+  align-items: end;
+}
+#comment-writer {
+  font-size: 1.5rem;
+  font-weight: bold;
+  width: 65%;
+}
+#comment-deleteBtn {
+  cursor: pointer;
+  position: absolute;
+  top: 5px;
+  right: 10px;
+}
+#review-regist {
+  background-color: #f9f9f9;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  display: flex;
+  padding: 1vw;
+  flex-direction: column;
+  align-items: end;
+  gap: 2vh;
+}
+#review-regist-body {
+  width: 100%;
+  height: 30vh;
+  margin-top: 5vh;
+  padding-left: 10%;
+  padding-right: 10%;
+}
+#select-star {
+  display: flex;
+  width: 100%;
+  justify-content: center;
+  gap: 1vw;
+}
+select:focus {
+  outline: none; /* 포커스시 아웃라인 제거 */
+  border: none; /* 포커스시 보더 제거 */
+}
+#comment-text {
+  width: 100%;
+  textarea {
+    width: 100%;
+  }
+}
+
+#comment-btn {
+  width: 100%;
+  button {
+    width: 100%;
+    outline: none;
   }
 }
 </style>
