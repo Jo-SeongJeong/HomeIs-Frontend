@@ -39,11 +39,8 @@ getLikeRank();
     :spaceBetween="30"
     :centeredSlides="true"
     :autoplay="{
-      delay: 2000,
+      delay: 5000,
       disableOnInteraction: false,
-    }"
-    :pagination="{
-      clickable: true,
     }"
     :modules="modules"
     class="mySwiper"
@@ -53,17 +50,17 @@ getLikeRank();
     <swiper-slide v-if="aptViewList.length > 0">
       <div id="freeboard-title">조회수 TOP 3</div>
       <div id="views-rank">
-        <div id="rank-box02">
+        <div id="rank-box02-free">
           <div id="rank-2"></div>
           <div id="rank-title">{{ aptViewList[1].apartmentName }}</div>
           <div id="rank-content">{{ aptViewList[1].view }} views</div>
         </div>
-        <div id="rank-box01">
+        <div id="rank-box01-free">
           <div id="rank-1"></div>
           <div id="rank-title">{{ aptViewList[0].apartmentName }}</div>
           <div id="rank-content">{{ aptViewList[0].view }} views</div>
         </div>
-        <div id="rank-box03">
+        <div id="rank-box03-free">
           <div id="rank-3"></div>
           <div id="rank-title">{{ aptViewList[2].apartmentName }}</div>
           <div id="rank-content">{{ aptViewList[2].view }} views</div>
@@ -71,19 +68,19 @@ getLikeRank();
       </div>
     </swiper-slide>
     <swiper-slide v-if="aptLikeList.length > 0">
-      <div id="freeboard-title  ">좋아요 TOP 3</div>
+      <div id="freeboard-title">좋아요 TOP 3</div>
       <div id="like-rank">
-        <div id="rank-box02">
+        <div id="rank-box02-free">
           <div id="rank-2"></div>
           <div id="rank-title">{{ aptLikeList[1].apartmentName }}</div>
           <div id="rank-content">{{ aptLikeList[2].totalLike }} likes</div>
         </div>
-        <div id="rank-box01">
+        <div id="rank-box01-free">
           <div id="rank-1"></div>
           <div id="rank-title">{{ aptLikeList[0].apartmentName }}</div>
           <div id="rank-content">{{ aptLikeList[2].totalLike }} likes</div>
         </div>
-        <div id="rank-box03">
+        <div id="rank-box03-free">
           <div id="rank-3"></div>
           <div id="rank-title">{{ aptLikeList[2].apartmentName }}</div>
           <div id="rank-content">{{ aptLikeList[2].totalLike }} likes</div>
@@ -96,12 +93,14 @@ getLikeRank();
 #swiper-rank {
   width: 100%;
   height: 100%;
+  background-image: linear-gradient(to top, #fff1eb 0%, #ace0f9 100%);
 }
 #freeboard-title {
   color: white;
   font-size: 3rem;
   position: absolute;
-  background-color: blue;
+  background-image: linear-gradient(120deg, #a1c4fd 0%, #c2e9fb 100%);
+  padding: 0 1vw 0 1vw;
   border-radius: 12px;
   top: 1vh;
   left: 3vw;
@@ -115,10 +114,9 @@ getLikeRank();
   #rank-content {
     margin-bottom: 2vh;
   }
-  #rank-box01 {
+  #rank-box01-free {
     width: 20%;
     height: 100%;
-    background-color: aqua;
     display: flex;
     flex-direction: column;
     justify-content: end;
@@ -139,7 +137,7 @@ getLikeRank();
       background-size: 100% 100%;
     }
   }
-  #rank-box02 {
+  #rank-box02-free {
     width: 20%;
     height: 100%;
     background-color: aqua;
@@ -163,7 +161,7 @@ getLikeRank();
       background-size: 100% 100%;
     }
   }
-  #rank-box03 {
+  #rank-box03-free {
     width: 20%;
     height: 100%;
     background-color: aqua;
@@ -200,10 +198,9 @@ getLikeRank();
   #rank-content {
     margin-bottom: 2vh;
   }
-  #rank-box01 {
+  #rank-box01-free {
     width: 20%;
     height: 100%;
-    background-color: aqua;
     display: flex;
     flex-direction: column;
     justify-content: end;
@@ -224,7 +221,7 @@ getLikeRank();
       background-size: 100% 100%;
     }
   }
-  #rank-box02 {
+  #rank-box02-free {
     width: 20%;
     height: 100%;
     background-color: aqua;
@@ -248,7 +245,7 @@ getLikeRank();
       background-size: 100% 100%;
     }
   }
-  #rank-box03 {
+  #rank-box03-free {
     width: 20%;
     height: 100%;
     background-color: aqua;

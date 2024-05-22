@@ -35,16 +35,16 @@ const getImgUrl = (imgUrl) => {
 };
 
 const addLike = async () => {
-  try {
-    await boardApi.post("/homesta/like", {
-      homestaId: id,
-      userId: JSON.parse(localStorage.getItem("auth")).user.id,
-    });
-  } catch (error) {
-    if (error.response.status === 500) {
-      await boardApi.delete("/homesta/like/" + id);
-    }
-  }
+  await boardApi.post("/homesta/like", {
+    homestaId: id,
+    userId: JSON.parse(localStorage.getItem("auth")).user.id,
+  });
+
+  router.go(0);
+};
+
+const deleteLike = async () => {
+  await boardApi.delete("/homesta/like/" + id);
   router.go(0);
 };
 
@@ -83,67 +83,84 @@ const isWriteUser = () => {
 
 <template>
   <div id="homesta-detail-main">
-    <div id="homesta-detail-header">
-      <div id="homesta-detail-header-title">
-        <h2>{{ homesta.title }}</h2>
-      </div>
-      <div style="font-size: 1.2rem">{{ homesta.view }} &#128064; views</div>
-      <div v-if="homesta.isLike == 0" style="font-size: 1.2rem">
-        <a>{{ homesta.totalLike }} </a
-        ><a @click="addLike()" style="cursor: pointer">
-          &nbsp;<i class="fa-regular fa-heart" style="color: #ff1100"></i>
-          Likes</a
+    <div id="waapper">
+      <div id="homesta-detail-header">
+        <div id="homesta-detail-header-title">
+          <h2>{{ homesta.title }}</h2>
+        </div>
+        <div style="font-size: 1.2rem">{{ homesta.view }} &#128064; views</div>
+        <div v-if="homesta.isLike == 0" style="font-size: 1.2rem">
+          <a>{{ homesta.totalLike }} </a
+          ><a @click="addLike()" style="cursor: pointer">
+            &nbsp;<i class="fa-regular fa-heart" style="color: #ff1100"></i>
+            Likes</a
+          >
+        </div>
+        <div v-else-if="homesta.isLike == 1" style="font-size: 1.2rem">
+          <a>{{ homesta.totalLike }} </a>
+          <a @click="deleteLike()" style="cursor: pointer">
+            &nbsp;<i class="fa-solid fa-heart" style="color: #ff0000"></i>
+            Likes</a
+          >
+        </div>
+        <a
+          @click="deleteHomesta()"
+          v-if="isWriteUser()"
+          style="cursor: pointer"
         >
+          삭제
+        </a>
       </div>
-      <div v-else-if="homesta.isLike == 1" style="font-size: 1.2rem">
-        <a>{{ homesta.totalLike }} </a>
-        <a @click="addLike()" style="cursor: pointer">
-          &nbsp;<i class="fa-solid fa-heart" style="color: #ff0000"></i>
-          Likes</a
-        >
+      <div id="homesta-detail-content">
+        <div id="homesta-detail-swiper">
+          <swiper
+            :effect="'coverflow'"
+            :centeredSlides="true"
+            :slidesPerView="'auto'"
+            :coverflowEffect="{
+              rotate: 50,
+              stretch: 0,
+              depth: 100,
+              modifier: 1,
+              slideShadows: true,
+            }"
+            :pagination="{
+              clickable: true,
+            }"
+            :modules="modules"
+            class="mySwiper"
+          >
+            <swiper-slide
+              v-for="imgInfo in homesta.image"
+              :key="imgInfo.saveName"
+              ><div
+                id="homesta-detail-image-box"
+                :style="{
+                  backgroundImage: `url(${getImgUrl(imgInfo.saveName)})`,
+                }"
+              ></div>
+            </swiper-slide>
+          </swiper>
+        </div>
+        <div>
+          <a>{{ homesta.content }}</a>
+        </div>
+        ✍ {{ homesta.userId }}
       </div>
-      <a @click="deleteHomesta()" v-if="isWriteUser()" style="cursor: pointer">
-        삭제
-      </a>
-    </div>
-    <div id="homesta-detail-content">
-      <div id="homesta-detail-swiper">
-        <swiper
-          :effect="'coverflow'"
-          :centeredSlides="true"
-          :slidesPerView="'auto'"
-          :coverflowEffect="{
-            rotate: 50,
-            stretch: 0,
-            depth: 100,
-            modifier: 1,
-            slideShadows: true,
-          }"
-          :pagination="{
-            clickable: true,
-          }"
-          :modules="modules"
-          class="mySwiper"
-        >
-          <swiper-slide v-for="imgInfo in homesta.image" :key="imgInfo.saveName"
-            ><div
-              id="homesta-detail-image-box"
-              :style="{
-                backgroundImage: `url(${getImgUrl(imgInfo.saveName)})`,
-              }"
-            ></div>
-          </swiper-slide>
-        </swiper>
-      </div>
-      <div>
-        <a>{{ homesta.content }}</a>
-      </div>
-      ✍ {{ homesta.userId }}
     </div>
   </div>
 </template>
 
 <style scoped>
+#waapper {
+  width: 100%;
+  height: 100%;
+  background-image: linear-gradient(to top, #accbee 0%, #e7f0fd 100%);
+  border-radius: 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 5vh;
+}
 .mySwiper {
   width: 100%;
   height: 100%;
@@ -159,15 +176,17 @@ const isWriteUser = () => {
   height: 70vh;
   padding-left: 20vw;
   padding-right: 20vw;
+  padding-top: 5vh;
+  margin-bottom: 5vh;
   #homesta-detail-header {
     width: 100%;
-    height: 20%;
+    height: 10%;
     display: flex;
     flex-direction: row;
     align-items: end;
     gap: 1vw;
     #homesta-detail-header-title {
-      width: 75%;
+      width: 70%;
       padding-left: 2vw;
       font-size: 1.8rem;
     }

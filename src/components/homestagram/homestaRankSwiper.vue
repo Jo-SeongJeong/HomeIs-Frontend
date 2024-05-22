@@ -47,11 +47,8 @@ const getImgUrl = (homesta) => {
     :spaceBetween="30"
     :centeredSlides="true"
     :autoplay="{
-      delay: 2000,
+      delay: 5000,
       disableOnInteraction: false,
-    }"
-    :pagination="{
-      clickable: true,
     }"
     :modules="modules"
     class="mySwiper"
@@ -68,9 +65,11 @@ const getImgUrl = (homesta) => {
           }"
         >
           <div id="rank-2"></div>
-          <div id="rank-title">{{ homestaHotInfo.homestaList[1].title }}</div>
+          <div id="rank-title">
+            <a>{{ homestaHotInfo.homestaList[1].title }}</a>
+          </div>
           <div id="rank-content">
-            {{ homestaHotInfo.homestaList[1].totalLike }} likes
+            <a>{{ homestaHotInfo.homestaList[1].totalLike }} likes</a>
           </div>
         </div>
         <div
@@ -82,10 +81,10 @@ const getImgUrl = (homesta) => {
           <div id="rank-1"></div>
           <div id="rank-down">
             <div id="rank-title">
-              {{ homestaHotInfo.homestaList[0].title }}
+              <a> {{ homestaHotInfo.homestaList[0].title }} </a>
             </div>
             <div id="rank-content">
-              {{ homestaHotInfo.homestaList[0].totalLike }} likes
+              <a>{{ homestaHotInfo.homestaList[0].totalLike }} likes </a>
             </div>
           </div>
         </div>
@@ -96,9 +95,11 @@ const getImgUrl = (homesta) => {
           }"
         >
           <div id="rank-3"></div>
-          <div id="rank-title">{{ homestaHotInfo.homestaList[2].title }}</div>
+          <div id="rank-title">
+            <a>{{ homestaHotInfo.homestaList[2].title }}</a>
+          </div>
           <div id="rank-content">
-            {{ homestaHotInfo.homestaList[2].totalLike }} likes
+            <a>{{ homestaHotInfo.homestaList[2].totalLike }} likes</a>
           </div>
         </div>
       </div>
@@ -115,9 +116,11 @@ const getImgUrl = (homesta) => {
           }"
         >
           <div id="rank-2"></div>
-          <div id="rank-title">{{ homestaViewInfo.homestaList[1].title }}</div>
+          <div id="rank-title">
+            <a>{{ homestaViewInfo.homestaList[1].title }}</a>
+          </div>
           <div id="rank-content">
-            {{ homestaViewInfo.homestaList[1].view }} view
+            <a>{{ homestaViewInfo.homestaList[1].view }} view</a>
           </div>
         </div>
         <div
@@ -129,9 +132,11 @@ const getImgUrl = (homesta) => {
           }"
         >
           <div id="rank-1"></div>
-          <div id="rank-title">{{ homestaViewInfo.homestaList[0].title }}</div>
+          <div id="rank-title">
+            <a>{{ homestaViewInfo.homestaList[0].title }}</a>
+          </div>
           <div id="rank-content">
-            {{ homestaViewInfo.homestaList[0].view }} view
+            <a>{{ homestaViewInfo.homestaList[0].view }} view</a>
           </div>
         </div>
         <div
@@ -143,9 +148,11 @@ const getImgUrl = (homesta) => {
           }"
         >
           <div id="rank-3"></div>
-          <div id="rank-title">{{ homestaViewInfo.homestaList[2].title }}</div>
+          <div id="rank-title">
+            <a>{{ homestaViewInfo.homestaList[2].title }}</a>
+          </div>
           <div id="rank-content">
-            {{ homestaViewInfo.homestaList[2].view }} view
+            <a>{{ homestaViewInfo.homestaList[2].view }} view</a>
           </div>
         </div>
       </div>
@@ -153,18 +160,31 @@ const getImgUrl = (homesta) => {
   </swiper>
 </template>
 <style>
+#rank-title {
+  a {
+    border-radius: 6px;
+    background-image: linear-gradient(to top, #accbee 0%, #e7f0fd 100%);
+  }
+}
+#rank-content {
+  a {
+    border-radius: 6px;
+    background-image: linear-gradient(to top, #accbee 0%, #e7f0fd 100%);
+  }
+}
 #rank-down {
   width: 100%;
 }
 #swiper-rank {
   width: 100%;
   height: 100%;
+  background-image: linear-gradient(to top, #fff1eb 0%, #ace0f9 100%);
 }
 #title {
-  color: white;
   font-size: 3rem;
   position: absolute;
-  background-color: blue;
+  background-image: linear-gradient(to top, #e6e9f0 0%, #eef1f5 100%);
+  padding: 0 1vw 0 1vw;
   border-radius: 12px;
   top: 1vh;
   left: 3vw;
@@ -189,6 +209,7 @@ const getImgUrl = (homesta) => {
     font-size: 1.3rem;
     text-align: center;
     color: black;
+    background-image: linear-gradient(to top, #accbee 0%, #e7f0fd 100%);
     #rank-1 {
       width: 25%;
       height: 28%;

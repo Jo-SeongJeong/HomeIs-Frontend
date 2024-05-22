@@ -1,3 +1,47 @@
+<script setup>
+// Import Swiper Vue.js components
+import { Swiper, SwiperSlide } from "swiper/vue";
+import axios from "axios";
+import { ref } from "vue";
+// Import Swiper styles
+import "swiper/css";
+
+import "swiper/css/effect-flip";
+import "swiper/css/pagination";
+import "swiper/css/navigation";
+
+// import required modules
+import { EffectFlip, Pagination, Navigation, Autoplay } from "swiper/modules";
+const modules = [EffectFlip, Pagination, Navigation, Autoplay];
+import { useRouter } from "vue-router";
+const router = useRouter();
+const homestaHotInfo = ref({});
+
+const getHotHomestaList = async () => {
+  const { data } = await axios.get("http://localhost:80/homeis/homesta/list", {
+    params: { category: "hot" },
+  });
+  homestaHotInfo.value = data;
+};
+getHotHomestaList();
+const getImgUrl = (homesta) => {
+  if (homesta.image.length > 0) {
+    return "http://localhost/homeis/img/" + homesta.image[0].saveName;
+  }
+  return "";
+};
+
+const getContent = (homesta) => {
+  if (homesta.content == null || homesta.content.indexOf("#")) {
+    return "";
+  }
+  return homesta.content;
+};
+
+const goDetail = (id) => {
+  router.push({ name: "HomestagramDetail", params: { id } });
+};
+</script>
 <template>
   <swiper
     :effect="'flip'"
@@ -15,34 +59,15 @@
     id="photo"
   >
     <swiper-slide
-      ><img
-        src="https://swiperjs.com/demos/images/nature-1.jpg"
-        id="mainAddImg"
-      />
-      <div class="title" data-swiper-parallax="-300">Slide 2</div></swiper-slide
+      v-for="homesta in homestaHotInfo.homestaList"
+      :key="homesta.id"
+      id="slide-box"
+      :style="{
+        backgroundImage: `url(${getImgUrl(homesta)})`,
+      }"
+      @click="goDetail(homesta.id)"
     >
-
-    <swiper-slide
-      ><img
-        src="https://swiperjs.com/demos/images/nature-2.jpg"
-        id="mainAddImg" /></swiper-slide
-    ><swiper-slide
-      ><img
-        src="https://swiperjs.com/demos/images/nature-3.jpg"
-        id="mainAddImg" /></swiper-slide
-    ><swiper-slide
-      ><img
-        src="https://swiperjs.com/demos/images/nature-4.jpg"
-        id="mainAddImg" /></swiper-slide
-    ><swiper-slide
-      ><img
-        src="https://swiperjs.com/demos/images/nature-5.jpg"
-        id="mainAddImg" /></swiper-slide
-    ><swiper-slide
-      ><img
-        src="https://swiperjs.com/demos/images/nature-6.jpg"
-        id="mainAddImg"
-    /></swiper-slide>
+    </swiper-slide>
   </swiper>
 </template>
 <style>
@@ -51,34 +76,13 @@
   height: 40vh;
   background-color: rgb(243, 245, 249);
 }
-#mainAddImg {
-  width: 30vw;
-  height: 40vh;
+#slide-box {
+  background-size: 100% 80%;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-color: white;
+  border-radius: 15px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  padding: 1vh;
 }
 </style>
-<script>
-// Import Swiper Vue.js components
-import { Swiper, SwiperSlide } from "swiper/vue";
-
-// Import Swiper styles
-import "swiper/css";
-
-import "swiper/css/effect-flip";
-import "swiper/css/pagination";
-import "swiper/css/navigation";
-
-// import required modules
-import { EffectFlip, Pagination, Navigation, Autoplay } from "swiper/modules";
-
-export default {
-  components: {
-    Swiper,
-    SwiperSlide,
-  },
-  setup() {
-    return {
-      modules: [EffectFlip, Pagination, Navigation, Autoplay],
-    };
-  },
-};
-</script>
