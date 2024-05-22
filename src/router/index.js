@@ -15,18 +15,27 @@ const router = createRouter({
       beforeEnter: (to, from, next) => {
         const auth = JSON.parse(localStorage.getItem("auth"));
         if (auth.user == null) {
-          alert('접근 권한이 없습니다.');
+          alert("접근 권한이 없습니다.");
           next("/");
           return;
         }
 
         const path = to.fullPath;
-        if (path.indexOf('free-board') != -1) {
-          localStorage.setItem("headerTitle", JSON.stringify({title: '자유게시판'}));
-        } else if (path.indexOf('notiace') != -1) {
-          localStorage.setItem("headerTitle", JSON.stringify({title: '공지 및 문의'}));
-        } else if (path.indexOf('homestagram') != -1) {
-          localStorage.setItem("headerTitle", JSON.stringify({title: '홈스타그램'}));
+        if (path.indexOf("free-board") != -1) {
+          localStorage.setItem(
+            "headerTitle",
+            JSON.stringify({ title: "자유게시판" })
+          );
+        } else if (path.indexOf("notiace") != -1) {
+          localStorage.setItem(
+            "headerTitle",
+            JSON.stringify({ title: "공지 및 문의" })
+          );
+        } else if (path.indexOf("homestagram") != -1) {
+          localStorage.setItem(
+            "headerTitle",
+            JSON.stringify({ title: "홈스타그램" })
+          );
         }
         next();
       },
@@ -35,7 +44,10 @@ const router = createRouter({
           path: "free-board/:page",
           name: "FreeBoardList",
           beforeEnter: (to, from, next) => {
-            localStorage.setItem("headerTitle", JSON.stringify({title: '자유게시판'}));
+            localStorage.setItem(
+              "headerTitle",
+              JSON.stringify({ title: "자유게시판" })
+            );
             next();
           },
           component: () => import("@/views/Board/FreeBoardList.vue"),
@@ -46,15 +58,23 @@ const router = createRouter({
           component: () => import("@/views/Board/FreeBoardDetail.vue"),
         },
         {
-          path: "free-board/write",
+          path: "free-board/write/:page",
           name: "FreeBoardWrite",
           component: () => import("@/views/Board/FreeBoardWrite.vue"),
+        },
+        {
+          path: "free-board/update/:id/:page",
+          name: "FreeBoardUpdate",
+          component: () => import("@/views/Board/FreeBoardUpdate.vue"),
         },
         {
           path: "notice",
           name: "Notice",
           beforeEnter: (to, from, next) => {
-            localStorage.setItem("headerTitle", JSON.stringify({title: '공지 및 문의'}));
+            localStorage.setItem(
+              "headerTitle",
+              JSON.stringify({ title: "공지 및 문의" })
+            );
             next();
           },
           component: () => import("@/views/Notice/NoticeMainView.vue"),
@@ -88,7 +108,10 @@ const router = createRouter({
           path: "homestagram",
           name: "HomestagramView",
           beforeEnter: (to, from, next) => {
-            localStorage.setItem("headerTitle", JSON.stringify({title: '홈스타그램'}));
+            localStorage.setItem(
+              "headerTitle",
+              JSON.stringify({ title: "홈스타그램" })
+            );
             next();
           },
           component: () => import("@/views/Homestagram/HomestagramView.vue"),
@@ -98,6 +121,11 @@ const router = createRouter({
           name: "HomestagramWrite",
           component: () => import("@/views/Homestagram/HomestagramWrite.vue"),
         },
+        {
+          path: "homestagram/:id",
+          name: "HomestagramDetail",
+          component: () => import("@/views/Homestagram/HomestagramDetail.vue"),
+        },
       ],
     },
     {
@@ -106,7 +134,7 @@ const router = createRouter({
       beforeEnter: (to, from, next) => {
         const auth = JSON.parse(localStorage.getItem("auth"));
         if (auth.user == null) {
-          alert('접근 권한이 없습니다.');
+          alert("접근 권한이 없습니다.");
           next("/");
           return;
         }
@@ -120,7 +148,7 @@ const router = createRouter({
       beforeEnter: (to, from, next) => {
         const auth = JSON.parse(localStorage.getItem("auth"));
         if (auth.user == null) {
-          alert('접근 권한이 없습니다.');
+          alert("접근 권한이 없습니다.");
           next("/");
           return;
         }
@@ -134,7 +162,7 @@ const router = createRouter({
       beforeEnter: (to, from, next) => {
         const auth = JSON.parse(localStorage.getItem("auth"));
         if (auth.user == null) {
-          alert('접근 권한이 없습니다.');
+          alert("접근 권한이 없습니다.");
           next("/");
           return;
         }

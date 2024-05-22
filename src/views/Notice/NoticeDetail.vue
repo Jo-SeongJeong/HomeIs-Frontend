@@ -38,18 +38,136 @@ const deleteNotice = async () => {
 const updateNotice = () => {
   router.push({ name: "NoticeUpdate" });
 };
+
+const backPage = () => {
+  router.push({ name: "Notice" });
+};
 </script>
 
 <template>
-  <div>
-    <div>{{ notice.id }}</div>
-    <button v-if="isAdmin()" @click="deleteNotice">삭제</button>
-    <button v-if="isAdmin()" @click="updateNotice">수정</button>
-    <div>{{ notice.createTime }}</div>
-    <div>{{ notice.content }}</div>
+  <div id="notice-detail-main">
+    <div class="notice-detail">
+      <div class="notice-header">
+        <h3>제목 : {{ notice.title }}</h3>
+        <p>작성일 : {{ notice.createTime }}</p>
+        <hr class="line" />
+      </div>
 
-    <hr />
+      <div class="notice-actions">
+        <button v-if="isAdmin()" @click="updateNotice" class="btn-update">
+          수정
+        </button>
+        <button v-if="isAdmin()" @click="deleteNotice" class="btn-delete">
+          삭제
+        </button>
+      </div>
+
+      <div class="notice-content">
+        {{ notice.content }}
+      </div>
+
+      <hr class="line" />
+    </div>
   </div>
 </template>
 
-<style scoped></style>
+<style scoped>
+#notice-detail-main {
+  width: 100vw;
+  height: 80vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.notice-detail {
+  width: 80%;
+  height: 80%;
+  max-width: 800px;
+  margin: 30px auto;
+  padding: 20px;
+  background-color: #f9f9f9;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.notice-header {
+  margin-bottom: 20px;
+}
+
+.notice-header h3 {
+  margin: 10px 0;
+  font-size: 24px;
+  color: #333;
+  margin-bottom: 10px;
+}
+
+.notice-header p {
+  font-size: 14px;
+  color: #666;
+}
+
+.notice-actions {
+  margin: 10px 0;
+  display: flex;
+  justify-content: end;
+}
+
+.notice-actions button {
+  padding: 10px 15px;
+  margin-right: 10px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 14px;
+  margin-bottom: 10px;
+}
+
+.notice-actions .btn-delete {
+  background-color: #e74c3c;
+  color: #fff;
+}
+
+.notice-actions .btn-update {
+  background-color: #3498db;
+  color: #fff;
+}
+
+.notice-content {
+  padding: 20px;
+  background-color: #fff;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  font-size: 16px;
+  color: #333;
+  font-size: 20px;
+  line-height: 1.6;
+}
+
+.line {
+  margin-top: 30px;
+  border: 1px solid gainsboro;
+}
+
+.like-actions .back-list {
+  background-color: #a6aaad;
+  color: #fff;
+  margin-top: 10px;
+  width: 100px;
+}
+
+.like-actions {
+  margin: 10px 0;
+  display: flex;
+  justify-content: center;
+}
+
+.like-actions button {
+  padding: 10px 15px;
+  margin-right: 10px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 14px;
+}
+</style>

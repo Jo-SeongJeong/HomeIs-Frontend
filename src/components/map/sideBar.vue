@@ -1,42 +1,357 @@
-<script setup></script>
+<script setup>
+import { ref, defineProps, watch } from "vue";
+import LineChart from "../../components/map/chart/LineChart.vue";
+import KakaoMapRoadView from "@/components/kakao/KaKaoMapRoadView.vue";
+import boardApi from "@/api/boardApi";
+const props = defineProps({
+  aptCode: String,
+});
+
+const apartDealInfoList = ref({});
+const position = ref({
+  lng: "",
+  lat: "",
+});
+
+const getApartDealInfoList = async (aptCode) => {
+  const url = `/map/apartDealInfo/${aptCode}`;
+  const { data } = await boardApi.get(url);
+  apartDealInfoList.value = data;
+
+  if (isEmptyList()) return;
+  position.value.lng = apartDealInfoList.value.aptDealInfoList[0].lng;
+  position.value.lat = apartDealInfoList.value.aptDealInfoList[0].lat;
+};
+
+const isEmptyList = () => {
+  if (
+    apartDealInfoList.value.aptDealInfoList == null ||
+    apartDealInfoList.value.aptDealInfoList.length == 0
+  ) {
+    return true;
+  }
+  return false;
+};
+
+const getAptCode = () => {
+  if (isEmptyList()) {
+    return "NULL TEXT!!";
+  }
+  return apartDealInfoList.value.aptDealInfoList[0].aptCode;
+};
+
+const getApartmentName = () => {
+  if (isEmptyList()) {
+    return "NULL TEXT!!";
+  }
+  return apartDealInfoList.value.aptDealInfoList[0].apartmentName;
+};
+
+const getAddress = () => {
+  if (isEmptyList()) {
+    return "NULL TEXT!!";
+  }
+  const dongStr = apartDealInfoList.value.aptDealInfoList[0].dong;
+  const jibunStr = apartDealInfoList.value.aptDealInfoList[0].jibun;
+  return dongStr + " " + jibunStr;
+};
+
+const getBuildYear = () => {
+  if (isEmptyList()) {
+    return "NULL TEXT!!";
+  }
+  const buildYearStr = apartDealInfoList.value.aptDealInfoList[0].buildYear;
+  return buildYearStr;
+};
+
+const getRoadAddress = () => {
+  if (isEmptyList()) {
+    return "NULL TEXT!!";
+  }
+  const roadNameStr = apartDealInfoList.value.aptDealInfoList[0].roadName;
+  return roadNameStr;
+};
+
+const getLike = () => {
+  if (isEmptyList()) {
+    return "NULL TEXT!!";
+  }
+  const likeStr = apartDealInfoList.value.aptDealInfoList[0].totalLike;
+  return likeStr;
+};
+
+const getView = () => {
+  if (isEmptyList()) {
+    return "NULL TEXT!!";
+  }
+  const viewStr = apartDealInfoList.value.aptDealInfoList[0].totalView;
+  return viewStr;
+};
+
+const getArea = () => {
+  if (isEmptyList()) {
+    return "NULL TEXT!!";
+  }
+  const areaStr = apartDealInfoList.value.aptDealInfoList[0].area;
+  return areaStr;
+};
+
+const getReviewCount = () => {
+  if (
+    isEmptyList() ||
+    apartDealInfoList.value.reviewList == null ||
+    apartDealInfoList.value.reviewList.length == 0
+  ) {
+    return 0;
+  }
+  return apartDealInfoList.value.reviewList.length;
+};
+
+const isLoading = ref(false);
+const addLike = async () => {
+  if (isLoading.value) return;
+
+  isLoading.value = true;
+  const te = await boardApi.post("/map/like", {
+    aptCode: getAptCode(),
+    userId: JSON.parse(localStorage.getItem("auth")).user.id,
+  });
+  console.log("LI = ", te);
+
+  const aptCodeTmp = getAptCode();
+  getApartDealInfoList(aptCodeTmp);
+  console.log("ADDLIKE 이즈라이크 = ", apartDealInfoList.value.isLike);
+  isLoading.value = false;
+};
+
+const deleteLike = async () => {
+  if (isLoading.value) return;
+
+  isLoading.value = true;
+  const te = await boardApi.delete("/map/like/" + getAptCode());
+  console.log("LI = ", te);
+
+  const aptCodeTmp = getAptCode();
+  getApartDealInfoList(aptCodeTmp);
+  console.log("ADDLIKE 이즈라이크 = ", apartDealInfoList.value.isLike);
+  isLoading.value = false;
+};
+
+const isLike = () => {
+  if (isEmptyList()) {
+    return false;
+  }
+  const isLikeNum = parseInt(apartDealInfoList.value.isLike);
+  if (isLikeNum == 1) {
+    return true;
+  }
+  return false;
+};
+
+const reviewObj = ref({
+  aptCode: "",
+  content: "",
+  score: "0.0",
+});
+
+const registReview = async () => {
+  if (reviewObj.value.score == "0.0") {
+    alert("평점을 선택해주세요!");
+    return;
+  }
+  if (reviewObj.value.content.trim() == "") {
+    alert("리뷰를 입력해주세요!");
+    return;
+  }
+
+  reviewObj.value.aptCode = getAptCode();
+
+  await boardApi.post("/map/review", reviewObj.value);
+  reviewObj.value = {
+    aptCode: "",
+    content: "",
+    score: "0.0",
+  };
+  getApartDealInfoList(getAptCode());
+};
+
+const isSameUser = (writer) => {
+  const user = JSON.parse(localStorage.getItem("auth")).user;
+  if (user == null) return false;
+
+  if (user.id == writer) return true;
+  else if (user.id != writer) return false;
+};
+
+const deleteReview = async (reviewId) => {
+  if (!confirm("정말 리뷰를 삭제하시겠습니까?")) return;
+
+  await boardApi.delete("/map/review/" + reviewId);
+  alert("정상적으로 리뷰를 삭제하였습니다.");
+  getApartDealInfoList(getAptCode());
+};
+
+watch(props, (nv) => {
+  getApartDealInfoList(nv.aptCode);
+  reviewObj.value = {
+    aptCode: "",
+    content: "",
+    score: "0.0",
+  };
+});
+</script>
 
 <template>
   <div id="side-main">
-    <div id="side-content">
-      <div id="content-name">{이부분에 아파트 이름}</div>
-      <div id="content-address">
-        {이부분에 아파트 주소 예를 들어 대전 덕명동 어쩌구 저쩌구
-        가나다라마바사}
-      </div>
+    <div id="side-content" v-show="!isEmptyList()">
+      <div id="content-name">{{ getApartmentName() }}</div>
+
+      <div id="content-address">주소 : {{ getAddress() }}</div>
+      <div id="content-road-address">도로명주소 : {{ getRoadAddress() }}</div>
+      <div id="content-address">건축년도 : {{ getBuildYear() }}</div>
       <div id="content-navbar">
-        <div id="content-navbar-chose">시세</div>
-        <div id="content-navbar-chose">건물정보</div>
-        <div id="content-navbar-chose">주변정보</div>
+        <div id="content-navbar-chose"><a href="#load-view">로드 뷰</a></div>
+        <div id="content-navbar-chose"><a href="#trade-log">시세</a></div>
+        <div id="content-navbar-chose"><a href="#info">거래정보</a></div>
+        <div id="content-navbar-chose"><a href="#review">리뷰</a></div>
       </div>
       <div id="content-view-good">
         <div id="good">
-          <div id="good-image"></div>
-          <div id="count">{777}</div>
+          <div @click="deleteLike()" v-if="isLike()">
+            <i
+              class="fa-solid fa-heart"
+              style="color: #ff0000; font-size: 50px"
+            ></i>
+          </div>
+          <div @click="addLike()" v-else>
+            <i
+              class="fa-regular fa-heart"
+              style="color: #ff1100; font-size: 50px"
+            ></i>
+          </div>
+          <div id="count">{{ getLike() }}</div>
         </div>
         <div id="view">
-          <div id="view-image"></div>
-          <div id="count">{777}</div>
+          <div style="font-size: 40px">&#128064;</div>
+          <div id="count">{{ getView() }}</div>
         </div>
       </div>
-      <div id="load-view">이곳에 로드뷰 연동</div>
+      <div id="load-view">
+        <div id="road-view-header">로드 뷰</div>
+        <KakaoMapRoadView :position="position" />
+      </div>
       <div id="trade-log">
         <div id="trade-log-header">시세 조회</div>
-        <div id="trade-log-content"></div>
+        <div id="trade-log-content">
+          <LineChart :aptCode="aptCode" />
+        </div>
       </div>
       <div id="info">
-        <div id="info-title">건물 정보</div>
-        <div id="info-content"></div>
+        <div id="info-title">거래 정보</div>
+        <div id="info-content">
+          <table>
+            <thead>
+              <th>거래년도</th>
+              <th>거래월</th>
+              <th>거래일</th>
+              <th>면적</th>
+              <th>층 수</th>
+            </thead>
+            <tbody>
+              <tr v-for="dealInfo in apartDealInfoList.aptDealInfoList">
+                <td>{{ dealInfo.dealYear }}</td>
+                <td>{{ dealInfo.dealMonth }}</td>
+                <td>{{ dealInfo.dealDay }}</td>
+                <td>{{ parseFloat(dealInfo.area).toFixed(2) }}m<sup>2</sup></td>
+                <td>{{ dealInfo.floor }}</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+      <div id="review">
+        <div id="review-title">생생 리뷰 ({{ getReviewCount() }})</div>
+        <div id="review-content">
+          <div
+            v-for="reviewInfo in apartDealInfoList.reviewList"
+            id="comment-row"
+          >
+            <div id="comment-head">
+              <div id="comment-writer">{{ reviewInfo.userId }}</div>
+              <div>{{ reviewInfo.createTime }}</div>
+              <a
+                v-if="isSameUser(reviewInfo.userId)"
+                @click="deleteReview(reviewInfo.id)"
+                id="comment-deleteBtn"
+              >
+                ✖
+              </a>
+            </div>
+            <div>{{ reviewInfo.content }}</div>
+            <div>평점: {{ reviewInfo.score }}</div>
+          </div>
+        </div>
+        <div id="review-regist-body">
+          <div id="review-regist">
+            <div id="select-star">
+              별점
+              <select
+                name=""
+                id=""
+                v-model="reviewObj.score"
+                style="width: 90%; text-align: center; border: none"
+              >
+                <option value="0.0">0.0</option>
+                <option value="0.5">0.5</option>
+                <option value="1.0">1.0</option>
+                <option value="1.5">1.5</option>
+                <option value="2.0">2.0</option>
+                <option value="2.5">2.5</option>
+                <option value="3.0">3.0</option>
+                <option value="3.5">3.5</option>
+                <option value="4.0">4.0</option>
+                <option value="4.5">4.5</option>
+                <option value="5.0">5.0</option>
+              </select>
+            </div>
+            <div id="comment-text">
+              <textarea
+                name=""
+                id=""
+                cols="30"
+                rows="10"
+                v-model="reviewObj.content"
+              ></textarea>
+            </div>
+            <div id="comment-btn">
+              <button @click="registReview()">등록</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div v-show="isEmptyList()" id="no-data-div">
+      <div>
+        <div><img src="/src/assets/img/search.png" alt="" /></div>
+        <div><h3>대한민국에 있는 모든 동을 검색해보세요!</h3></div>
       </div>
     </div>
   </div>
 </template>
 
 <style scoped>
+.Btn {
+  border-style: none;
+}
+
+#no-data-div {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
 #side-main {
   position: absolute;
   width: 35vw;
@@ -44,8 +359,8 @@
   left: 0;
   top: 7vh;
   z-index: 100;
-  background-color: white;
   overflow: scroll;
+  background-image: linear-gradient(to top, #accbee 0%, #e7f0fd 100%);
   #side-content {
     width: 100%;
     height: 200vh;
@@ -56,9 +371,16 @@
   width: 100%;
   font-size: 2rem;
   padding: 3vh;
-  background-color: aqua;
 }
 #content-address {
+  width: 100%;
+  padding-left: 3vh;
+  padding-right: 3vh;
+  font-size: 1.2rem;
+  margin-bottom: 1vh;
+}
+
+#content-road-address {
   width: 100%;
   padding-left: 3vh;
   padding-right: 3vh;
@@ -68,7 +390,6 @@
 #content-navbar {
   width: 100%;
   padding: 3vh;
-  background-color: aqua;
   border-bottom: 1px solid black;
   border-top: 1px solid black;
   display: flex;
@@ -76,10 +397,10 @@
 }
 #content-view-good {
   width: 100%;
-  background-color: bisque;
   display: flex;
   justify-content: center;
   gap: 5vw;
+  padding-top: 30px;
 }
 #good {
   display: flex;
@@ -105,15 +426,17 @@
   background-repeat: no-repeat;
   background-image: url("../../assets/img/views.png");
 }
-#count {
-  background-color: aqua;
-}
+
 #load-view {
   width: 100%;
   height: 50vh;
   padding: 3vh;
   /* background-color: aqua; */
   border-bottom: 1px solid black;
+}
+#road-view-header {
+  padding: 0.5vh;
+  font-size: 1.5rem;
 }
 #trade-log {
   width: 100%;
@@ -124,6 +447,7 @@
   }
   #trade-log-content {
     width: 100%;
+    height: 100vh;
   }
 }
 #info {
@@ -136,6 +460,88 @@
   #info-content {
     width: 100%;
     height: 100%;
+  }
+}
+#review {
+  width: 100%;
+  height: 50vh;
+  #review-title {
+    padding: 2vh;
+    font-size: 1.5rem;
+  }
+  #review-content {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 3vh;
+  }
+}
+#comment-row {
+  background-color: antiquewhite;
+  border-radius: 12px;
+  width: 80%;
+  display: flex;
+  flex-direction: column;
+  gap: 5vh;
+  position: relative;
+  padding: 2vh 1vw 2vh 1vw;
+}
+#comment-head {
+  display: flex;
+  gap: 0.5vw;
+  align-items: end;
+}
+#comment-writer {
+  font-size: 1.5rem;
+  font-weight: bold;
+  width: 65%;
+}
+#comment-deleteBtn {
+  cursor: pointer;
+  position: absolute;
+  top: 5px;
+  right: 10px;
+}
+#review-regist {
+  background-color: #f9f9f9;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  display: flex;
+  padding: 1vw;
+  flex-direction: column;
+  align-items: end;
+  gap: 2vh;
+}
+#review-regist-body {
+  width: 100%;
+  height: 30vh;
+  margin-top: 5vh;
+  padding-left: 10%;
+  padding-right: 10%;
+}
+#select-star {
+  display: flex;
+  width: 100%;
+  justify-content: center;
+  gap: 1vw;
+}
+select:focus {
+  outline: none; /* 포커스시 아웃라인 제거 */
+  border: none; /* 포커스시 보더 제거 */
+}
+#comment-text {
+  width: 100%;
+  textarea {
+    width: 100%;
+  }
+}
+
+#comment-btn {
+  width: 100%;
+  button {
+    width: 100%;
+    outline: none;
   }
 }
 </style>

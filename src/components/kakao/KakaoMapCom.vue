@@ -1,10 +1,18 @@
 <script setup>
-import { KakaoMap } from "vue3-kakao-maps";
-import { ref } from "vue";
+import { KakaoMap, KakaoMapMarker } from "vue3-kakao-maps";
+import { ref, watch } from "vue";
+import SearchBar from "@/components/map/SearchBar.vue";
 
+const props = defineProps({
+  dongCodeList: Object,
+});
 const lat = ref(36.3549777);
 const lng = ref(127.2983403);
 const map = ref();
+console.log("DONGLIST = ", props.dongCodeList.value);
+watch(props.dongCodeList, (newValue) => {
+  console.log(`바뀐값: ${newValue}`);
+});
 
 const onLoadKakaoMap = (mapRef) => {
   map.value = mapRef;
@@ -15,6 +23,32 @@ const onLoadKakaoMap = (mapRef) => {
   map.value.addControl(mapTypeControl, kakao.maps.ControlPosition.TOPRIGHT);
   map.value.addControl(mapZoomControl, kakao.maps.ControlPosition.BOTTOMRIGHT);
 };
+
+const receivedDongCodeList = ref({});
+const dongCodeListHandler = (dongCodeList) => {
+  receivedDongCodeList.value = dongCodeList;
+  moveMap();
+};
+
+const moveMap = () => {
+  if (
+    receivedDongCodeList.value == null ||
+    receivedDongCodeList.value.length == 0
+  ) {
+    return;
+  }
+  if (map.value) {
+    const willMoveLat = receivedDongCodeList.value[0].lat;
+    const willMoveLng = receivedDongCodeList.value[0].lng;
+    map.value.panTo(new kakao.maps.LatLng(willMoveLat, willMoveLng));
+  }
+};
+
+const emit = defineEmits(["sendAptCode"]);
+const visibleRef = ref(false);
+const onClickKakaoMapMarker = (aptCode) => {
+  emit("sendAptCode", aptCode);
+};
 </script>
 
 <template>
@@ -22,9 +56,25 @@ const onLoadKakaoMap = (mapRef) => {
     :lat="lat"
     :lng="lng"
     @onLoadKakaoMap="onLoadKakaoMap"
-    width="100vw"
-    height="100vh"
-  />
+    width="100%"
+    height="100%"
+  >
+    <KakaoMapMarker
+      v-for="apartInfo in receivedDongCodeList"
+      :key="apartInfo.aptCode"
+      :lat="apartInfo.lat"
+      :lng="apartInfo.lng"
+      :image="{
+        imageSrc: '/src/assets/img/house.png',
+        imageWidth: 64,
+        imageHeight: 64,
+        imageOption: {},
+      }"
+      :clickable="true"
+      @onClickKakaoMapMarker="onClickKakaoMapMarker(apartInfo.aptCode)"
+    />
+  </KakaoMap>
+  <SearchBar @send-dong-code-list="dongCodeListHandler" />
 </template>
 
 <style scoped></style>

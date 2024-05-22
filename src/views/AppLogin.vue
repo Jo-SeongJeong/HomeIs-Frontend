@@ -289,6 +289,7 @@ const showSignUp = () => {
   height: 10vh;
   background-size: contain;
   background-image: url("../assets/img/logo-size-s.png");
+  background-repeat: no-repeat;
 }
 
 #login-main {
@@ -297,8 +298,10 @@ const showSignUp = () => {
   background-color: #0367a6;
   display: flex;
   justify-content: center;
-  background: url("https://res.cloudinary.com/dci1eujqw/image/upload/v1616769558/Codepen/waldemar-brandt-aThdSdgx0YM-unsplash_cnq4sb.jpg");
+  background: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.3)),
+    url("../assets/img/hk.jpg");
   background-size: 100% 100%;
+  align-items: center;
 }
 
 .form__title {
@@ -316,7 +319,8 @@ const showSignUp = () => {
 
 .container {
   background-color: white;
-  border-radius: var(--button-radius);
+  border: none;
+  border-radius: 20px;
   box-shadow: 0 0.9rem 1.7rem rgba(0, 0, 0, 0.25),
     0 0.7rem 0.7rem rgba(0, 0, 0, 0.22);
   height: var(--max-height);
@@ -324,7 +328,7 @@ const showSignUp = () => {
   overflow: hidden;
   position: relative;
   width: 80%;
-  height: 100%;
+  height: 80%;
 }
 
 .container__form {
@@ -375,7 +379,7 @@ const showSignUp = () => {
 
 .overlay {
   background-color: lightblue;
-  background: url("https://res.cloudinary.com/dci1eujqw/image/upload/v1616769558/Codepen/waldemar-brandt-aThdSdgx0YM-unsplash_cnq4sb.jpg");
+  background: url("../assets/img/hk.jpg");
   background-attachment: fixed;
   background-position: center;
   background-repeat: no-repeat;

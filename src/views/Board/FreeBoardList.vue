@@ -2,6 +2,8 @@
 import axios from "axios";
 import { ref, onMounted } from "vue";
 import { useRoute, useRouter } from "vue-router";
+import RankSwiper from "@/components/freeBoard/RankSwiper.vue";
+
 const route = useRoute();
 const router = useRouter();
 
@@ -69,7 +71,7 @@ const goDetail = (id, page) => {
   router.push({ name: "FreeBoardDetail", params: { id, page } });
 };
 
-const goWrite = () => {
+const goWrite = (page) => {
   const user = JSON.parse(localStorage.getItem("auth"));
   console.log("USER = ", user);
   if (user.user == null) {
@@ -77,7 +79,9 @@ const goWrite = () => {
     return;
   }
   router.push({
-    path: "/board/free-board/write",
+    // path: "/board/free-board/write",
+    name: "FreeBoardWrite",
+    params: { page },
   });
 };
 
@@ -98,62 +102,157 @@ const getHot = () => {
 </script>
 
 <template>
-  <div style="width: 100%; height: 300px; background-color: aliceblue">
-    활동지수 랭킹
-  </div>
-  <h1>자유게시판</h1>
-  <a @click="goWrite" style="color: red">+ 글쓰기</a>
-  <select name="" id="" v-model="PAGE_PER_SECTION" @change="updatePageNum()">
-    <option value="1">1개씩 보기</option>
-    <option value="5">5개씩 보기</option>
-    <option value="10">10개씩 보기</option>
-    <option value="20">20개씩 보기</option>
-  </select>
-
-  <button @click="getRecent()" type="button">최신순</button>
-  <button @click="getHot()" type="button">인기순</button>
-  <div>
-    <table>
-      <thead>
-        <th>제목</th>
-        <th>작성자</th>
-        <th>조회수</th>
-        <th>좋아요</th>
-        <th>등록시간</th>
-      </thead>
-      <tr
-        v-for="board in boardInfo.boardList"
-        :key="board.id"
-        @click="goDetail(board.id, currentPage)"
-      >
-        <td>{{ board.title }}</td>
-        <td>{{ board.userId }}</td>
-        <td>{{ board.view }}</td>
-        <td>{{ board.totalLike }}</td>
-        <td>{{ board.createTime }}</td>
-      </tr>
-    </table>
-
-    <div class="page-div">
-      <span @click="prevPage()">< 이전</span>
-      <span
-        v-for="i in SECTION_MAX_NUM"
-        :key="i"
-        @click="movePage(SECTION_START_NUM + i - 1)"
-        :class="{ pickPage: currentPage == SECTION_START_NUM + i - 1 }"
-        >{{ SECTION_START_NUM + i }}</span
-      >
-      <span @click="nextPage()">다음 ></span>
+  <div id="rank"><RankSwiper /></div>
+  <div id="free-main-content">
+    <div id="freeBoard-main">
+      <div id="freeBoard-header">
+        <div id="header01">
+          <h1>자유게시판</h1>
+        </div>
+        <div id="header02">
+          <div id="headerup">
+            <a @click="goWrite(currentPage)">글쓰기</a>
+          </div>
+          <div id="headerdown">
+            <a @click="getRecent()">최신순</a>
+            <a @click="getHot()">인기순</a>
+            <select
+              name=""
+              id=""
+              v-model="PAGE_PER_SECTION"
+              @change="updatePageNum()"
+            >
+              <option value="1">1개씩 보기</option>
+              <option value="5">5개씩 보기</option>
+              <option value="10">10개씩 보기</option>
+              <option value="20">20개씩 보기</option>
+            </select>
+          </div>
+        </div>
+      </div>
+      <hr />
+      <table>
+        <thead>
+          <th style="text-align: start">제목</th>
+          <th>작성자</th>
+          <th>조회수</th>
+          <th>좋아요</th>
+          <th>등록시간</th>
+        </thead>
+        <tr
+          v-for="board in boardInfo.boardList"
+          :key="board.id"
+          @click="goDetail(board.id, currentPage)"
+        >
+          <td id="td01">{{ board.title }}</td>
+          <td id="td02">{{ board.userId }}</td>
+          <td id="td03">{{ board.totalView }}</td>
+          <td id="td04">{{ board.totalLike }}</td>
+          <td id="td05">{{ board.createTime }}</td>
+        </tr>
+      </table>
+      <div class="page-div">
+        <div @click="prevPage()">< 이전</div>
+        <div
+          v-for="i in SECTION_MAX_NUM"
+          :key="i"
+          @click="movePage(SECTION_START_NUM + i - 1)"
+          :class="{ pickPage: currentPage == SECTION_START_NUM + i - 1 }"
+        >
+          {{ SECTION_START_NUM + i }}
+        </div>
+        <div @click="nextPage()">다음 ></div>
+      </div>
     </div>
   </div>
 </template>
 
 <style scoped>
-.page-div span {
+#header01 {
+  width: 80%;
+}
+#header02 {
+  display: flex;
+  flex-direction: column;
+  justify-content: end;
+  cursor: pointer;
+  font-size: 1.1rem;
+  gap: 0.5vh;
+  #headerup {
+    text-align: end;
+  }
+  #headerdown {
+    display: flex;
+    gap: 0.5vw;
+  }
+}
+.page-div {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
   margin: 10px;
+  gap: 1vw;
 }
 
 .pickPage {
   font-size: 20px;
+}
+
+#rank {
+  width: 100%;
+  height: 300px;
+  background-color: aliceblue;
+}
+#free-main-content {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+#freeBoard-main {
+  padding: 1vw;
+  width: 60%;
+  #freeBoard-header {
+    display: flex;
+    flex-direction: row;
+    align-items: end;
+  }
+  table {
+    width: 100%;
+    font-size: 1.2rem;
+    tr {
+      height: 7vh;
+    }
+    #td01 {
+      width: 64%;
+    }
+    #td02 {
+      text-align: center;
+      width: 7%;
+    }
+    #td03 {
+      text-align: center;
+      width: 7%;
+    }
+    #td04 {
+      text-align: center;
+      width: 7%;
+    }
+    #td05 {
+      text-align: center;
+      width: 15%;
+    }
+  }
+  hr {
+    margin-top: 1vh;
+    height: 1px;
+    background: #8f1414;
+    background-image: -webkit-linear-gradient(left, #eee, #777, #eee);
+    background-image: -moz-linear-gradient(left, #eee, #777, #eee);
+    background-image: -ms-linear-gradient(left, #eee, #777, #eee);
+    background-image: -o-linear-gradient(left, #eee, #777, #eee);
+  }
 }
 </style>

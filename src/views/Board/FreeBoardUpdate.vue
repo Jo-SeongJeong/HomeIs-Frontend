@@ -1,56 +1,56 @@
 <script setup>
-import { ref } from "vue";
-import { useRoute, useRouter } from "vue-router";
-import boardApi from "@/api/boardApi";
 import axios from "axios";
+import { ref } from "vue";
+import { useRouter, useRoute } from "vue-router";
+import boardApi from "@/api/boardApi";
 
-const notice = ref({
-  userId: "",
+const route = useRoute();
+const board = ref({
+  userId: JSON.parse(localStorage.getItem("auth")).user.id,
   title: "",
   content: "",
   id: "",
 });
-const route = useRoute();
-notice.value.id = route.params.id;
+
+board.value.id = route.params.id;
+
 const router = useRouter();
-const id = route.params.id;
 
-const getNotice = async () => {
-  const url = "http://localhost:80/homeis/notice/detail/" + notice.value.id;
+const getBoard = async () => {
+  const url = "/board/detail/" + board.value.id;
   console.log(url);
-  const data = await axios.get(url);
-
-  notice.value = data.data;
-  console.log("DATA : ", data);
+  const data = await boardApi.get(url);
+  console.log(data);
+  board.value = data.data;
 };
-getNotice();
+getBoard();
 
 const update = async () => {
-  const user = JSON.parse(localStorage.getItem("auth")).user;
-  if (user == null || user.job != "관리자") {
-    alert("당신에겐 권한이 없습니다.");
-    router.replace("/");
-    return;
-  }
+  // const user = JSON.parse(localStorage.getItem("auth")).user;
+  // if (user == null || user.job != "관리자") {
+  //   alert("당신에겐 권한이 없습니다.");
+  //   router.replace("/");
+  //   return;
+  // }
+  console.log(board.value);
 
-  notice.value.userId = user.id;
-  console.log("UPDATED NOTICE", notice.value);
-  if (!confirm("정말 공지사항을 수정하시겠습니까?")) return;
+  console.log("UPDATED NOTICE", board.value);
+  if (!confirm("정말 게시물을 수정하시겠습니까?")) return;
 
-  await boardApi.put("/notice/update", notice.value);
-  router.replace({ name: "NoticeDetail", params: { id } });
-  alert("정상적으로 공지사항이 수정되었습니다.");
+  await boardApi.put("/board/update", board.value);
+  router.replace({ name: "FreeBoardDetail", params: { id: board.value.id } });
+  alert("정상적으로 게시물이 수정되었습니다.");
 };
 
 const backPage = () => {
-  router.push({ name: "NoticeDetail", params: { id } });
+  router.push({ name: "FreeBoardDetail", params: { id: board.value.id } });
 };
 </script>
 
 <template>
   <div>
-    <h1>공지사항 수정</h1>
-    <form @submit.prevent="update" class="notice-detail">
+    <h1>자유게시판 글 수정</h1>
+    <form @submit.prevent="update(event)" class="notice-detail">
       <div class="notice-header">
         <h3>
           제목 :
@@ -59,7 +59,7 @@ const backPage = () => {
             type="text"
             name="title"
             id=""
-            v-model="notice.title"
+            v-model="board.title"
           />
         </h3>
         <p>
@@ -68,7 +68,7 @@ const backPage = () => {
             class="author-style"
             type="text"
             disabled
-            v-model="notice.userId"
+            v-model="board.userId"
             name="userId"
           />
         </p>
@@ -78,12 +78,12 @@ const backPage = () => {
         name="content"
         class="area"
         id=""
-        v-model="notice.content"
+        v-model="board.content"
         placeholder="여기에 내용을 입력해주세요!"
       ></textarea>
       <br />
       <div class="notice-actions">
-        <button class="btn-update" type="submit">수정</button>
+        <button class="btn-update" type="submit">등록</button>
       </div>
     </form>
     <div class="notice-actions">
@@ -93,7 +93,6 @@ const backPage = () => {
     </div>
   </div>
 </template>
-
 <style scoped>
 h1 {
   text-align: center;

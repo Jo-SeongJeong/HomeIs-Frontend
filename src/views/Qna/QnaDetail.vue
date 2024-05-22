@@ -78,38 +78,162 @@ const existAnswer = () => {
 </script>
 
 <template>
-  <div>
-    <div>질문 작성자 :{{ qna.userId }}</div>
-    <button @click="deleteQna">삭제</button>
-    <div>질문 제목 : {{ qna.title }}</div>
-    <div>질문 내용 : {{ qna.content }}</div>
+  <div class="notice-detail">
+    <div class="notice-header">
+      <h3>제목 : {{ qna.title }}</h3>
+      <div class="info">
+        <p>작성일 : {{ qna.createTime }}</p>
+        <p>작성자 : {{ qna.userId }}</p>
+      </div>
+      <hr class="line" />
+    </div>
+    <div class="notice-actions">
+      <button class="btn-delete" @click="deleteQna">삭제</button>
+    </div>
 
-    <hr />
-    <br />
-    <h3>답변</h3>
-    <hr />
+    <div class="notice-content">
+      {{ qna.content }}
+    </div>
+    <h3 class="startAnswer">답변</h3>
     <div v-if="existAnswer()">
       <div v-for="comment in qna.qnaComment" :key="qna.id">
-        <div>답변 : {{ comment.comment }}</div>
-        <div>답변자 : {{ comment.userId }}</div>
+        <p class="createComment">답변일 : {{ comment.createTime }}</p>
+        <div class="comment-content">
+          {{ comment.comment }}
+        </div>
+        <p class="toUser">- {{ comment.userId }} 올림 -</p>
       </div>
     </div>
-    <div v-else-if="!isAdmin()">잠시만요~! 곧 답변이 달릴거에용!!</div>
+    <div class="comment-content" v-else-if="!isAdmin()">
+      관리자가 회원님을 위해 열심히 답변중이에요!
+    </div>
     <div v-if="isAdmin()">
-      <div>답변 등록 :</div>
-
       <form @submit.prevent="registAnswer">
         <textarea
           name=""
           id=""
-          cols="30"
-          rows="10"
+          class="area"
           v-model="answer.comment"
+          placeholder="여기에 답변을 입력해주세요!"
         ></textarea>
-        <input type="submit" value="답변등록" />
+        <div class="notice-actions">
+          <button type="submit" class="btn-update">등록</button>
+        </div>
       </form>
     </div>
+    <hr class="line" />
   </div>
 </template>
 
-<style scoped></style>
+<style scoped>
+.notice-detail {
+  max-width: 800px;
+  margin: 30px auto;
+  padding: 20px;
+  background-color: #f9f9f9;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.notice-header {
+  margin-bottom: 20px;
+}
+
+.toUser {
+  margin-top: 20px;
+  text-align: end;
+}
+h3 {
+  margin: 10px 0;
+  font-size: 24px;
+  color: #333;
+  margin-bottom: 10px;
+}
+
+.notice-header p {
+  font-size: 14px;
+  color: #666;
+}
+
+.createComment {
+  font-size: 14px;
+  color: #666;
+  margin-bottom: 10px;
+  margin-left: 3px;
+}
+
+.info {
+  display: flex;
+  justify-content: space-between;
+}
+
+.notice-actions {
+  margin: 10px 0;
+  display: flex;
+  justify-content: end;
+}
+
+.notice-actions button {
+  padding: 10px 15px;
+  margin-right: 10px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 14px;
+}
+
+.notice-actions .btn-update {
+  background-color: #3498db;
+  color: #fff;
+  margin-top: 10px;
+}
+
+.notice-actions .btn-delete {
+  background-color: #e74c3c;
+  color: #fff;
+  margin-bottom: 10px;
+}
+
+.notice-content {
+  padding: 20px;
+  background-color: #fff;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  font-size: 16px;
+  color: #333;
+  line-height: 1.6;
+  font-size: 20px;
+}
+
+.comment-content {
+  padding: 20px;
+  background-color: #fff;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  font-size: 16px;
+  color: #333;
+  line-height: 1.6;
+  font-size: 20px;
+}
+
+.area {
+  padding: 20px;
+  width: 760px;
+  height: 300px;
+  background-color: #fff;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  line-height: 1.6;
+  color: #333;
+}
+
+.line {
+  margin-top: 30px;
+  /* border: 0; */
+  border: 1px solid gainsboro;
+}
+
+.startAnswer {
+  margin-top: 30px;
+}
+</style>

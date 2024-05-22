@@ -14,8 +14,11 @@ const board = ref({
 
 const router = useRouter();
 
+const tagArr = ref([]);
 const tagName = ref("");
 const tagFullValue = ref("");
+const tagCount = ref(0);
+const tagCheckCount = ref(0);
 const addTag = () => {
   if (tagName.value.trim() === "") {
     alert("태그를 입력하세요.");
@@ -27,7 +30,7 @@ const addTag = () => {
   tagName.value = tagName.value.replaceAll("#", "");
   const tagBox = document.getElementById("tag-box");
   const newTag = document.createElement("div");
-  newTag.id = "tag";
+  newTag.id = "tag-" + tagCount.value;
   newTag.textContent = "#" + tagName.value;
   if (tagName.value.length <= 2) {
     newTag.style.background =
@@ -76,10 +79,22 @@ const addTag = () => {
   newTag.style.borderRadius = "4px";
   newTag.style.marginRight = "1vw";
   newTag.style.display = "inline-block";
+  newTag.onclick = function (event) {
+    const tagId = event.target.id;
+    const element = document.getElementById(tagId);
+    const tagIdNum = parseInt(tagId.replaceAll("tag-", ""));
+    tagArr.value[tagIdNum] = "";
+    tagCheckCount.value -= 1;
+    element.remove(); // Removes the div with the 'div-02' id
+  };
   tagBox.appendChild(newTag);
+  console.log(tagCount.value);
+  tagArr.value.push(tagName.value);
+  console.log(tagArr.value);
+  tagCount.value += 1;
+  tagCheckCount.value += 1;
 
   tagFullValue.value += "#" + tagName.value;
-  board.value.content = tagFullValue.value;
   tagName.value = "";
   console.log(tagFullValue.value);
 };
@@ -93,6 +108,23 @@ const sendFileHandler = (files) => {
 const registHomesta = async () => {
   if (!confirm("정말 등록하시겠습니까?")) return;
 
+  if (board.value.title == "") {
+    alert("제목을 추가해주십시요!");
+    return;
+  } else if (tagCheckCount.value == 0) {
+    alert("해시태그를 추가해주십시요!");
+    return;
+  } else if (receivedFiles.value.length < 1) {
+    alert("사진을 최소 1장 이상 등록해주십시요!");
+    return;
+  }
+
+  console.log("REAL ARR = ", tagArr.value[0]);
+  for (let i = 0; i < tagArr.value.length; i++) {
+    if (tagArr.value[i] == "") continue;
+    board.value.content += "#" + tagArr.value[i] + " ";
+  }
+
   const formData = new FormData();
   formData.append("userId", board.value.userId);
   formData.append("title", board.value.title);
@@ -105,6 +137,8 @@ const registHomesta = async () => {
       "Content-Type": "multipart/form-data",
     },
   });
+
+  router.push({ name: "HomestagramView" });
 };
 </script>
 
@@ -120,7 +154,7 @@ const registHomesta = async () => {
         <input
           type="text"
           name="title"
-          id="title"
+          id="title-input"
           v-model="board.title"
           dir="rtl"
           placeholder="제목을 입력하세요"
@@ -199,7 +233,7 @@ const registHomesta = async () => {
   font-size: 1.4rem;
 }
 
-#title {
+#title-input {
   padding-right: 1vw;
   font-size: 1.5rem;
   width: 40vw;
@@ -209,10 +243,10 @@ const registHomesta = async () => {
   border-bottom: solid #aaaaaa 1px;
   background: none;
 }
-#title::placeholder {
+#title-input::placeholder {
   color: #aaaaaa;
 }
-#title:focus {
+#title-input:focus {
   outline: none;
 }
 </style>
