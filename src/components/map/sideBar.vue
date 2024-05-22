@@ -1,5 +1,4 @@
 <script setup>
-import axios from "axios";
 import { ref, defineProps, watch } from "vue";
 import LineChart from "../../components/map/chart/LineChart.vue";
 import KakaoMapRoadView from "@/components/kakao/KaKaoMapRoadView.vue";
@@ -16,8 +15,8 @@ const position = ref({
 });
 
 const getApartDealInfoList = async (aptCode) => {
-  const url = `http://localhost:80/homeis/map/apartDealInfo/${aptCode}`;
-  const { data } = await axios.get(url);
+  const url = `/map/apartDealInfo/${aptCode}`;
+  const { data } = await boardApi.get(url);
   apartDealInfoList.value = data;
   
   if (isEmptyList()) return;
@@ -118,43 +117,93 @@ const addLike = async () => {
       await boardApi.delete("/map/like/" + getAptCode());
     }
   }
-  getApartDealInfoList(getAptCode());
+  const aptCodeTmp = getAptCode()
+  getApartDealInfoList(aptCodeTmp);
+  console.log("ADDLIKE 이즈라이크 = ", apartDealInfoList.value.isLike);
 };
 
-const isLike = async () => {
+const isLike = () => {
   if (isEmptyList()) {
     return false;
   }
-  console.log("ISLIKE = ", apartDealInfoList.value.isLike);
-  const isLikeNum = apartDealInfoList.value.isLike;
+  const isLikeNum = parseInt(apartDealInfoList.value.isLike);
   if (isLikeNum == 1) {
     return true;
   }
   return false;
 }
 
+const reviewObj = ref({
+  aptCode: "",
+  content: "",
+  score: "0.0"
+});
+
+const registReview = async () => {
+  if (reviewObj.value.score == "0.0") {
+    alert("평점을 선택해주세요!");
+    return;
+  }
+  if (reviewObj.value.content.trim() == "") {
+    alert("리뷰를 입력해주세요!");
+    return;
+  }
+
+  reviewObj.value.aptCode = getAptCode();
+
+  await boardApi.post("/map/review", reviewObj.value);
+  reviewObj.value = {
+  aptCode: "",
+  content: "",
+  score: "0.0"
+};
+  getApartDealInfoList(getAptCode());
+}
+
+const isSameUser = (writer) => {
+  const user = JSON.parse(localStorage.getItem("auth")).user;
+  if (user == null) return false;
+  
+  if (user.job === '관리자' || user.id == writer) return true;
+  else if (user.id != writer)    return false;
+  
+}
+
+const deleteReview = async (reviewId) => {
+  if (!confirm("정말 리뷰를 삭제하시겠습니까?")) return;
+
+  await boardApi.delete("/map/review/" + reviewId);
+  alert("정상적으로 리뷰를 삭제하였습니다.");
+  getApartDealInfoList(getAptCode());
+}
+
 watch(props, (nv) => {
   getApartDealInfoList(nv.aptCode);
+  reviewObj.value = {
+  aptCode: "",
+  content: "",
+  score: "0.0"
+};
 });
 </script>
 
 <template>
   <div id="side-main">
-    <div id="side-content">
+    <div id="side-content" v-show="!isEmptyList()">
       <div id="content-name">{{ getApartmentName() }}</div>
       
       <div id="content-address">주소 : {{ getAddress() }}</div>
       <div id="content-road-address">도로명주소 : {{ getRoadAddress() }}</div>
       <div id="content-address">건축년도 : {{ getBuildYear() }}</div>
       <div id="content-navbar">
-        <div id="content-navbar-chose">시세</div>
-        <div id="content-navbar-chose">거래정보</div>
-        <div id="content-navbar-chose">주변정보</div>
-        <div id="content-navbar-chose">리뷰</div>
+        <div id="content-navbar-chose"><a href="#load-view">로드 뷰</a></div>
+        <div id="content-navbar-chose"><a href="#trade-log">시세</a></div>
+        <div id="content-navbar-chose"><a href="#info">거래정보</a></div>
+        <div id="content-navbar-chose"><a href="#review">리뷰</a></div>
       </div>
       <div id="content-view-good">
         <div id="good">
-          <button type="button" class="Btn" @click="addLike()" v-if="!isLike()">
+          <button type="button" class="Btn" @click="addLike()" v-if="isLike()">
             <i class="fa-solid fa-heart" style="color: #ff0000;font-size: 50px;"></i>
           </button>
           <button type="button" class="Btn" @click="addLike()" v-else>
@@ -182,16 +231,62 @@ watch(props, (nv) => {
       <div id="info">
         <div id="info-title">거래 정보</div>
         <div id="info-content">
-          <div></div>
-          <div>면적 : {{ getArea() }}</div>
+          <table>
+            <thead>
+              <th>거래년도</th>
+              <th>거래월</th>
+              <th>거래일</th>
+              <th>면적</th>
+              <th>층 수</th>
+            </thead>
+            <tbody>
+              <tr v-for="dealInfo in apartDealInfoList.aptDealInfoList">
+                <td>{{ dealInfo.dealYear }}</td>
+                <td>{{ dealInfo.dealMonth }}</td>
+                <td>{{ dealInfo.dealDay }}</td>
+                <td>{{ parseFloat(dealInfo.area).toFixed(2) }}m<sup>2</sup></td>
+                <td>{{ dealInfo.floor }}</td>
+              </tr>
+            </tbody>
+          </table>
         </div>
       </div>
       <div id="review">
         <div id="review-title">생생 리뷰 ({{ getReviewCount() }})</div>
-        <div id="review-content">
-          <div></div>
-          <div>면적 : {{ getArea() }}</div>
+        <div id="review-regist">
+          <select name="" id="" v-model="reviewObj.score">
+            <option value="0.0">0.0</option>
+            <option value="0.5">0.5</option>
+            <option value="1.0">1.0</option>
+            <option value="1.5">1.5</option>
+            <option value="2.0">2.0</option>
+            <option value="2.5">2.5</option>
+            <option value="3.0">3.0</option>
+            <option value="3.5">3.5</option>
+            <option value="4.0">4.0</option>
+            <option value="4.5">4.5</option>
+            <option value="5.0">5.0</option>
+          </select>
+          <br>
+          <textarea name="" id="" cols="30" rows="10" v-model="reviewObj.content"></textarea>
+          <button @click="registReview()">등록</button>
         </div>
+        <div id="review-content">
+          <div v-for="reviewInfo in apartDealInfoList.reviewList">
+            <div>작성자 {{ reviewInfo.userId }}</div>
+            <div>리뷰 {{ reviewInfo.content }}</div>
+            <div>작성시간 {{ reviewInfo.createTime }}</div>
+            <div>평점 {{ reviewInfo.score }}</div>
+            <button v-if="isSameUser(reviewInfo.userId)" @click="deleteReview(reviewInfo.id)">X</button>
+          </div>
+          
+        </div>
+      </div>
+    </div>
+    <div v-show="isEmptyList()" id="no-data-div">
+      <div>
+        <div><img src="/src/assets/img/search.png" alt=""></div>
+        <div><h3>대한민국에 있는 모든 동을 검색해보세요!</h3></div>
       </div>
     </div>
   </div>
@@ -202,10 +297,19 @@ watch(props, (nv) => {
   background-color: white;
   border-style: none;
 }
+
+#no-data-div {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
 #side-main {
   position: absolute;
   width: 35vw;
-  height: 93vh;
+  height: 100vh;
   left: 0;
   top: 7vh;
   z-index: 100;
