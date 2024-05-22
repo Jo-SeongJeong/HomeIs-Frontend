@@ -38,6 +38,10 @@ const deleteNotice = async () => {
 const updateNotice = () => {
   router.push({ name: "NoticeUpdate" });
 };
+
+const backPage = () => {
+  router.push({ name: "Notice" });
+};
 </script>
 
 <template>
@@ -143,5 +147,27 @@ const updateNotice = () => {
 .line {
   margin-top: 30px;
   border: 1px solid gainsboro;
+}
+
+.like-actions .back-list {
+  background-color: #a6aaad;
+  color: #fff;
+  margin-top: 10px;
+  width: 100px;
+}
+
+.like-actions {
+  margin: 10px 0;
+  display: flex;
+  justify-content: center;
+}
+
+.like-actions button {
+  padding: 10px 15px;
+  margin-right: 10px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 14px;
 }
 </style>
