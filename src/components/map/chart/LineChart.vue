@@ -7,7 +7,7 @@ const tradeLog = ref("");
 
 const series = ref([
   {
-    name: "STOCK ABC",
+    name: "집 값",
     data: [],
   },
 ]);
@@ -37,9 +37,21 @@ const chartOptions = ref({
   labels: [],
   xaxis: {
     type: "datetime",
+    labels: {
+      formatter: function (val) {
+        const date = new Date(val);
+        const options = { year: "numeric", month: "long", day: "numeric" };
+        return date.toLocaleDateString("ko-KR", options); // 한글 날짜 형식
+      },
+    },
   },
   yaxis: {
     opposite: true,
+    labels: {
+      formatter: function (val) {
+        return val.toFixed(1) + " 억원"; // y축 값에 단위 추가
+      },
+    },
   },
   legend: {
     horizontalAlign: "left",
@@ -99,7 +111,7 @@ watch(props, (nv) => {
   <apexchart
     v-if="series[0].data.length > 0"
     type="area"
-    height="350"
+    height="400"
     :options="chartOptions"
     :series="series"
   />
