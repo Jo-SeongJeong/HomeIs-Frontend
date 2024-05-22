@@ -85,12 +85,12 @@ const existAnswer = () => {
         <p>작성일 : {{ qna.createTime }}</p>
         <p>작성자 : {{ qna.userId }}</p>
       </div>
-      <hr class="line">
+      <hr class="line" />
     </div>
     <div class="notice-actions">
       <button class="btn-delete" @click="deleteQna">삭제</button>
     </div>
-    
+
     <div class="notice-content">
       {{ qna.content }}
     </div>
@@ -104,13 +104,15 @@ const existAnswer = () => {
         <p class="toUser">- {{ comment.userId }} 올림 -</p>
       </div>
     </div>
-    <div class="comment-content" v-else-if="!isAdmin()">관리자가 회원님을 위해 열심히 답변중이에요!</div>
+    <div class="comment-content" v-else-if="!isAdmin()">
+      관리자가 회원님을 위해 열심히 답변중이에요!
+    </div>
     <div v-if="isAdmin()">
       <form @submit.prevent="registAnswer">
         <textarea
           name=""
           id=""
-          class = "area"
+          class="area"
           v-model="answer.comment"
           placeholder="여기에 답변을 입력해주세요!"
         ></textarea>
@@ -119,7 +121,7 @@ const existAnswer = () => {
         </div>
       </form>
     </div>
-    <hr class="line"/>
+    <hr class="line" />
   </div>
 </template>
 
@@ -157,7 +159,7 @@ h3 {
   font-size: 14px;
   color: #666;
   margin-bottom: 10px;
-  margin-left: 2px;
+  margin-left: 3px;
 }
 
 .info {
@@ -167,7 +169,7 @@ h3 {
 
 .notice-actions {
   margin: 10px 0;
-    display: flex;
+  display: flex;
   justify-content: end;
 }
 
@@ -183,7 +185,7 @@ h3 {
 .notice-actions .btn-update {
   background-color: #3498db;
   color: #fff;
-  margin-top: 10px
+  margin-top: 10px;
 }
 
 .notice-actions .btn-delete {
@@ -192,7 +194,7 @@ h3 {
   margin-bottom: 10px;
 }
 
-.notice-content{
+.notice-content {
   padding: 20px;
   background-color: #fff;
   border-radius: 8px;
@@ -203,7 +205,7 @@ h3 {
   font-size: 20px;
 }
 
-.comment-content{
+.comment-content {
   padding: 20px;
   background-color: #fff;
   border-radius: 8px;
