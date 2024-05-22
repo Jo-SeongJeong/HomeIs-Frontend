@@ -43,35 +43,27 @@ const isEmptyResult = () => {
 };
 
 const hideFlag = ref(true);
-const dongCodeList = ref({});
-const emit = defineEmits(["sendDongCodeList"]);
-const makeMarker = async (dongCode) => {
-  hideFlag.value = false;
-  const url = `http://localhost/homeis/map/houseInfo/${dongCode}`;
-  const { data } = await axios.get(url);
-  dongCodeList.value = data;
-  if (dongCodeList.value == null || dongCodeList.value.length == 0) {
-    alert("최근 거래정보가 없는 동입니다.");
-    return;
-  }
-  emit("sendDongCodeList", dongCodeList.value);
-
-  console.log("DongCodeList = ", dongCodeList.value);
-};
 
 const showContainer = () => {
   hideFlag.value = true;
 };
 
 const authStore = useAuthStore();
-const InterestAreaList = ref({});
-const houseInfoList = ref({});
-const dealInfoList = ref({});
+const InterestAreaList = ref([]);
+const houseInfoList = ref([]);
+const dealInfoList = ref([]);
 
 const getInterestAreaList = async () => {
-  const { data } = await boardApi.get("/user/interest-area/admin");
-  InterestAreaList.value = data;
-  console.log(data);
+  try {
+    const { data } = await boardApi.get("/user/interest-area/admin");
+    InterestAreaList.value = data;
+    console.log(data);
+  } catch (error) {
+    if (error.response.status == 404) {
+      InterestAreaList.value = [];
+      houseInfoList.value = [];
+    }
+  }
 };
 getInterestAreaList();
 
@@ -135,6 +127,16 @@ const pickArea = async (dongCode, dongName) => {
 
 const insertInterestArea = async () => {
   if (!confirm("정말 해당 지역을 등록하시겠습니까?")) return;
+  
+  for (let i = 0; i < InterestAreaList.value.length; i++) {
+    if (pickedDongCode.value == InterestAreaList.value[i].dongCode) {
+      alert('이미 등록된 지역은 등록할 수 없습니다!');
+      pickedDongCode.value = '';
+      pickedInterestArea.value = '';
+      return;
+    }
+  }
+  
   await boardApi.post("/user/interest-area", {
     dongCode : pickedDongCode.value
   });
