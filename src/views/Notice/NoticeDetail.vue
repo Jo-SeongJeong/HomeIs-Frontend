@@ -38,26 +38,39 @@ const deleteNotice = async () => {
 const updateNotice = () => {
   router.push({ name: "NoticeUpdate" });
 };
+
+const backPage = () => {
+  router.push({ name: "Notice" });
+};
 </script>
 
 <template>
   <div class="notice-detail">
     <div class="notice-header">
-        <h3>제목 : {{ notice.title }}</h3>
-        <p>작성일 : {{ notice.createTime }}</p>
-        <hr class="line">
+      <h3>제목 : {{ notice.title }}</h3>
+      <p>작성일 : {{ notice.createTime }}</p>
+      <hr class="line" />
     </div>
 
     <div class="notice-actions">
-      <button v-if="isAdmin()" @click="updateNotice" class="btn-update">수정</button>
-      <button v-if="isAdmin()" @click="deleteNotice" class="btn-delete">삭제</button>
+      <button v-if="isAdmin()" @click="updateNotice" class="btn-update">
+        수정
+      </button>
+      <button v-if="isAdmin()" @click="deleteNotice" class="btn-delete">
+        삭제
+      </button>
     </div>
 
     <div class="notice-content">
       {{ notice.content }}
     </div>
 
-    <hr class="line"/>
+    <hr class="line" />
+    <div class="like-actions">
+      <button class="back-list" type="button" @click="backPage()">
+        돌아가기
+      </button>
+    </div>
   </div>
 </template>
 
@@ -89,7 +102,7 @@ const updateNotice = () => {
 
 .notice-actions {
   margin: 10px 0;
-    display: flex;
+  display: flex;
   justify-content: end;
 }
 
@@ -127,5 +140,27 @@ const updateNotice = () => {
 .line {
   margin-top: 30px;
   border: 1px solid gainsboro;
+}
+
+.like-actions .back-list {
+  background-color: #a6aaad;
+  color: #fff;
+  margin-top: 10px;
+  width: 100px;
+}
+
+.like-actions {
+  margin: 10px 0;
+  display: flex;
+  justify-content: center;
+}
+
+.like-actions button {
+  padding: 10px 15px;
+  margin-right: 10px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 14px;
 }
 </style>
