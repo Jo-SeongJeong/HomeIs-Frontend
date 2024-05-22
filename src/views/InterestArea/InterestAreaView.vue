@@ -1,15 +1,18 @@
 <script setup>
 import Footer from "@/components/Footer.vue";
 import { ref } from "vue";
+import axios from "axios";
 import { useAuthStore } from "@/stores/auth";
 import boardApi from "@/api/boardApi";
 
 const authStore = useAuthStore();
 const InterestAreaList = ref({});
+const houseInfoList = ref({});
+const dealInfoList = ref({});
 
 const getInterestAreaList = async () => {
   const { data } = await boardApi.get("/user/interest-area/admin");
-  console.log("관심지역 = ", data);
+  InterestAreaList.value = data;
 };
 getInterestAreaList();
 
@@ -17,6 +20,35 @@ const isEmptyAreaList = () => {
   if (InterestAreaList.value == null || InterestAreaList.value.length == 0)
     return true;
   return false;
+};
+
+const getDealInfoList = async (aptCode) => {
+  const { data } = await boardApi.get("/map/apartDealInfo/" + aptCode);
+  dealInfoList.value = data;
+};
+
+const isEmptyHouseInfoList = () => {
+  console.log(houseInfoList.value);
+  if (houseInfoList.value == null || houseInfoList.value.length == 0) {
+    return true;
+  }
+  return false;
+};
+const getHouseInfoList = async (dongCode) => {
+  const { data } = await axios.get(
+    "http://localhost:80/homeis/map/houseInfo/" + dongCode
+  );
+  houseInfoList.value = data;
+};
+
+const getFourHouseInfoList = () => {
+  if (isEmptyHouseInfoList()) return [];
+  const fourHouseInfoList = [];
+  for (let i = 0; i < houseInfoList.value.length; i++) {
+    if (i == 4) break;
+    fourHouseInfoList.push(houseInfoList.value[i]);
+  }
+  return fourHouseInfoList;
 };
 </script>
 
@@ -37,17 +69,54 @@ const isEmptyAreaList = () => {
             관심지역을 추가해보세요!
           </div>
         </div>
-        <div id="interest-list-swiper" v-show="!isEmptyAreaList()">
-          스와이퍼
+        <div id="interest-list-block" v-show="!isEmptyAreaList()">
+          <div
+            v-for="areaInfo in InterestAreaList"
+            id="dong-block"
+            @click="getHouseInfoList(areaInfo.dongCode)"
+          >
+            {{ areaInfo.dongName }}
+          </div>
         </div>
       </div>
-      <div id="interest-deal"></div>
+      <div id="interest-deal">
+        <div
+          id="house-info-box"
+          v-for="houseInfo in getFourHouseInfoList()"
+          v-show="!isEmptyHouseInfoList()"
+        >
+          <div id="house-img">left</div>
+          <div id="house-info">right</div>
+        </div>
+        <div v-show="isEmptyHouseInfoList()">정보 없음!!!</div>
+      </div>
     </div>
   </div>
   <Footer />
 </template>
 
 <style scoped>
+#house-info-box {
+  display: flex;
+  height: 22%;
+  background-color: red;
+  margin-bottom: 3vh;
+  border-radius: 10px;
+
+  #house-img {
+    width: 30%;
+    margin: 3%;
+    background-image: url("/src/assets/img/sample_apart.jpg");
+    background-repeat: no-repeat;
+    background-position: center center;
+    background-size: cover;
+  }
+  #house-info {
+    width: 70%;
+    margin: 3%;
+    background-color: green;
+  }
+}
 #interest-main {
   width: 99vw;
   height: 150vh;
@@ -91,6 +160,12 @@ const isEmptyAreaList = () => {
         border-radius: 50%;
       }
     }
+    #addButton:hover {
+      i {
+        background-color: black;
+        color: white;
+      }
+    }
     #interest-empty-list {
       width: 90%;
       height: 100%;
@@ -115,20 +190,42 @@ const isEmptyAreaList = () => {
         border-radius: 10px;
       }
     }
-    #interest-list-swiper {
+    #interest-list-block {
       width: 90%;
       height: 100%;
       display: flex;
       justify-content: center;
       align-items: center;
+
+      #dong-block {
+        width: 10vw;
+        height: 6vh;
+        margin: 0px 0px 0px 40px;
+        border: 1px solid white;
+        font-weight: 800;
+        font-size: 1.4rem;
+        border-radius: 10px;
+        background-color: #d9d9d9;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+      }
+      #dong-block:hover {
+        background-color: black;
+        color: white;
+      }
     }
   }
 }
 
 #interest-deal {
   width: 100%;
-  height: 75%;
+  height: 85%;
   background-color: aqua;
+  padding-top: 4vh;
+  padding-left: 5vw;
+  padding-right: 5vw;
+  padding-bottom: 4vw;
 }
 
 #interest-intro-main {
