@@ -9,19 +9,23 @@
           id="form1"
           style="margin-top: 5vh"
         >
+        <form class="exist" @submit.prevent="isExist">
           <input
             type="text"
             placeholder="ID"
-            class="input"
+            class="id-input"
             v-model.trim="joinForm.id"
             required
           />
+          <button type="submit" class="btn-id">중복확인</button>
+        </form>
           <input
             type="password"
             placeholder="Password"
             class="input"
             v-model.trim="joinForm.password"
             required
+            :disabled="!isActive"
           />
           <input
             type="text"
@@ -29,9 +33,10 @@
             class="input"
             v-model.trim="joinForm.name"
             required
+            :disabled="!isActive"
           />
-          <input type="date" class="input" v-model="joinForm.birth" required />
-          <select name="" id="" v-model="jobText" class="input">
+          <input type="date" class="input" v-model="joinForm.birth" required :disabled="!isActive"/>
+          <select name="" id="" v-model="jobText" class="input" :disabled="!isActive">
             <option value="" selected disabled>직업 선택</option>
             <option value="학생">학생</option>
             <option value="배우">회사원</option>
@@ -52,6 +57,7 @@
             <input
               type="text"
               v-model="emailFirst"
+              :disabled="!isActive"
               class="input"
               style="width: 100%"
             />
@@ -60,6 +66,7 @@
               type="text"
               v-model="emailLast"
               v-show="emailCheckText == 'free'"
+              :disabled="!isActive"
               class="input"
               style="width: 100%"
             />
@@ -68,6 +75,7 @@
               id="email"
               class="input"
               v-model="emailCheckText"
+              :disabled="!isActive"
               readonly
             >
               <option value="" selected disabled>이메일 선택</option>
@@ -98,6 +106,7 @@
               placeholder="주소"
               readonly
               required
+              :disabled="!isActive"
             />
           </div>
           <input
@@ -106,8 +115,9 @@
             v-model="addressStore.detailAddress"
             placeholder="상세주소"
             required
+            :disabled="!isActive"
           />
-          <select class="input" v-model="joinForm.married" readonly required>
+          <select class="input" v-model="joinForm.married" readonly required :disabled="!isActive">
             <option value="" selected disabled>결혼 여부</option>
             <option value="1">기혼</option>
             <option value="0">미혼</option>
@@ -173,6 +183,7 @@ import { useAuthStore } from "@/stores/auth";
 
 // 아래는 회원가입
 import { useAddressStore } from "@/stores/address";
+import axios from "axios";
 const addressStore = useAddressStore();
 
 const emailFirst = ref("");
@@ -200,6 +211,20 @@ const openPostCode = () => {
     },
   }).open();
 };
+
+const isActive = ref(false);
+
+const isExist = async () => {
+  try {
+    await axios.get("http://localhost/homeis/user/exist/" + joinForm.value.id);
+    isActive.value = true;
+  } catch(error) {
+    alert("id가 중복되었습니다");
+    isActive.value = false;
+    }
+    console.log(isActive.value);
+}
+
 
 const join = async () => {
   if (!confirm("HOMEIS에 가입하시겠습니까?")) return;
@@ -460,5 +485,48 @@ const showSignUp = () => {
   padding: 0.9rem 0.9rem;
   margin: 0.5rem 0;
   width: 100%;
+}
+
+#form1 {
+  padding-bottom: 50px;
+}
+
+.exist {
+  display: flex;
+  gap: 20px;
+}
+
+.id-input {
+  background-color: #fff;
+  border: none;
+  padding: 0.9rem 0.9rem;
+  margin: 0.5rem 0;
+  width: 80%;
+}
+
+.btn-id {
+  background-color: #0367a6;
+  background-image: linear-gradient(90deg, #0367a6 0%, #008997 74%);
+  border-radius: 20px;
+  border: 1px solid #0367a6;
+  color: white;
+  cursor: pointer;
+  font-weight: bold;
+  letter-spacing: 0.1rem;
+  width: 100px;
+  height: 40px;
+  margin-top: 0.5rem;
+}
+
+.form > .btn-id {
+  margin-top: 1.5rem;
+}
+
+.btn-id:active {
+  transform: scale(0.95);
+}
+
+.btn-id:focus {
+  outline: none;
 }
 </style>
