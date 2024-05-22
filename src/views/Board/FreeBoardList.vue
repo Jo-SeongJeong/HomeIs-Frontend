@@ -71,7 +71,7 @@ const goDetail = (id, page) => {
   router.push({ name: "FreeBoardDetail", params: { id, page } });
 };
 
-const goWrite = () => {
+const goWrite = (page) => {
   const user = JSON.parse(localStorage.getItem("auth"));
   console.log("USER = ", user);
   if (user.user == null) {
@@ -79,7 +79,9 @@ const goWrite = () => {
     return;
   }
   router.push({
-    path: "/board/free-board/write",
+    // path: "/board/free-board/write",
+    name: "FreeBoardWrite",
+    params: { page },
   });
 };
 
@@ -109,7 +111,7 @@ const getHot = () => {
         </div>
         <div id="header02">
           <div id="headerup">
-            <a @click="goWrite">글쓰기</a>
+            <a @click="goWrite(currentPage)">글쓰기</a>
           </div>
           <div id="headerdown">
             <a @click="getRecent()">최신순</a>

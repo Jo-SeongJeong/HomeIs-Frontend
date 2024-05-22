@@ -9,6 +9,7 @@ const id = route.params.id;
 const page = route.params.page;
 const board = ref({});
 const commentInfo = ref({
+  id: "",
   boardId: "",
   userId: "",
   comment: "",
@@ -18,6 +19,13 @@ const isSameId = () => {
   const user = JSON.parse(localStorage.getItem("auth")).user;
   if (user == null) return false;
   if (user.id == board.value.userId) return true;
+  return false;
+};
+
+const isSameCommentId = (commentUserId) => {
+  const user = JSON.parse(localStorage.getItem("auth")).user;
+  if (user == null) return false;
+  if (user.id == commentUserId) return true;
   return false;
 };
 
@@ -66,20 +74,29 @@ const getCommentLength = () => {
 };
 
 const addLike = async () => {
-  try {
-    await boardApi.post("/board/like", {
-      boardId: id,
-      userId: JSON.parse(localStorage.getItem("auth")).user.id,
-    });
-  } catch (error) {
-    if (error.response.status === 500) {
-      await boardApi.put("/board/like", {
-        boardId: id,
-        userId: JSON.parse(localStorage.getItem("auth")).user.id,
-      });
-    }
-  }
+  await boardApi.post("/board/like", {
+    boardId: id,
+    userId: JSON.parse(localStorage.getItem("auth")).user.id,
+  });
   router.go(0);
+};
+
+const deleteLike = async () => {
+  await boardApi.put("/board/like", {
+    boardId: id,
+    userId: JSON.parse(localStorage.getItem("auth")).user.id,
+  });
+  router.go(0);
+};
+
+const deleteComment = async (commentId, commentUserId) => {
+  if (!confirm("정말 삭제하시겠습니까?")) return;
+  await boardApi.put("/board/delete-comment", {
+    id: commentId,
+    userId: commentUserId,
+  });
+  router.go(0);
+  alert("정상적으로 삭제되었습니다!");
 };
 
 const backPage = () => {
@@ -152,7 +169,7 @@ const backPage = () => {
         <i class="fa-regular fa-heart" style="color: #ff1100"></i> likes
       </div>
       <div
-        @click="addLike()"
+        @click="deleteLike()"
         v-else-if="board.isLike == 1"
         style="font-size: 1.4rem; margin-top: 1vh"
       >
@@ -167,14 +184,28 @@ const backPage = () => {
     </div>
     <div class="comment-content" v-else>
       <div
-        class="comment-text"
+        class="comment-part"
         v-for="comment in board.commentList"
         :key="board.id"
       >
-        <h4>{{ comment.userId }}</h4>
-        <p>{{ comment.comment }}</p>
-        <p class="comment-date">{{ comment.createTime }}</p>
-        <hr class="comment-line" v-if="index < board.commentList.length - 1" />
+        <div class="comment-text">
+          <h4>{{ comment.userId }}</h4>
+          <p>{{ comment.comment }}</p>
+          <p class="comment-date">{{ comment.createTime }}</p>
+          <hr
+            class="comment-line"
+            v-if="index < board.commentList.length - 1"
+          />
+        </div>
+        <div class="comment-actions">
+          <button
+            class="btn-delete"
+            v-if="isSameCommentId(comment.userId)"
+            @click="deleteComment(comment.id, comment.userId)"
+          >
+            삭제
+          </button>
+        </div>
       </div>
     </div>
 
@@ -318,6 +349,27 @@ h3 {
   font-size: 20px;
   color: #333;
   line-height: 1.6;
+}
+
+.comment-part {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.comment-actions .btn-delete {
+  background-color: #e74c3c;
+  color: #fff;
+  margin-top: 10px;
+}
+
+.comment-actions button {
+  padding: 10px 15px;
+  margin-right: 10px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 14px;
 }
 
 .comment-content {
