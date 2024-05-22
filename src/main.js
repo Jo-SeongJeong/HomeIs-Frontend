@@ -6,10 +6,17 @@ import router from "./router";
 import { useKakao } from "vue3-kakao-maps/@utils";
 import "./assets/styles/global.css";
 
+import VueApexCharts from "vue3-apexcharts";
+
 useKakao("e4e091435b2102c8e28e00b113bcbf06");
 const app = createApp(App);
 
-app.use(createPinia());
+const pinia = createPinia();
+import piniaPluginPersistedstate from "pinia-plugin-persistedstate";
+pinia.use(piniaPluginPersistedstate);
+
+app.use(pinia);
 app.use(router);
+app.component("apexchart", VueApexCharts);
 
 app.mount("#app");

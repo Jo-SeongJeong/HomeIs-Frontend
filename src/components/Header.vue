@@ -4,14 +4,6 @@ import { useAuthStore } from "@/stores/auth";
 const router = useRouter();
 const authStore = useAuthStore();
 
-const isExistUser = () => {
-  console.log("FUCK USER : ", JSON.parse(localStorage.getItem("user")));
-
-  if (JSON.parse(localStorage.getItem("user")) == null) {
-    return false;
-  }
-  return true;
-};
 const goHome = () => {
   router.push({
     path: "/",
@@ -30,12 +22,12 @@ const logout = () => {
   <div id="main">
     <div id="div-1" @click="goHome"></div>
     <div id="div-2">
-      <router-link to="/board/free-board" style="text-decoration: none"
+      <router-link to="/board/free-board/0" style="text-decoration: none"
         >커뮤니티</router-link
       >
 
       <router-link to="/subscription" style="text-decoration: none"
-        >주택 청약</router-link
+        >이자 계산기</router-link
       >
 
       <router-link to="/loan" style="text-decoration: none"
@@ -49,12 +41,23 @@ const logout = () => {
       >
     </div>
     <div id="space-1"></div>
-    <div id="div-3" v-if="!isExistUser()">
-      <a><router-link to="/login">로그인</router-link></a>
-      <a><router-link to="/sign-up">회원가입</router-link></a>
+    <div id="div-3" v-if="authStore.token == null">
+      <a
+        ><router-link to="/login" style="text-decoration: none; cursor: pointer"
+          >로그인 / 회원가입</router-link
+        ></a
+      >
+      <!-- <a
+        ><router-link
+          to="/sign-up"
+          style="text-decoration: none; cursor: pointer"
+          >회원가입</router-link
+        ></a
+      > -->
     </div>
     <div id="div-3" v-else>
-      <button @click="logout">로그아웃</button>
+      <p>{{ authStore.user.name }} 님</p>
+      <a @click="logout" style="cursor: pointer">로그아웃</a>
     </div>
     <div id="space-2"></div>
   </div>
@@ -71,7 +74,7 @@ const logout = () => {
   flex-direction: row;
   align-items: center;
   font-size: 1.2rem;
-  z-index: 100;
+  z-index: 101;
 }
 #div-1 {
   width: 10%;
@@ -96,11 +99,14 @@ const logout = () => {
   width: 48%;
 }
 #div-3 {
-  width: 10%;
+  width: 15%;
   height: 100%;
   display: flex;
   justify-content: space-around;
   align-items: center;
+  p {
+    color: white;
+  }
   a {
     color: white;
   }

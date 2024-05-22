@@ -1,77 +1,52 @@
 <script setup>
-import Header from "@/components/Header.vue";
 import Footer from "@/components/Footer.vue";
 import { ref } from "vue";
 
-const title = ref("자유게시판");
-const flagFree = ref(true);
-const flagNotice = ref(false);
-const flagHomeSta = ref(false);
-const setTitle = (event) => {
-  title.value = event.target.innerText;
-  if (title.value === "공지 및 문의") {
-    flagFree.value = false;
-    flagNotice.value = true;
-    flagHomeSta.value = false;
-  } else if (title.value === "자유게시판") {
-    flagFree.value = true;
-    flagNotice.value = false;
-    flagHomeSta.value = false;
-  } else if (title.value === "홈스타그램") {
-    flagFree.value = false;
-    flagNotice.value = false;
-    flagHomeSta.value = true;
-  }
-  console.log(title.value);
+const title = () => {
+  return JSON.parse(localStorage.getItem("headerTitle")).title;
 };
 </script>
 
 <template>
   <div id="board-main">
     <div id="board-nav">
-      <div id="nav-chose" :class="{ chosen: flagNotice }">
+      <div id="nav-chose" :class="{ chosen: title() == '공지 및 문의' }">
         <router-link
           to="/board/notice"
-          @click="setTitle"
-          v-if="title === '공지 및 문의'"
+          v-if="title() === '공지 및 문의'"
           style="color: black; text-decoration: none"
           >공지 및 문의</router-link
         >
         <router-link
           to="/board/notice"
-          @click="setTitle"
           v-else
           style="color: gray; text-decoration: none"
           >공지 및 문의</router-link
         >
       </div>
-      <div id="nav-chose" :class="{ chosen: flagFree }">
+      <div id="nav-chose" :class="{ chosen: title() == '자유게시판' }">
         <router-link
-          to="/board/free-board"
-          @click="setTitle"
-          v-if="title === '자유게시판'"
+          to="/board/free-board/0"
+          v-if="title() === '자유게시판'"
           style="color: black; text-decoration: none"
           >자유게시판</router-link
         >
         <router-link
-          to="/board/free-board"
-          @click="setTitle"
+          to="/board/free-board/0"
           v-else
           style="color: gray; text-decoration: none"
           >자유게시판</router-link
         >
       </div>
-      <div id="nav-chose" :class="{ chosen: flagHomeSta }">
+      <div id="nav-chose" :class="{ chosen: title() == '홈스타그램' }">
         <router-link
           to="/board/homestagram"
-          @click="setTitle"
-          v-if="title === '홈스타그램'"
+          v-if="title() === '홈스타그램'"
           style="color: black; text-decoration: none"
           >홈스타그램</router-link
         >
         <router-link
           to="/board/homestagram"
-          @click="setTitle"
           v-else
           style="color: gray; text-decoration: none"
           >홈스타그램</router-link
@@ -80,7 +55,7 @@ const setTitle = (event) => {
     </div>
   </div>
 
-  <router-view @setTitle="setTitle"></router-view>
+  <router-view></router-view>
   <Footer />
 </template>
 

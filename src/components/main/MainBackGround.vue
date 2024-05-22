@@ -100,11 +100,11 @@ import { useRouter } from "vue-router";
     }
   }
   #content-right {
-    width: 35%;
-    height: 76%;
-    background-color: antiquewhite;
+    width: 34%;
+    height: 71%;
+    background-color: white;
     background-image: url("../../assets/img/main-content-right.png");
-    background-size: contain;
+    background-size: cover;
     background-repeat: no-repeat;
   }
 }
