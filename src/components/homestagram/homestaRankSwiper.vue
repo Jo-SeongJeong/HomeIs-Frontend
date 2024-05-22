@@ -25,7 +25,7 @@ const getHotHomestaList = async () => {
 };
 const getViewHomestaList = async () => {
   const { data } = await axios.get("http://localhost:80/homeis/homesta/list", {
-    params: { category: "view", size: 5 },
+    params: { category: "total_view", size: 5 },
   });
   homestaViewInfo.value = data;
 };
@@ -120,7 +120,7 @@ const getImgUrl = (homesta) => {
             <a>{{ homestaViewInfo.homestaList[1].title }}</a>
           </div>
           <div id="rank-content">
-            <a>{{ homestaViewInfo.homestaList[1].view }} view</a>
+            <a>{{ homestaViewInfo.homestaList[1].totalView }} view</a>
           </div>
         </div>
         <div
@@ -136,7 +136,7 @@ const getImgUrl = (homesta) => {
             <a>{{ homestaViewInfo.homestaList[0].title }}</a>
           </div>
           <div id="rank-content">
-            <a>{{ homestaViewInfo.homestaList[0].view }} view</a>
+            <a>{{ homestaViewInfo.homestaList[0].totalView }} view</a>
           </div>
         </div>
         <div
@@ -152,7 +152,7 @@ const getImgUrl = (homesta) => {
             <a>{{ homestaViewInfo.homestaList[2].title }}</a>
           </div>
           <div id="rank-content">
-            <a>{{ homestaViewInfo.homestaList[2].view }} view</a>
+            <a>{{ homestaViewInfo.homestaList[2].totalView }} view</a>
           </div>
         </div>
       </div>

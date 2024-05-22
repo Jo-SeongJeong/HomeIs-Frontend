@@ -53,17 +53,17 @@ getLikeRank();
         <div id="rank-box02-free">
           <div id="rank-2"></div>
           <div id="rank-title">{{ aptViewList[1].apartmentName }}</div>
-          <div id="rank-content">{{ aptViewList[1].view }} views</div>
+          <div id="rank-content">{{ aptViewList[1].totalView }} views</div>
         </div>
         <div id="rank-box01-free">
           <div id="rank-1"></div>
           <div id="rank-title">{{ aptViewList[0].apartmentName }}</div>
-          <div id="rank-content">{{ aptViewList[0].view }} views</div>
+          <div id="rank-content">{{ aptViewList[0].totalView }} views</div>
         </div>
         <div id="rank-box03-free">
           <div id="rank-3"></div>
           <div id="rank-title">{{ aptViewList[2].apartmentName }}</div>
-          <div id="rank-content">{{ aptViewList[2].view }} views</div>
+          <div id="rank-content">{{ aptViewList[2].totalView }} views</div>
         </div>
       </div>
     </swiper-slide>
