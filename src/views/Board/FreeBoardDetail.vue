@@ -124,7 +124,7 @@ const backPage = () => {
                 align-items: center;
               "
             >
-              <a> {{ board.view }} &#128064; views </a>
+              <a> {{ board.totalView }} &#128064; views </a>
             </div>
             <div
               style="

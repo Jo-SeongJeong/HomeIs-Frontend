@@ -78,7 +78,7 @@ const goDetail = (id) => {
         </div>
         <div id="box-down">
           <div>{{ homesta.totalLike }} likes</div>
-          <div>{{ homesta.view }} views</div>
+          <div>{{ homesta.totalView }} views</div>
         </div>
       </div>
     </swiper-slide>

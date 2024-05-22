@@ -146,7 +146,7 @@ const getHot = () => {
         >
           <td id="td01">{{ board.title }}</td>
           <td id="td02">{{ board.userId }}</td>
-          <td id="td03">{{ board.view }}</td>
+          <td id="td03">{{ board.totalView }}</td>
           <td id="td04">{{ board.totalLike }}</td>
           <td id="td05">{{ board.createTime }}</td>
         </tr>

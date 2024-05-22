@@ -85,7 +85,7 @@ const getView = () => {
   if (isEmptyList()) {
     return "NULL TEXT!!";
   }
-  const viewStr = apartDealInfoList.value.aptDealInfoList[0].view;
+  const viewStr = apartDealInfoList.value.aptDealInfoList[0].totalView;
   return viewStr;
 };
 

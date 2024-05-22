@@ -88,7 +88,9 @@ const isWriteUser = () => {
         <div id="homesta-detail-header-title">
           <h2>{{ homesta.title }}</h2>
         </div>
-        <div style="font-size: 1.2rem">{{ homesta.view }} &#128064; views</div>
+        <div style="font-size: 1.2rem">
+          {{ homesta.totalView }} &#128064; views
+        </div>
         <div v-if="homesta.isLike == 0" style="font-size: 1.2rem">
           <a>{{ homesta.totalLike }} </a
           ><a @click="addLike()" style="cursor: pointer">
