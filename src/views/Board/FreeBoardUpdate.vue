@@ -4,13 +4,12 @@ import { ref } from "vue";
 import { useRouter, useRoute } from "vue-router";
 import boardApi from "@/api/boardApi";
 
-
 const route = useRoute();
 const board = ref({
   userId: JSON.parse(localStorage.getItem("auth")).user.id,
   title: "",
   content: "",
-  id:"",
+  id: "",
 });
 
 board.value.id = route.params.id;
@@ -26,7 +25,6 @@ const getBoard = async () => {
 };
 getBoard();
 
-
 const update = async () => {
   // const user = JSON.parse(localStorage.getItem("auth")).user;
   // if (user == null || user.job != "관리자") {
@@ -40,27 +38,164 @@ const update = async () => {
   if (!confirm("정말 게시물을 수정하시겠습니까?")) return;
 
   await boardApi.put("/board/update", board.value);
-  router.replace({ name: "FreeBoardDetail", params: { id: board.value.id} } );
+  router.replace({ name: "FreeBoardDetail", params: { id: board.value.id } });
   alert("정상적으로 게시물이 수정되었습니다.");
 };
 
+const backPage = () => {
+  router.push({ name: "FreeBoardDetail", params: { id: board.value.id } });
+};
 </script>
 
 <template>
   <div>
-    <form @submit.prevent="update(event)">
-      <input type="text" name="title" id="" v-model="board.title" />
-      <br />
+    <h1>자유게시판 글 수정</h1>
+    <form @submit.prevent="update(event)" class="notice-detail">
+      <div class="notice-header">
+        <h3>
+          제목 :
+          <input
+            class="title-style"
+            type="text"
+            name="title"
+            id=""
+            v-model="board.title"
+          />
+        </h3>
+        <p>
+          작성자 :
+          <input
+            class="author-style"
+            type="text"
+            disabled
+            v-model="board.userId"
+            name="userId"
+          />
+        </p>
+      </div>
+      <hr class="line" />
       <textarea
         name="content"
+        class="area"
         id=""
-        cols="30"
-        rows="10"
         v-model="board.content"
+        placeholder="여기에 내용을 입력해주세요!"
       ></textarea>
       <br />
-      <input type="submit" value="수정" />
+      <div class="notice-actions">
+        <button class="btn-update" type="submit">등록</button>
+      </div>
     </form>
+    <div class="notice-actions">
+      <button class="back-list" type="button" @click="backPage()">
+        돌아가기
+      </button>
+    </div>
   </div>
 </template>
-<style scoped></style>
+<style scoped>
+h1 {
+  text-align: center;
+  margin-top: 50px;
+}
+
+.notice-detail {
+  max-width: 800px;
+  margin: 30px auto;
+  padding: 20px;
+  background-color: #f9f9f9;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.notice-header {
+  margin-bottom: 20px;
+  display: flex;
+  gap: 70px;
+}
+
+.notice-header h3 {
+  font-size: 24px;
+  color: #333;
+}
+
+.notice-header p {
+  font-size: 14px;
+  color: #666;
+  margin-top: 3px;
+}
+
+.title-style {
+  margin: auto 0;
+  height: 30px;
+  width: 500px;
+  padding: 10px;
+  font-size: 24px;
+}
+
+.author-style {
+  margin: auto 0;
+  width: 70px;
+  padding: 10px;
+  height: 20px;
+}
+
+.notice-actions {
+  margin: 10px 0;
+  display: flex;
+  justify-content: center;
+}
+
+.notice-actions button {
+  padding: 10px 15px;
+  margin-right: 10px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 14px;
+  margin-bottom: 10px;
+}
+
+.notice-actions .btn-delete {
+  background-color: #e74c3c;
+  color: #fff;
+}
+
+.notice-actions .btn-update {
+  background-color: #3498db;
+  color: #fff;
+}
+
+.notice-actions .back-list {
+  background-color: #a6aaad;
+  color: #fff;
+  margin-top: 10px;
+  width: 100px;
+}
+.notice-content {
+  padding: 20px;
+  background-color: #fff;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  font-size: 16px;
+  color: #333;
+  font-size: 20px;
+  line-height: 1.6;
+}
+
+.area {
+  padding: 20px;
+  width: 760px;
+  height: 300px;
+  background-color: #fff;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  line-height: 1.6;
+  color: #333;
+}
+
+.line {
+  margin: 30px 0;
+  border: 1px solid gainsboro;
+}
+</style>

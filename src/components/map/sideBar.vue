@@ -104,23 +104,35 @@ const getReviewCount = () => {
   return apartDealInfoList.value.reviewList.length;
 };
 
+const isLoading = ref(false);
 const addLike = async () => {
-  try {
-    const te = await boardApi.post("/map/like", {
-      aptCode: getAptCode(),
-      userId: JSON.parse(localStorage.getItem("auth")).user.id,
-    });
-    console.log("LI = ", te);
-  } catch (error) {
-    console.log("ERROR = ", error);
-    if (error.response.status === 500) {
-      await boardApi.delete("/map/like/" + getAptCode());
-    }
-  }
+  if(isLoading.value) return;
+
+  isLoading.value = true;
+  const te = await boardApi.post("/map/like", {
+    aptCode: getAptCode(),
+    userId: JSON.parse(localStorage.getItem("auth")).user.id,
+  });
+  console.log("LI = ", te);
+  
   const aptCodeTmp = getAptCode()
   getApartDealInfoList(aptCodeTmp);
   console.log("ADDLIKE 이즈라이크 = ", apartDealInfoList.value.isLike);
+  isLoading.value = false;
 };
+
+const deleteLike = async () => {
+  if(isLoading.value) return;
+  
+  isLoading.value = true;
+  const te = await boardApi.delete("/map/like/" + getAptCode());
+  console.log("LI = ", te);
+
+  const aptCodeTmp = getAptCode()
+  getApartDealInfoList(aptCodeTmp);
+  console.log("ADDLIKE 이즈라이크 = ", apartDealInfoList.value.isLike);
+  isLoading.value = false;
+}
 
 const isLike = () => {
   if (isEmptyList()) {
@@ -203,7 +215,7 @@ watch(props, (nv) => {
       </div>
       <div id="content-view-good">
         <div id="good">
-          <button type="button" class="Btn" @click="addLike()" v-if="isLike()">
+          <button type="button" class="Btn" @click="deleteLike()" v-if="isLike()">
             <i class="fa-solid fa-heart" style="color: #ff0000;font-size: 50px;"></i>
           </button>
           <button type="button" class="Btn" @click="addLike()" v-else>
