@@ -264,7 +264,7 @@ const sendMessage = async () => {
   width: 120px;
   position: absolute;
   bottom: 0;
-  right: 0;
+  right: 2vw;
   margin: 15px;
   border-top-left-radius: 25px;
   border-top-right-radius: 25px;

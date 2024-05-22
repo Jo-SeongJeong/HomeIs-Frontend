@@ -56,8 +56,8 @@ const onClickKakaoMapMarker = (aptCode) => {
     :lat="lat"
     :lng="lng"
     @onLoadKakaoMap="onLoadKakaoMap"
-    width="100vw"
-    height="100vh"
+    width="100%"
+    height="100%"
   >
     <KakaoMapMarker
       v-for="apartInfo in receivedDongCodeList"

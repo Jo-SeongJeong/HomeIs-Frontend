@@ -309,7 +309,7 @@ watch(props, (nv) => {
 #side-main {
   position: absolute;
   width: 35vw;
-  height: 100vh;
+  height: 93vh;
   left: 0;
   top: 7vh;
   z-index: 100;

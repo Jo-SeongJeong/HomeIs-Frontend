@@ -37,7 +37,6 @@ const aptCodeHandler = (aptCode) => {
       {{ sidebarText }}
     </div>
   </div>
-  <Footer />
 </template>
 
 <style scoped>
