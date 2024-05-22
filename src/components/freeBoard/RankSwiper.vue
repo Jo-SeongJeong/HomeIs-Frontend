@@ -51,7 +51,7 @@ getLikeRank();
     style="margin-top: 2vh"
   >
     <swiper-slide v-if="aptViewList.length > 0">
-      <div id="title">조회수 TOP 3</div>
+      <div id="freeboard-title">조회수 TOP 3</div>
       <div id="views-rank">
         <div id="rank-box02">
           <div id="rank-2"></div>
@@ -71,7 +71,7 @@ getLikeRank();
       </div>
     </swiper-slide>
     <swiper-slide v-if="aptLikeList.length > 0">
-      <div id="title">좋아요 TOP 3</div>
+      <div id="freeboard-title  ">좋아요 TOP 3</div>
       <div id="like-rank">
         <div id="rank-box02">
           <div id="rank-2"></div>
@@ -97,7 +97,7 @@ getLikeRank();
   width: 100%;
   height: 100%;
 }
-#title {
+#freeboard-title {
   color: white;
   font-size: 3rem;
   position: absolute;

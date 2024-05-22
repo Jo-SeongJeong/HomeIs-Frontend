@@ -155,8 +155,6 @@ const getImgUrl = (homesta) => {
 <style>
 #rank-down {
   width: 100%;
-  display: flex;
-  justify-content: space-around;
 }
 #swiper-rank {
   width: 100%;

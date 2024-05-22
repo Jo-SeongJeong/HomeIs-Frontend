@@ -40,9 +40,8 @@ const deleteBoard = async () => {
   alert("정상적으로 삭제되었습니다!");
 };
 
-
 const updateBoard = () => {
-  router.push({ name: "FreeBoardUpdate" ,params: { id, page }});
+  router.push({ name: "FreeBoardUpdate", params: { id, page } });
 };
 
 const isCommentEmpty = () => {
@@ -97,20 +96,47 @@ const backPage = () => {
           <p>작성일 : {{ board.createTime }}</p>
         </div>
         <div>
-          <p class ="author">작성자 : {{ board.userId }}</p>
+          <p class="author">작성자 : {{ board.userId }}</p>
           <div class="view-like">
-            <p>조회수 : {{ board.view }}</p>
-            <p>좋아요 : {{ board.totalLike }}</p>
+            <div
+              style="
+                font-size: 1rem;
+                text-align: center;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+              "
+            >
+              <a> {{ board.view }} &#128064; views </a>
+            </div>
+            <div
+              style="
+                font-size: 1rem;
+                text-align: center;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+              "
+            >
+              <a
+                >{{ board.totalLike }}
+                <i class="fa-solid fa-heart" style="color: #ff0000"></i>
+                likes</a
+              >
+            </div>
           </div>
         </div>
       </div>
-      <hr class="line">
+      <hr class="line" />
     </div>
 
     <div class="notice-actions">
-      
-      <button class="btn-update" v-if="isSameId()" @click="updateBoard">수정</button>
-      <button class="btn-delete" v-if="isSameId()" @click="deleteBoard">삭제</button>
+      <button class="btn-update" v-if="isSameId()" @click="updateBoard">
+        수정
+      </button>
+      <button class="btn-delete" v-if="isSameId()" @click="deleteBoard">
+        삭제
+      </button>
     </div>
 
     <div class="notice-content">
@@ -118,17 +144,33 @@ const backPage = () => {
     </div>
 
     <div class="like-actions">
-      <button class="btn-update" @click="addLike()" v-if="board.isLike == 0">좋아요</button>
-      <button class="btn-delete" @click="addLike()" v-else-if="board.isLike == 1">좋아요 취소</button>
+      <div
+        @click="addLike()"
+        v-if="board.isLike == 0"
+        style="font-size: 1.4rem; margin-top: 1vh"
+      >
+        <i class="fa-regular fa-heart" style="color: #ff1100"></i> likes
+      </div>
+      <div
+        @click="addLike()"
+        v-else-if="board.isLike == 1"
+        style="font-size: 1.4rem; margin-top: 1vh"
+      >
+        <i class="fa-solid fa-heart" style="color: #ff0000"></i> likes
+      </div>
     </div>
-    <hr class="line"/>
-    
+    <hr class="line" />
+
     <h3 class="startAnswer">댓글 ({{ getCommentLength() }})</h3>
     <div class="noAnswer" v-if="isCommentEmpty()">
       <h4>- 현재 달린 댓글이 없어용! 댓글을 달아보세용! -</h4>
     </div>
-    <div class="comment-content" v-else >
-      <div class="comment-text" v-for="comment in board.commentList" :key="board.id">
+    <div class="comment-content" v-else>
+      <div
+        class="comment-text"
+        v-for="comment in board.commentList"
+        :key="board.id"
+      >
         <h4>{{ comment.userId }}</h4>
         <p>{{ comment.comment }}</p>
         <p class="comment-date">{{ comment.createTime }}</p>
@@ -140,13 +182,15 @@ const backPage = () => {
       name=""
       id=""
       v-model="commentInfo.comment"
-      class = "area"
+      class="area"
     ></textarea>
     <div class="notice-actions">
       <button class="btn-update" @click="addComment()">댓글 등록</button>
     </div>
     <div class="like-actions">
-      <button class="back-list" type="button" @click="backPage()">목록으로</button>
+      <button class="back-list" type="button" @click="backPage()">
+        목록으로
+      </button>
     </div>
   </div>
 </template>
@@ -266,7 +310,7 @@ h3 {
   width: 100px;
 }
 
-.notice-content{
+.notice-content {
   padding: 20px;
   background-color: #fff;
   border-radius: 8px;
@@ -276,7 +320,7 @@ h3 {
   line-height: 1.6;
 }
 
-.comment-content{
+.comment-content {
   background-color: #fff;
   border-radius: 8px;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
@@ -332,5 +376,4 @@ h3 {
 .noAnswer {
   margin-bottom: 10px;
 }
-
 </style>

@@ -41,28 +41,44 @@ const updateNotice = () => {
 </script>
 
 <template>
-  <div class="notice-detail">
-    <div class="notice-header">
+  <div id="notice-detail-main">
+    <div class="notice-detail">
+      <div class="notice-header">
         <h3>제목 : {{ notice.title }}</h3>
         <p>작성일 : {{ notice.createTime }}</p>
-        <hr class="line">
-    </div>
+        <hr class="line" />
+      </div>
 
-    <div class="notice-actions">
-      <button v-if="isAdmin()" @click="updateNotice" class="btn-update">수정</button>
-      <button v-if="isAdmin()" @click="deleteNotice" class="btn-delete">삭제</button>
-    </div>
+      <div class="notice-actions">
+        <button v-if="isAdmin()" @click="updateNotice" class="btn-update">
+          수정
+        </button>
+        <button v-if="isAdmin()" @click="deleteNotice" class="btn-delete">
+          삭제
+        </button>
+      </div>
 
-    <div class="notice-content">
-      {{ notice.content }}
-    </div>
+      <div class="notice-content">
+        {{ notice.content }}
+      </div>
 
-    <hr class="line"/>
+      <hr class="line" />
+    </div>
   </div>
 </template>
 
 <style scoped>
+#notice-detail-main {
+  width: 100vw;
+  height: 80vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
 .notice-detail {
+  width: 80%;
+  height: 80%;
   max-width: 800px;
   margin: 30px auto;
   padding: 20px;
@@ -89,7 +105,7 @@ const updateNotice = () => {
 
 .notice-actions {
   margin: 10px 0;
-    display: flex;
+  display: flex;
   justify-content: end;
 }
 
