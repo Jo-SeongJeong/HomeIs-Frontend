@@ -1,6 +1,7 @@
 <script setup>
 import { ref, defineProps, watch } from "vue";
 import axios from "axios";
+import boardApi from "@/api/boardApi";
 
 const tradeLog = ref("");
 
@@ -61,9 +62,9 @@ const props = defineProps({
 // 거래 로그 데이터를 가져와서 차트 시리즈에 매핑하는 함수
 const getTradeLog = async (aptCodeValue) => {
   try {
-    const url = `http://localhost:80/homeis/map/apartDealInfo/${aptCodeValue}`;
+    const url = `/map/apartDealInfo/${aptCodeValue}`;
     console.log("url = ", url);
-    const { data } = await axios.get(url);
+    const { data } = await boardApi.get(url);
     console.log("112321312");
     const prices = data.aptDealInfoList.map((item) => {
       // dealAmount를 숫자로 변환하고 억 단위로 변환
