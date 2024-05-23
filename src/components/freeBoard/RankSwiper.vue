@@ -58,9 +58,7 @@ getLikeRank();
             </a>
           </div>
           <div id="rank-content">
-            <a>
-              &#128064; {{ aptViewList[1].totalView }}
-            </a>
+            <a> &#128064; {{ aptViewList[1].totalView }} </a>
           </div>
         </div>
         <div id="rank-box01-free">
@@ -71,9 +69,7 @@ getLikeRank();
             </a>
           </div>
           <div id="rank-content">
-            <a>
-              &#128064; {{ aptViewList[0].totalView }}
-            </a>
+            <a> &#128064; {{ aptViewList[0].totalView }} </a>
           </div>
         </div>
         <div id="rank-box03-free">
@@ -84,9 +80,7 @@ getLikeRank();
             </a>
           </div>
           <div id="rank-content">
-            <a>
-              &#128064; {{ aptViewList[2].totalView }}
-            </a>
+            <a> &#128064; {{ aptViewList[2].totalView }} </a>
           </div>
         </div>
       </div>
@@ -281,7 +275,7 @@ getLikeRank();
   justify-content: space-around;
   align-items: center;
   width: 100%;
-  height: 100%;
+  height: 80%;
   margin-top: 80px;
   #rank-content {
     margin-bottom: 2vh;
@@ -296,9 +290,9 @@ getLikeRank();
     background: url("../../assets/img/apt01.jpg");
     background-size: 100% 100%;
     font-size: 1.3rem;
+    border-radius: 12px;
     text-align: center;
     color: white;
-    border-radius: 12px;
     #rank-title {
       width: 100%;
     }
