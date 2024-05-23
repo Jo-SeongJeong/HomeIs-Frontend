@@ -228,7 +228,7 @@ body {
   padding: 5px 1vw 0 1vw;
   border-radius: 12px;
   top: 2vh;
-  left: 40%;
+  left: 40.7%;
 }
 #title-view {
   font-size: 2rem;
