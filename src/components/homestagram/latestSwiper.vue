@@ -113,6 +113,7 @@ const goDetail = (id) => {
       display: flex;
       flex-direction: column;
       gap: 1vh;
+      justify-content: space-between;
     }
     #box-down {
       width: 100%;
@@ -139,6 +140,7 @@ const goDetail = (id) => {
     padding-right: 0.3vw;
     border-radius: 6px;
     background-color: antiquewhite;
+    /* text-align: end; */
   }
 }
 </style>
