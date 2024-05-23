@@ -114,6 +114,7 @@ const goDetail = (id) => {
       display: flex;
       flex-direction: column;
       gap: 1vh;
+      justify-content: space-between;
     }
     #box-down {
       width: 100%;

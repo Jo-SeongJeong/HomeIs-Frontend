@@ -12,6 +12,9 @@ import { Autoplay, Pagination, Navigation } from "swiper/modules";
 
 import axios from "axios";
 import { ref } from "vue";
+import { useRouter } from "vue-router";
+
+const router = useRouter();
 
 const modules = [Autoplay, Pagination, Navigation];
 
@@ -40,6 +43,10 @@ const getImgUrl = (homesta) => {
   }
   return "";
 };
+
+const goDetail = (id) => {
+  router.push({ name: "HomestagramDetail", params: { id } });
+};
 </script>
 
 <template>
@@ -56,13 +63,14 @@ const getImgUrl = (homesta) => {
     style="margin-top: 2vh"
   >
     <swiper-slide v-if="homestaHotInfo">
-      <div id="title">좋아요 TOP 3</div>
+      <h1 id="title">좋아요 TOP 3</h1>
       <div id="views-rank">
         <div
           id="rank-box02"
           :style="{
             backgroundImage: `url(${getImgUrl(homestaHotInfo.homestaList[1])})`,
           }"
+          @click="goDetail(homestaHotInfo.homestaList[1].id)"
         >
           <div id="rank-2"></div>
           <div id="rank-title">
@@ -82,6 +90,7 @@ const getImgUrl = (homesta) => {
           :style="{
             backgroundImage: `url(${getImgUrl(homestaHotInfo.homestaList[0])})`,
           }"
+          @click="goDetail(homestaHotInfo.homestaList[0].id)"
         >
           <div id="rank-1"></div>
           <div id="rank-down">
@@ -103,6 +112,7 @@ const getImgUrl = (homesta) => {
           :style="{
             backgroundImage: `url(${getImgUrl(homestaHotInfo.homestaList[2])})`,
           }"
+          @click="goDetail(homestaHotInfo.homestaList[2].id)"
         >
           <div id="rank-3"></div>
           <div id="rank-title">
@@ -120,7 +130,7 @@ const getImgUrl = (homesta) => {
       </div>
     </swiper-slide>
     <swiper-slide v-if="homestaViewInfo">
-      <div id="title">조회수 TOP 3</div>
+      <h1 id="title">조회수 TOP 3</h1>
       <div id="like-rank">
         <div
           id="rank-box02"
@@ -129,6 +139,7 @@ const getImgUrl = (homesta) => {
               homestaViewInfo.homestaList[1]
             )})`,
           }"
+          @click="goDetail(homestaViewInfo.homestaList[1].id)"
         >
           <div id="rank-2"></div>
           <div id="rank-title">
@@ -145,6 +156,7 @@ const getImgUrl = (homesta) => {
               homestaViewInfo.homestaList[0]
             )})`,
           }"
+          @click="goDetail(homestaViewInfo.homestaList[0].id)"
         >
           <div id="rank-1"></div>
           <div id="rank-title">
@@ -161,6 +173,7 @@ const getImgUrl = (homesta) => {
               homestaViewInfo.homestaList[2]
             )})`,
           }"
+          @click="goDetail(homestaViewInfo.homestaList[2].id)"
         >
           <div id="rank-3"></div>
           <div id="rank-title">
@@ -196,13 +209,12 @@ const getImgUrl = (homesta) => {
   background-image: linear-gradient(to top, #fff1eb 0%, #ace0f9 100%);
 }
 #title {
-  font-size: 3rem;
+  font-size: 2rem;
   position: absolute;
-  background-image: linear-gradient(to top, #e6e9f0 0%, #eef1f5 100%);
   padding: 0 1vw 0 1vw;
   border-radius: 12px;
-  top: 1vh;
-  left: 3vw;
+  top: 2vh;
+  left: 45vw;
 }
 #views-rank {
   display: flex;

@@ -4,11 +4,10 @@
   <footer class="footer">
     <div class="top-row">
       <div class="column">
-        <div class="logo">CompanyLogo</div>
-        <p>
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do
-          eiusmod tempor incididunt ut labore et dolore magna aliqua.
-        </p>
+        <div class="logo">
+          <img src="../assets/img/logo-size-s.png" style="width: 200px" />
+        </div>
+        <p class="author">회원님의 새로운 보금자리를 발견하시기를 기원합니다</p>
       </div>
       <div class="column">
         <h4>Quick Links</h4>
@@ -30,27 +29,51 @@
       </div>
       <div class="column">
         <h4>Contact Us</h4>
-        <p>1234 Street Name, City, State, 12345</p>
-        <p>Email: info@company.com</p>
-        <p>Phone: (123) 456-7890</p>
-        <div class="social-media">
-          <a href="#"><i class="fab fa-facebook-f"></i></a>
-          <a href="#"><i class="fab fa-twitter"></i></a>
-          <a href="#"><i class="fab fa-instagram"></i></a>
-          <a href="#"><i class="fab fa-linkedin-in"></i></a>
+        <div class="person">
+          <p>장준석</p>
+          <div class="social-media">
+            <a href="https://github.com/junseok-99"
+              ><i class="fab fa-github"></i
+            ></a>
+          </div>
         </div>
+        <div class="person">
+          <p>조성정</p>
+          <div class="social-media">
+            <a href="https://github.com/Jo-SeongJeong"
+              ><i class="fab fa-github"></i
+            ></a>
+          </div>
+        </div>
+        <div class="person">
+          <p>조용훈</p>
+          <div class="social-media">
+            <a href="https://github.com/sjsin0905"
+              ><i class="fab fa-github"></i
+            ></a>
+          </div>
+        </div>
+        <!-- <p>Email: info@company.com</p>
+        <p>Phone: (123) 456-7890</p> -->
       </div>
     </div>
     <div class="bottom-row">
       <div>
         <a href="#">Privacy Policy</a> | <a href="#">Terms of Service</a>
       </div>
-      <div>&copy; 2024 CompanyName. All rights reserved.</div>
+      <div>&copy; 2024 HomeIs. All rights reserved.</div>
     </div>
   </footer>
 </template>
 
 <style scoped>
+.person {
+  display: flex;
+  gap: 20px;
+  align-items: center;
+  margin: 10px 0;
+}
+
 .footer {
   background-color: #333;
   color: #fff;
@@ -58,6 +81,7 @@
   display: flex;
   flex-direction: column;
   align-items: center;
+  height: 230px;
 }
 .footer .top-row {
   width: 80%;
@@ -68,12 +92,22 @@
 }
 .footer .column {
   width: 25%;
+  margin-right: 10px;
 }
 .footer .logo {
   font-size: 24px;
   font-weight: bold;
-  margin-bottom: 10px;
+  margin-bottom: 20px;
+  /* display: flex; */
+  /* align-items: center; */
+  /* gap: 10px; */
 }
+
+.author {
+  /* margin-top: 15px; */
+  padding-top: 5px;
+}
+
 .footer .column h4 {
   margin-bottom: 10px;
   font-size: 18px;
@@ -92,7 +126,7 @@
 .footer .social-media {
   display: flex;
   gap: 10px;
-  margin-top: 20px;
+  /* margin-top: 20px; */
 }
 .footer .social-media a {
   color: #fff;

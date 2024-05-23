@@ -65,7 +65,7 @@ const isEmptyQna = () => {
     return true;
   }
   return false;
-}
+};
 </script>
 
 <template>
@@ -105,8 +105,10 @@ const isEmptyQna = () => {
           >
         </div>
         <hr />
-        <br>
-        <h3 style="text-align: center;" v-if="isEmptyQna()">- 궁금한 것이 있다면 무엇이든 문의해보세요! -</h3>
+        <br />
+        <h3 style="text-align: center" v-if="isEmptyQna()">
+          - 궁금한 것이 있다면 무엇이든 문의해보세요! -
+        </h3>
         <table>
           <tr
             v-for="qna in qnaInfo.qnaList"
@@ -153,6 +155,7 @@ const isEmptyQna = () => {
   padding-right: 10vw;
   padding-top: 3vh;
   gap: 5vw;
+  /* overflow-x: hidden; */
 }
 #main-right {
   width: 35%;
