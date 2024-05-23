@@ -40,12 +40,12 @@ const addLike = async () => {
     userId: JSON.parse(localStorage.getItem("auth")).user.id,
   });
 
-  router.go(0);
+  getHomesta();
 };
 
 const deleteLike = async () => {
   await boardApi.delete("/homesta/like/" + id);
-  router.go(0);
+  getHomesta();
 };
 
 const deleteHomesta = async () => {

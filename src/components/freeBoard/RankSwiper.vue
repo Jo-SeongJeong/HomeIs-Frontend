@@ -53,17 +53,17 @@ getLikeRank();
         <div id="rank-box02-free">
           <div id="rank-2"></div>
           <div id="rank-title">{{ aptViewList[1].apartmentName }}</div>
-          <div id="rank-content">{{ aptViewList[1].totalView }} views</div>
+          <div id="rank-content">&#128064; {{ aptViewList[1].totalView }}</div>
         </div>
         <div id="rank-box01-free">
           <div id="rank-1"></div>
           <div id="rank-title">{{ aptViewList[0].apartmentName }}</div>
-          <div id="rank-content">{{ aptViewList[0].totalView }} views</div>
+          <div id="rank-content">&#128064; {{ aptViewList[0].totalView }}</div>
         </div>
         <div id="rank-box03-free">
           <div id="rank-3"></div>
           <div id="rank-title">{{ aptViewList[2].apartmentName }}</div>
-          <div id="rank-content">{{ aptViewList[2].totalView }} views</div>
+          <div id="rank-content">&#128064; {{ aptViewList[2].totalView }}</div>
         </div>
       </div>
     </swiper-slide>
@@ -73,17 +73,32 @@ getLikeRank();
         <div id="rank-box02-free">
           <div id="rank-2"></div>
           <div id="rank-title">{{ aptLikeList[1].apartmentName }}</div>
-          <div id="rank-content">{{ aptLikeList[2].totalLike }} likes</div>
+          <div id="rank-content">
+            <a style="cursor: pointer">
+              &nbsp;<i class="fa-solid fa-heart" style="color: #ff0000"></i>
+            </a>
+            {{ aptLikeList[2].totalLike }}
+          </div>
         </div>
         <div id="rank-box01-free">
           <div id="rank-1"></div>
           <div id="rank-title">{{ aptLikeList[0].apartmentName }}</div>
-          <div id="rank-content">{{ aptLikeList[2].totalLike }} likes</div>
+          <div id="rank-content">
+            <a style="cursor: pointer">
+              &nbsp;<i class="fa-solid fa-heart" style="color: #ff0000"></i>
+            </a>
+            {{ aptLikeList[2].totalLike }}
+          </div>
         </div>
         <div id="rank-box03-free">
           <div id="rank-3"></div>
           <div id="rank-title">{{ aptLikeList[2].apartmentName }}</div>
-          <div id="rank-content">{{ aptLikeList[2].totalLike }} likes</div>
+          <div id="rank-content">
+            <a style="cursor: pointer">
+              &nbsp;<i class="fa-solid fa-heart" style="color: #ff0000"></i>
+            </a>
+            {{ aptLikeList[2].totalLike }}
+          </div>
         </div>
       </div>
     </swiper-slide>

@@ -332,7 +332,7 @@ const isReviewEmpty = () => {
       <div id="review">
         <h3 id="review-title">생생 리뷰 ({{ getReviewCount() }})</h3>
         <div class="no-answer" v-if="isReviewEmpty()">
-          <h4>- 가장 먼저 댓글을 달아보세요! -</h4>
+          <h4>가장 먼저 댓글을 달아보세요!</h4>
         </div>
         <div id="review-content" v-else>
           <div

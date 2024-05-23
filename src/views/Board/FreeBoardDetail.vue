@@ -63,7 +63,7 @@ const addComment = async () => {
   commentInfo.value.boardId = id;
   commentInfo.value.userId = JSON.parse(localStorage.getItem("auth")).user.id;
   await boardApi.post("/board/insert-comment", commentInfo.value);
-  router.go(0);
+  getBoard();
 };
 
 const getCommentLength = () => {
@@ -78,7 +78,7 @@ const addLike = async () => {
     boardId: id,
     userId: JSON.parse(localStorage.getItem("auth")).user.id,
   });
-  router.go(0);
+  getBoard();
 };
 
 const deleteLike = async () => {
@@ -86,7 +86,7 @@ const deleteLike = async () => {
     boardId: id,
     userId: JSON.parse(localStorage.getItem("auth")).user.id,
   });
-  router.go(0);
+  getBoard();
 };
 
 const deleteComment = async (commentId, commentUserId) => {
@@ -95,7 +95,7 @@ const deleteComment = async (commentId, commentUserId) => {
     id: commentId,
     userId: commentUserId,
   });
-  router.go(0);
+  getBoard();
   alert("정상적으로 삭제되었습니다!");
 };
 
@@ -180,7 +180,7 @@ const backPage = () => {
 
     <h3 class="startAnswer">댓글 ({{ getCommentLength() }})</h3>
     <div class="noAnswer" v-if="isCommentEmpty()">
-      <h4>- 현재 달린 댓글이 없어용! 댓글을 달아보세용! -</h4>
+      <h4>가장 먼저 댓글을 달아보세요!</h4>
     </div>
     <div class="comment-content" v-else>
       <div
@@ -203,7 +203,7 @@ const backPage = () => {
             v-if="isSameCommentId(comment.userId)"
             @click="deleteComment(comment.id, comment.userId)"
           >
-            삭제
+            ✖
           </button>
         </div>
       </div>
@@ -357,10 +357,12 @@ h3 {
   align-items: center;
 }
 
-.comment-actions .btn-delete {
-  background-color: #e74c3c;
-  color: #fff;
+.comment-actions {
+  align-self: baseline;
   margin-top: 10px;
+}
+.comment-actions .btn-delete {
+  background-color: inherit;
 }
 
 .comment-actions button {

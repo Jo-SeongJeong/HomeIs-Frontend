@@ -77,8 +77,13 @@ const goDetail = (id) => {
           </div>
         </div>
         <div id="box-down">
-          <div>{{ homesta.totalLike }} likes</div>
-          <div>{{ homesta.totalView }} views</div>
+          <div>
+            <a style="cursor: pointer">
+              &nbsp;<i class="fa-solid fa-heart" style="color: #ff0000"></i>
+            </a>
+             {{ homesta.totalLike }}
+          </div>
+          <div>&#128064 {{ homesta.totalView }}</div>
         </div>
       </div>
     </swiper-slide>
