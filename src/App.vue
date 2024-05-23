@@ -23,6 +23,9 @@ const isLogin = () => {
 </template>
 
 <style scoped>
+body {
+  overflow-x: hidden;
+}
 .chat {
   position: fixed;
   bottom: 1vh;

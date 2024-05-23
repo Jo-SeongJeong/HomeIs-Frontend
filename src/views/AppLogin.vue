@@ -9,16 +9,16 @@
           id="form1"
           style="margin-top: 5vh"
         >
-        <form class="exist" @submit.prevent="isExist">
-          <input
-            type="text"
-            placeholder="ID"
-            class="id-input"
-            v-model.trim="joinForm.id"
-            required
-          />
-          <button type="submit" class="btn-id">중복확인</button>
-        </form>
+          <form class="exist" @submit.prevent="isExist">
+            <input
+              type="text"
+              placeholder="ID"
+              class="id-input"
+              v-model.trim="joinForm.id"
+              required
+            />
+            <button type="submit" class="btn-id">중복확인</button>
+          </form>
           <input
             type="password"
             placeholder="Password"
@@ -35,8 +35,20 @@
             required
             :disabled="!isActive"
           />
-          <input type="date" class="input" v-model="joinForm.birth" required :disabled="!isActive"/>
-          <select name="" id="" v-model="jobText" class="input" :disabled="!isActive">
+          <input
+            type="date"
+            class="input"
+            v-model="joinForm.birth"
+            required
+            :disabled="!isActive"
+          />
+          <select
+            name=""
+            id=""
+            v-model="jobText"
+            class="input"
+            :disabled="!isActive"
+          >
             <option value="" selected disabled>직업 선택</option>
             <option value="학생">학생</option>
             <option value="배우">회사원</option>
@@ -117,7 +129,13 @@
             required
             :disabled="!isActive"
           />
-          <select class="input" v-model="joinForm.married" readonly required :disabled="!isActive">
+          <select
+            class="input"
+            v-model="joinForm.married"
+            readonly
+            required
+            :disabled="!isActive"
+          >
             <option value="" selected disabled>결혼 여부</option>
             <option value="1">기혼</option>
             <option value="0">미혼</option>
@@ -218,13 +236,12 @@ const isExist = async () => {
   try {
     await axios.get("http://localhost/homeis/user/exist/" + joinForm.value.id);
     isActive.value = true;
-  } catch(error) {
+  } catch (error) {
     alert("id가 중복되었습니다");
     isActive.value = false;
-    }
-    console.log(isActive.value);
-}
-
+  }
+  console.log(isActive.value);
+};
 
 const join = async () => {
   if (!confirm("HOMEIS에 가입하시겠습니까?")) return;

@@ -22,21 +22,30 @@ const goWrite = () => {
 </script>
 
 <template>
-  <div id="rank"><homestaRankSwiper /></div>
-  <div id="homesta-main">
-    <h2>😆 최근 올라온 게시물은 어떤가요?</h2>
-    <div id="latest-swiper">
-      <h3>- 끊임없이 올라오는 게시물들을 확인해보세요!</h3>
-      <a @click="goWrite">글쓰기</a>
+  <div id="homesta-view-main">
+    <div id="rank"><homestaRankSwiper /></div>
+    <div id="homesta-main">
+      <h2>😆 최근 올라온 게시물은 어떤가요?</h2>
+      <div id="latest-swiper">
+        <h3>- 끊임없이 올라오는 게시물들을 확인해보세요!</h3>
+        <a @click="goWrite">글쓰기</a>
+      </div>
+      <latestSwiper />
+      <h2>&#128293; 최근 핫한 게시물을 보십시요!</h2>
+      <h3>- HOT!! 한 집의 구조를 알아보세요</h3>
+      <hotSwiper />
     </div>
-    <latestSwiper />
-    <h2>&#128293; 최근 핫한 게시물을 보십시요!</h2>
-    <h3>- HOT!! 한 집의 구조를 알아보세요</h3>
-    <hotSwiper />
   </div>
 </template>
 
 <style scoped>
+body {
+  overflow-x: hidden;
+}
+#homesta-view-main {
+  width: 100vw;
+}
+
 h2 {
   margin: 1vh;
 }
@@ -48,6 +57,7 @@ h3 {
   justify-content: space-between;
   align-items: center;
   a {
+    margin-right: 1vw;
     cursor: pointer;
     font-size: 1.1rem;
   }

@@ -48,7 +48,7 @@ getLikeRank();
     style="margin-top: 2vh"
   >
     <swiper-slide v-if="aptViewList.length > 0">
-      <div id="freeboard-title">조회수 TOP 3</div>
+      <h1 id="title-hot">조회수 TOP 3</h1>
       <div id="views-rank">
         <div id="rank-box02-free">
           <div id="rank-2"></div>
@@ -68,7 +68,7 @@ getLikeRank();
       </div>
     </swiper-slide>
     <swiper-slide v-if="aptLikeList.length > 0">
-      <div id="freeboard-title">좋아요 TOP 3</div>
+      <h1 id="title-hot">좋아요 TOP 3</h1>
       <div id="like-rank">
         <div id="rank-box02-free">
           <div id="rank-2"></div>
@@ -105,9 +105,18 @@ getLikeRank();
   </swiper>
 </template>
 <style>
+#title-hot {
+  font-size: 2rem;
+  position: absolute;
+  padding: 5px 1vw 0 1vw;
+  border-radius: 12px;
+  top: 2vh;
+  left: 40%;
+}
 #swiper-rank {
   width: 100%;
   height: 100%;
+  background-color: rgb(243, 245, 249);
   /* background-image: linear-gradient(to top, #fff1eb 0%, #ace0f9 100%); */
 }
 #freeboard-title {
@@ -123,9 +132,9 @@ getLikeRank();
 #views-rank {
   display: flex;
   justify-content: space-around;
-  align-items: center;
   width: 100%;
-  height: 100%;
+  height: 80%;
+  margin-top: 80px;
   #rank-content {
     margin-bottom: 2vh;
   }
@@ -141,6 +150,7 @@ getLikeRank();
     font-size: 1.3rem;
     text-align: center;
     color: white;
+    border-radius: 12px;
     #rank-title {
       width: 100%;
     }
@@ -155,7 +165,6 @@ getLikeRank();
   #rank-box02-free {
     width: 20%;
     height: 100%;
-    /* background-color: aqua; */
     display: flex;
     flex-direction: column;
     justify-content: end;
@@ -165,6 +174,7 @@ getLikeRank();
     font-size: 1.3rem;
     text-align: center;
     color: white;
+    border-radius: 12px;
     #rank-title {
       width: 100%;
     }
@@ -179,7 +189,6 @@ getLikeRank();
   #rank-box03-free {
     width: 20%;
     height: 100%;
-    /* background-color: aqua; */
     display: flex;
     flex-direction: column;
     justify-content: end;
@@ -189,6 +198,7 @@ getLikeRank();
     font-size: 1.3rem;
     text-align: center;
     color: white;
+    border-radius: 12px;
     #rank-title {
       width: 100%;
     }
@@ -225,6 +235,7 @@ getLikeRank();
     font-size: 1.3rem;
     text-align: center;
     color: white;
+    border-radius: 12px;
     #rank-title {
       width: 100%;
     }

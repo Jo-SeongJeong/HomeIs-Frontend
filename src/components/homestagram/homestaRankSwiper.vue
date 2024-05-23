@@ -130,8 +130,7 @@ const goDetail = (id) => {
       </div>
     </swiper-slide>
     <swiper-slide v-if="homestaViewInfo">
-      <h1 id="title-view"> 어떤 사진을 많이 볼까요?
-      </h1>
+      <h1 id="title-hot">어떤 사진을 많이 볼까요?</h1>
       <div id="like-rank">
         <div
           id="rank-box02"
@@ -190,9 +189,11 @@ const goDetail = (id) => {
 </template>
 <style>
 .mySwipper {
-  background-color : black; 
+  background-color: black;
 }
-
+body {
+  overflow-x: hidden;
+}
 #rank-title {
   a {
     /* border-radius: 6px; */
@@ -219,7 +220,7 @@ const goDetail = (id) => {
 #swiper-rank {
   width: 100%;
   height: 100%;
-  /* background-image: linear-gradient(to top, #fff1eb 0%, #ace0f9 100%); */
+  background-color: rgb(243, 245, 249);
 }
 #title-hot {
   font-size: 2rem;
@@ -227,7 +228,7 @@ const goDetail = (id) => {
   padding: 5px 1vw 0 1vw;
   border-radius: 12px;
   top: 2vh;
-  left: 40%
+  left: 40%;
 }
 #title-view {
   font-size: 2rem;
@@ -235,16 +236,14 @@ const goDetail = (id) => {
   padding: 5px 1vw 0 1vw;
   border-radius: 12px;
   top: 2vh;
-  left: 41%
+  left: 41%;
 }
 #views-rank {
   display: flex;
   justify-content: space-around;
-  /* align-items: center; */
-  margin-top: 80px; 
+  margin-top: 80px;
   width: 100%;
   height: 80%;
-  
   #rank-content {
     margin-bottom: 2vh;
   }
@@ -329,7 +328,7 @@ const goDetail = (id) => {
   align-items: center;
   width: 100%;
   height: 80%;
-  margin-top: 80px; 
+  margin-top: 80px;
   #rank-content {
     margin-bottom: 2vh;
   }
