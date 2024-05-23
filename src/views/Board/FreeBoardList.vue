@@ -201,8 +201,7 @@ const getHot = () => {
 
 #rank {
   width: 100%;
-  height: 300px;
-  /* background-color: aliceblue; */
+  height: 400px;
 }
 #free-main-content {
   width: 100%;
