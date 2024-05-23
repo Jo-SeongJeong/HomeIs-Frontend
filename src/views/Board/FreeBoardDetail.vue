@@ -64,6 +64,7 @@ const addComment = async () => {
   commentInfo.value.userId = JSON.parse(localStorage.getItem("auth")).user.id;
   await boardApi.post("/board/insert-comment", commentInfo.value);
   getBoard();
+  commentInfo.value.comment = "";
 };
 
 const getCommentLength = () => {
