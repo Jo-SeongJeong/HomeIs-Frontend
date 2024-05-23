@@ -82,40 +82,57 @@ const isWriteUser = () => {
 </script>
 
 <template>
-  <div id="homesta-detail-main">
-    <div id="waapper">
-      <div id="homesta-detail-header">
-        <div id="homesta-detail-header-title">
-          <h2>{{ homesta.title }}</h2>
+  <div class="notice-detail">
+    <div class="notice-header">
+      <div class="info">
+        <div>
+          <h3>제목 : {{ homesta.title }}</h3>
+          <p>작성일 : {{ homesta.createTime }}</p>
         </div>
-        <div style="font-size: 1.2rem">
-          {{ homesta.totalView }} &#128064; views
+        <div>
+          <p class="author">작성자 : {{ homesta.userId }}</p>
+          <div class="view-like">
+            <div
+              style="
+                font-size: 1rem;
+                text-align: center;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+              "
+            >
+              <a> {{ homesta.totalView }} &#128064; views </a>
+            </div>
+            <div
+              style="
+                font-size: 1rem;
+                text-align: center;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+              "
+            >
+              <a
+                >{{ homesta.totalLike }}
+                <i class="fa-solid fa-heart" style="color: #ff0000"></i>
+                likes</a
+              >
+            </div>
+          </div>
         </div>
-        <div v-if="homesta.isLike == 0" style="font-size: 1.2rem">
-          <a>{{ homesta.totalLike }} </a
-          ><a @click="addLike()" style="cursor: pointer">
-            &nbsp;<i class="fa-regular fa-heart" style="color: #ff1100"></i>
-            Likes</a
-          >
-        </div>
-        <div v-else-if="homesta.isLike == 1" style="font-size: 1.2rem">
-          <a>{{ homesta.totalLike }} </a>
-          <a @click="deleteLike()" style="cursor: pointer">
-            &nbsp;<i class="fa-solid fa-heart" style="color: #ff0000"></i>
-            Likes</a
-          >
-        </div>
-        <a
-          @click="deleteHomesta()"
-          v-if="isWriteUser()"
-          style="cursor: pointer"
-        >
-          삭제
-        </a>
       </div>
-      <div id="homesta-detail-content">
-        <div id="homesta-detail-swiper">
-          <swiper
+      <hr class="line" />
+    </div>
+
+    <div class="notice-actions">
+      <button class="btn-delete" @click="deleteHomesta" v-if="isWriteUser()"
+          style="cursor: pointer">
+        삭제
+      </button>
+    </div>
+
+    <div class="notice-content">
+      <swiper
             :effect="'coverflow'"
             :centeredSlides="true"
             :slidesPerView="'auto'"
@@ -143,26 +160,135 @@ const isWriteUser = () => {
               ></div>
             </swiper-slide>
           </swiper>
+          <h3 class="hashtag">{{ homesta.content }}</h3>
+    </div>
+    <div class="like-actions">
+      <div v-if="homesta.isLike == 0" style="font-size: 1.4rem; margin-top: 1vh">
+          <a @click="addLike()" style="cursor: pointer">
+            &nbsp;<i class="fa-regular fa-heart" style="color: #ff1100"></i>
+            Likes
+          </a>
         </div>
-        <div>
-          <a>{{ homesta.content }}</a>
+        <div v-else-if="homesta.isLike == 1" style="font-size: 1.4rem; margin-top: 1vh">
+          <a @click="deleteLike()" style="cursor: pointer">
+            &nbsp;<i class="fa-solid fa-heart" style="color: #ff0000"></i>
+            Likes
+          </a>
         </div>
-        ✍ {{ homesta.userId }}
-      </div>
     </div>
   </div>
 </template>
 
 <style scoped>
-#waapper {
-  width: 100%;
-  height: 100%;
-  background-image: linear-gradient(to top, #accbee 0%, #e7f0fd 100%);
-  border-radius: 12px;
-  display: flex;
-  flex-direction: column;
-  gap: 5vh;
+.notice-detail {
+  max-width: 800px;
+  margin: 30px auto;
+  padding: 20px;
+  background-color: #f9f9f9;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
+
+.notice-header {
+  margin-bottom: 20px;
+}
+
+.toUser {
+  margin-top: 20px;
+  text-align: end;
+}
+
+h3 {
+  margin: 10px 0;
+  font-size: 24px;
+  color: #333;
+  margin-bottom: 10px;
+}
+
+.notice-header p {
+  font-size: 14px;
+  color: #666;
+}
+
+.author {
+  text-align: end;
+  margin-bottom: 10px;
+  margin-top: 20px;
+}
+
+.view-like {
+  display: flex;
+  gap: 15px;
+}
+
+.info {
+  display: flex;
+  justify-content: space-between;
+}
+
+.notice-actions {
+  margin: 10px 0;
+  display: flex;
+  justify-content: end;
+}
+
+.notice-actions button {
+  padding: 10px 15px;
+  margin-right: 10px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 14px;
+}
+
+.notice-actions .btn-delete {
+  background-color: #e74c3c;
+  color: #fff;
+  margin-bottom: 10px;
+}
+
+.line {
+  margin-top: 30px;
+  border: 1px solid gainsboro;
+}
+
+.notice-content {
+  padding: 20px;
+  background-color: #fff;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  font-size: 20px;
+  color: #333;
+  line-height: 1.6;
+}
+
+.hashtag {
+  padding-left: 110px;
+  padding-top: 10px;
+}
+
+.like-actions {
+  margin: 10px 0;
+  display: flex;
+  justify-content: center;
+}
+
+.like-actions button {
+  padding: 10px 15px;
+  margin-right: 10px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 14px;
+}
+
+#homesta-detail-image-box {
+  /* width: 100%; */
+  height: 50vh;
+  background-repeat: no-repeat;
+  background-size: 100% 100%;
+}
+
 .mySwiper {
   width: 100%;
   height: 100%;
@@ -172,49 +298,5 @@ const isWriteUser = () => {
   background-size: cover;
   width: 70%;
   height: 100%;
-}
-#homesta-detail-main {
-  width: 100vw;
-  height: 70vh;
-  padding-left: 20vw;
-  padding-right: 20vw;
-  padding-top: 5vh;
-  margin-bottom: 5vh;
-  #homesta-detail-header {
-    width: 100%;
-    height: 10%;
-    display: flex;
-    flex-direction: row;
-    align-items: end;
-    gap: 1vw;
-    #homesta-detail-header-title {
-      width: 70%;
-      padding-left: 2vw;
-      font-size: 1.8rem;
-    }
-  }
-}
-#homesta-detail-content {
-  width: 100%;
-  height: 80%;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  gap: 2vw;
-  font-size: 1.5rem;
-  a {
-    border-radius: 6px;
-  }
-  #homesta-detail-swiper {
-    width: 60%;
-    height: 70%;
-  }
-}
-#homesta-detail-image-box {
-  width: 100%;
-  height: 100%;
-  background-repeat: no-repeat;
-  background-size: 100% 100%;
 }
 </style>
