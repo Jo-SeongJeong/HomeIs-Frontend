@@ -130,7 +130,7 @@ const getHot = () => {
           </div>
         </div>
       </div>
-      <hr />
+      <hr style="margin-bottom: 20px;"/>
       <table>
         <thead>
           <th style="text-align: start">제목</th>
