@@ -108,13 +108,13 @@ getLikeRank();
 #swiper-rank {
   width: 100%;
   height: 100%;
-  background-image: linear-gradient(to top, #fff1eb 0%, #ace0f9 100%);
+  /* background-image: linear-gradient(to top, #fff1eb 0%, #ace0f9 100%); */
 }
 #freeboard-title {
   color: white;
   font-size: 3rem;
   position: absolute;
-  background-image: linear-gradient(120deg, #a1c4fd 0%, #c2e9fb 100%);
+  /* background-image: linear-gradient(120deg, #a1c4fd 0%, #c2e9fb 100%); */
   padding: 0 1vw 0 1vw;
   border-radius: 12px;
   top: 1vh;
@@ -155,7 +155,7 @@ getLikeRank();
   #rank-box02-free {
     width: 20%;
     height: 100%;
-    background-color: aqua;
+    /* background-color: aqua; */
     display: flex;
     flex-direction: column;
     justify-content: end;
@@ -179,7 +179,7 @@ getLikeRank();
   #rank-box03-free {
     width: 20%;
     height: 100%;
-    background-color: aqua;
+    /* background-color: aqua; */
     display: flex;
     flex-direction: column;
     justify-content: end;
@@ -239,7 +239,7 @@ getLikeRank();
   #rank-box02-free {
     width: 20%;
     height: 100%;
-    background-color: aqua;
+    /* background-color: aqua; */
     display: flex;
     flex-direction: column;
     justify-content: end;
@@ -263,7 +263,7 @@ getLikeRank();
   #rank-box03-free {
     width: 20%;
     height: 100%;
-    background-color: aqua;
+    /* background-color: aqua; */
     display: flex;
     flex-direction: column;
     justify-content: end;
