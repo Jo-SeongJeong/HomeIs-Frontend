@@ -221,16 +221,20 @@ const deleteReview = async (reviewId) => {
   getApartDealInfoList(getAptCode());
 };
 
-watch(props, (nv) => {
-  getApartDealInfoList(nv.aptCode);
-  console.log("토탈 = ", totalPages);
-  console.log("데이텅 = ", apartDealInfoList.value);
-  reviewObj.value = {
-    aptCode: "",
-    content: "",
-    score: "0.0",
-  };
-});
+watch(
+  () => props.aptCode,
+  (aptCode) => {
+    console.log("ERERERERER = ", aptCode);
+    if (aptCode) {
+      console.log("props.aptCode 변경", aptCode);
+      getApartDealInfoList(aptCode);
+      reviewObj.value = {
+        aptCode: "",
+        content: "",
+        score: "0.0",
+      };
+    }
+}, {immediate: true});
 
 const isReviewEmpty = () => {
   if (
@@ -291,7 +295,7 @@ const isReviewEmpty = () => {
       <div id="price-main">
         <div id="price-title">거래 정보</div>
         <table class="price">
-          <thead>
+            <thead>
             <tr>
               <th>거래년도</th>
               <th>거래월</th>
@@ -299,17 +303,17 @@ const isReviewEmpty = () => {
               <th>면적</th>
               <th>층 수</th>
             </tr>
-          </thead>
-          <tbody>
-            <tr v-for="dealInfo in apartDealInfoList.aptDealInfoList">
-              <td>{{ dealInfo.dealYear }}</td>
-              <td>{{ dealInfo.dealMonth }}</td>
-              <td>{{ dealInfo.dealDay }}</td>
-              <td>{{ parseFloat(dealInfo.area).toFixed(2) }}m<sup>2</sup></td>
-              <td>{{ dealInfo.floor }}</td>
-            </tr>
-          </tbody>
-        </table>
+            </thead>
+            <tbody>
+              <tr v-for="dealInfo in apartDealInfoList.aptDealInfoList">
+                <td>{{ dealInfo.dealYear }}</td>
+                <td>{{ dealInfo.dealMonth }}</td>
+                <td>{{ dealInfo.dealDay }}</td>
+                <td>{{ parseFloat(dealInfo.area).toFixed(2) }}m<sup>2</sup></td>
+                <td>{{ dealInfo.floor }}</td>
+              </tr>
+            </tbody>
+          </table>
         <div class="page-div">
           <div @click="prevPage()">< 이전</div>
           <div
@@ -341,13 +345,16 @@ const isReviewEmpty = () => {
               </div>
               <p>{{ reviewInfo.content }}</p>
             </div>
-            <a
-              v-if="isSameUser(reviewInfo.userId)"
-              @click="deleteReview(reviewInfo.id)"
-              id="comment-deleteBtn"
-            >
-              ✖
-            </a>
+              <a
+                v-if="isSameUser(reviewInfo.userId)"
+                @click="deleteReview(reviewInfo.id)"
+                id="comment-deleteBtn"
+              >
+                ✖
+              </a>
+            </div>
+            <div>{{ reviewInfo.content }}</div>
+            <div>평점: {{ reviewInfo.score }}</div>
           </div>
         </div>
         <div id="review-regist-body">
