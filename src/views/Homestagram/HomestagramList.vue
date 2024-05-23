@@ -37,7 +37,7 @@ const goWrite = () => {
 </script>
 
 <template>
-  <div style="width: 100%; height: 300px; background-color: aliceblue">
+  <div style="width: 100%; height: 500px;">
     활동지수 랭킹
   </div>
   <h1>자유게시판</h1>

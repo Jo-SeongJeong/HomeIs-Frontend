@@ -59,6 +59,13 @@ const qnaGoDetail = (id) => {
 const qnaWrite = () => {
   router.push("/board/qna/write");
 };
+
+const isEmptyQna = () => {
+  if (qnaInfo.value.qnaList == null || qnaInfo.value.qnaList.length == 0) {
+    return true;
+  }
+  return false;
+};
 </script>
 
 <template>
@@ -98,6 +105,10 @@ const qnaWrite = () => {
           >
         </div>
         <hr />
+        <br />
+        <h3 style="text-align: center" v-if="isEmptyQna()">
+          - 궁금한 것이 있다면 무엇이든 문의해보세요! -
+        </h3>
         <table>
           <tr
             v-for="qna in qnaInfo.qnaList"
@@ -144,6 +155,7 @@ const qnaWrite = () => {
   padding-right: 10vw;
   padding-top: 3vh;
   gap: 5vw;
+  /* overflow-x: hidden; */
 }
 #main-right {
   width: 35%;

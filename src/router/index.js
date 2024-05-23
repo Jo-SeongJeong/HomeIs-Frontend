@@ -58,9 +58,14 @@ const router = createRouter({
           component: () => import("@/views/Board/FreeBoardDetail.vue"),
         },
         {
-          path: "free-board/write",
+          path: "free-board/write/:page",
           name: "FreeBoardWrite",
           component: () => import("@/views/Board/FreeBoardWrite.vue"),
+        },
+        {
+          path: "free-board/update/:id/:page",
+          name: "FreeBoardUpdate",
+          component: () => import("@/views/Board/FreeBoardUpdate.vue"),
         },
         {
           path: "notice",
@@ -176,8 +181,8 @@ const router = createRouter({
       component: () => import("@/views/AppSignUp.vue"),
     },
     {
-      path: "/map",
-      name: "map",
+      path: "/map/:dongCode/:aptCode",
+      name: "Map",
       component: () => import("@/views/Map/MapView.vue"),
     },
   ],

@@ -3,8 +3,8 @@ import Footer from "@/components/Footer.vue";
 import { ref } from "vue";
 
 const title = () => {
- return JSON.parse(localStorage.getItem('headerTitle')).title;
-}  
+  return JSON.parse(localStorage.getItem("headerTitle")).title;
+};
 </script>
 
 <template>
@@ -62,7 +62,8 @@ const title = () => {
 <style scoped>
 #board-main {
   width: 100vw;
-  height: 12vh;
+  height: 14vh;
+  box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.2);
 }
 #board-nav {
   width: 100%;
@@ -71,6 +72,7 @@ const title = () => {
   flex-direction: row;
   justify-content: center;
   align-items: end;
+  /* padding-bottom: 20px; */
   font-size: 1.2rem;
 }
 #nav-chose {
@@ -78,8 +80,10 @@ const title = () => {
   width: 10%;
   margin-left: 5%;
   margin-right: 5%;
+  padding-bottom: 20px;
 }
 .chosen {
+  padding-bottom: 20px;
   border-bottom: 1px solid black;
 }
 </style>
