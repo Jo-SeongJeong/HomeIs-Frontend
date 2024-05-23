@@ -3,9 +3,11 @@ import { ref, defineProps } from "vue";
 import Footer from "@/components/Footer.vue";
 import KakaoMap from "@/components/kakao/KakaoMapCom.vue";
 import sideBar from "@/components/map/sideBar.vue";
+import { useRoute } from "vue-router";
 
 const sidebarFlag = ref(false);
 const sidebarText = ref("<");
+const route = useRoute();
 
 const clickFuntion = () => {
   if (sidebarFlag.value) {
@@ -18,6 +20,10 @@ const clickFuntion = () => {
 };
 
 const aptCodeProp = ref("");
+
+if (route.params.aptCode) {
+  aptCodeProp.value = route.params.aptCode;
+}
 const aptCodeHandler = (aptCode) => {
   aptCodeProp.value = aptCode;
   sidebarFlag.value = false;
@@ -27,7 +33,7 @@ const aptCodeHandler = (aptCode) => {
 
 <template>
   <div id="map-main">
-    <KakaoMap dongCodeList="dongCodeProp" @send-apt-code="aptCodeHandler" />
+    <KakaoMap @send-apt-code="aptCodeHandler" />
     <sideBar :class="{ active: sidebarFlag }" :aptCode="aptCodeProp" />
     <div
       id="sideBar-toggle"

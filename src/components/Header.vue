@@ -34,7 +34,9 @@ const logout = () => {
         >대출 상품</router-link
       >
 
-      <router-link to="/map" style="text-decoration: none">지도</router-link>
+      <router-link to="/map/0/0" style="text-decoration: none"
+        >지도</router-link
+      >
 
       <router-link to="/interest-area" style="text-decoration: none"
         >관심 지역</router-link

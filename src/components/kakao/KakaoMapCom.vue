@@ -3,16 +3,9 @@ import { KakaoMap, KakaoMapMarker } from "vue3-kakao-maps";
 import { ref, watch } from "vue";
 import SearchBar from "@/components/map/SearchBar.vue";
 
-const props = defineProps({
-  dongCodeList: Object,
-});
 const lat = ref(36.3549777);
 const lng = ref(127.2983403);
 const map = ref();
-console.log("DONGLIST = ", props.dongCodeList.value);
-watch(props.dongCodeList, (newValue) => {
-  console.log(`바뀐값: ${newValue}`);
-});
 
 const onLoadKakaoMap = (mapRef) => {
   map.value = mapRef;

@@ -191,14 +191,24 @@ const deleteReview = async (reviewId) => {
   getApartDealInfoList(getAptCode());
 };
 
-watch(props, (nv) => {
-  getApartDealInfoList(nv.aptCode);
-  reviewObj.value = {
-    aptCode: "",
-    content: "",
-    score: "0.0",
-  };
-});
+watch(
+  () => props.aptCode,
+  (aptCode) => {
+    console.log("ERERERERER = ", aptCode);
+    if (aptCode) {
+      console.log("props.aptCode 변경", aptCode);
+      getApartDealInfoList(aptCode);
+      reviewObj.value = {
+        aptCode: "",
+        content: "",
+        score: "0.0",
+      };
+    }
+  },
+  {
+    immediate: true,
+  }
+);
 </script>
 
 <template>
