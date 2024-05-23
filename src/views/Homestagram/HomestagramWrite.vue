@@ -156,12 +156,11 @@ const registHomesta = async () => {
           name="title"
           id="title-input"
           v-model="board.title"
-          dir="rtl"
           placeholder="제목을 입력하세요"
         />
         <div id="tag-box"></div>
         <div id="addTagBox">
-          <input type="text" v-model="tagName" id="inputTag" dir="rtl" />
+          <input type="text" v-model="tagName" id="inputTag" />
           <button @click.prevent="addTag" class="custom-btn btn-5">
             태그 추가
           </button>
