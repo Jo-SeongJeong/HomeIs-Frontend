@@ -67,7 +67,7 @@ h3 {
 }
 #rank {
   width: 100%;
-  height: 300px;
-  background-color: aliceblue;
+  height: 400px;
+  /* background-color: aliceblue; */
 }
 </style>

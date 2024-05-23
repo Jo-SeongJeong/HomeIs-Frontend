@@ -63,7 +63,7 @@ const goDetail = (id) => {
     style="margin-top: 2vh"
   >
     <swiper-slide v-if="homestaHotInfo">
-      <h1 id="title">좋아요 TOP 3</h1>
+      <h1 id="title-hot">어떤 이야기를 좋아할까요?</h1>
       <div id="views-rank">
         <div
           id="rank-box02"
@@ -130,7 +130,8 @@ const goDetail = (id) => {
       </div>
     </swiper-slide>
     <swiper-slide v-if="homestaViewInfo">
-      <h1 id="title">조회수 TOP 3</h1>
+      <h1 id="title-view"> 어떤 사진을 많이 볼까요?
+      </h1>
       <div id="like-rank">
         <div
           id="rank-box02"
@@ -188,16 +189,28 @@ const goDetail = (id) => {
   </swiper>
 </template>
 <style>
+.mySwipper {
+  background-color : black; 
+}
+
 #rank-title {
   a {
-    border-radius: 6px;
-    background-image: linear-gradient(to top, #accbee 0%, #e7f0fd 100%);
+    /* border-radius: 6px; */
+    color: #fff;
+    font-weight: 500;
+    /* font-size: 20px; */
+    /* background-image: linear-gradient(to top, #accbee 0%, #e7f0fd 100%); */
   }
 }
 #rank-content {
+  margin-top: 10px;
   a {
-    border-radius: 6px;
-    background-image: linear-gradient(to top, #accbee 0%, #e7f0fd 100%);
+    /* border-radius: 6px; */
+    color: #fff;
+    font-weight: 500;
+    /* margin-top: 10px; */
+    /* padding-top: 10px; */
+    /* background-image: linear-gradient(to top, #accbee 0%, #e7f0fd 100%); */
   }
 }
 #rank-down {
@@ -206,22 +219,32 @@ const goDetail = (id) => {
 #swiper-rank {
   width: 100%;
   height: 100%;
-  background-image: linear-gradient(to top, #fff1eb 0%, #ace0f9 100%);
+  /* background-image: linear-gradient(to top, #fff1eb 0%, #ace0f9 100%); */
 }
-#title {
+#title-hot {
   font-size: 2rem;
   position: absolute;
-  padding: 0 1vw 0 1vw;
+  padding: 5px 1vw 0 1vw;
   border-radius: 12px;
   top: 2vh;
-  left: 45vw;
+  left: 40%
+}
+#title-view {
+  font-size: 2rem;
+  position: absolute;
+  padding: 5px 1vw 0 1vw;
+  border-radius: 12px;
+  top: 2vh;
+  left: 41%
 }
 #views-rank {
   display: flex;
   justify-content: space-around;
-  align-items: center;
+  /* align-items: center; */
+  margin-top: 80px; 
   width: 100%;
-  height: 100%;
+  height: 80%;
+  
   #rank-content {
     margin-bottom: 2vh;
   }
@@ -236,13 +259,16 @@ const goDetail = (id) => {
     font-size: 1.3rem;
     text-align: center;
     color: black;
-    background-image: linear-gradient(to top, #accbee 0%, #e7f0fd 100%);
+    border-radius: 12px;
+    /* background-color: #fff; */
+    /* background-image: linear-gradient(to top, #accbee 0%, #e7f0fd 100%); */
     #rank-1 {
       width: 25%;
       height: 28%;
       background-image: url("../../assets/img/1.png");
       background-repeat: no-repeat;
       background-size: 100% 100%;
+      margin-bottom: 150px;
     }
   }
   #rank-box02 {
@@ -254,6 +280,7 @@ const goDetail = (id) => {
     align-items: center;
     background-size: 100% 100%;
     font-size: 1.3rem;
+    border-radius: 12px;
     text-align: center;
     color: black;
     #rank-title {
@@ -265,6 +292,7 @@ const goDetail = (id) => {
       background-image: url("../../assets/img/2.png");
       background-repeat: no-repeat;
       background-size: 100% 100%;
+      margin-bottom: 150px;
     }
   }
   #rank-box03 {
@@ -276,6 +304,7 @@ const goDetail = (id) => {
     align-items: center;
     background-size: 100% 100%;
     font-size: 1.3rem;
+    border-radius: 12px;
     text-align: center;
     color: black;
     #rank-title {
@@ -287,6 +316,7 @@ const goDetail = (id) => {
       background-image: url("../../assets/img/3.png");
       background-repeat: no-repeat;
       background-size: 100% 100%;
+      margin-bottom: 150px;
     }
   }
 }
@@ -298,7 +328,8 @@ const goDetail = (id) => {
   justify-content: space-around;
   align-items: center;
   width: 100%;
-  height: 100%;
+  height: 80%;
+  margin-top: 80px; 
   #rank-content {
     margin-bottom: 2vh;
   }
@@ -312,6 +343,7 @@ const goDetail = (id) => {
     background: url("../../assets/img/apt01.jpg");
     background-size: 100% 100%;
     font-size: 1.3rem;
+    border-radius: 12px;
     text-align: center;
     color: black;
     #rank-title {
@@ -323,6 +355,7 @@ const goDetail = (id) => {
       background-image: url("../../assets/img/1.png");
       background-repeat: no-repeat;
       background-size: 100% 100%;
+      margin-bottom: 150px;
     }
   }
   #rank-box02 {
@@ -335,6 +368,7 @@ const goDetail = (id) => {
     background: url("../../assets/img/apt01.jpg");
     background-size: 100% 100%;
     font-size: 1.3rem;
+    border-radius: 12px;
     text-align: center;
     color: black;
     #rank-title {
@@ -346,6 +380,7 @@ const goDetail = (id) => {
       background-image: url("../../assets/img/2.png");
       background-repeat: no-repeat;
       background-size: 100% 100%;
+      margin-bottom: 150px;
     }
   }
   #rank-box03 {
@@ -355,6 +390,7 @@ const goDetail = (id) => {
     flex-direction: column;
     justify-content: end;
     align-items: center;
+    border-radius: 12px;
     background: url("../../assets/img/apt01.jpg");
     background-size: 100% 100%;
     font-size: 1.3rem;
@@ -369,6 +405,7 @@ const goDetail = (id) => {
       background-image: url("../../assets/img/3.png");
       background-repeat: no-repeat;
       background-size: 100% 100%;
+      margin-bottom: 150px;
     }
   }
 }

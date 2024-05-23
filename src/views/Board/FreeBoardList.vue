@@ -202,7 +202,7 @@ const getHot = () => {
 #rank {
   width: 100%;
   height: 300px;
-  background-color: aliceblue;
+  /* background-color: aliceblue; */
 }
 #free-main-content {
   width: 100%;

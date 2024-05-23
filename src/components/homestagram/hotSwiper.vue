@@ -92,7 +92,7 @@ const goDetail = (id) => {
 
 <style scoped>
 #slide-box {
-  height: 30vh;
+  height: 40vh;
   background-size: 100% 80%;
   background-position: center;
   background-repeat: no-repeat;
@@ -126,7 +126,7 @@ const goDetail = (id) => {
       div {
         padding: 2px;
         border-radius: 6px;
-        background-color: aquamarine;
+        /* background-color: aquamarine; */
       }
     }
   }
@@ -140,7 +140,10 @@ const goDetail = (id) => {
     padding-left: 0.3vw;
     padding-right: 0.3vw;
     border-radius: 6px;
-    background-color: antiquewhite;
+    color: #fff;
+    font-weight: bold;
+    font-size: 18px;
+    /* background-color: antiquewhite; */
   }
 }
 </style>
