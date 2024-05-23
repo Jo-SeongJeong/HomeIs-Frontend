@@ -188,7 +188,7 @@ const registHomesta = async () => {
   }
   #write-left {
     margin-right: 3vw;
-    border: 1px solid black;
+    /* border: 1px solid black; */
     width: 40vw;
     height: 60vh;
   }

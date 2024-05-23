@@ -48,31 +48,59 @@ getLikeRank();
     style="margin-top: 2vh"
   >
     <swiper-slide v-if="aptViewList.length > 0">
-      <h1 id="title-hot">조회수 TOP 3</h1>
+      <h1 id="title-hot">아파트 조회수 TOP 3</h1>
       <div id="views-rank">
         <div id="rank-box02-free">
           <div id="rank-2"></div>
-          <div id="rank-title">{{ aptViewList[1].apartmentName }}</div>
-          <div id="rank-content">&#128064; {{ aptViewList[1].totalView }}</div>
+          <div id="rank-title">
+            <a>
+              {{ aptViewList[1].apartmentName }}
+            </a>
+          </div>
+          <div id="rank-content">
+            <a>
+              &#128064; {{ aptViewList[1].totalView }}
+            </a>
+          </div>
         </div>
         <div id="rank-box01-free">
           <div id="rank-1"></div>
-          <div id="rank-title">{{ aptViewList[0].apartmentName }}</div>
-          <div id="rank-content">&#128064; {{ aptViewList[0].totalView }}</div>
+          <div id="rank-title">
+            <a>
+              {{ aptViewList[0].apartmentName }}
+            </a>
+          </div>
+          <div id="rank-content">
+            <a>
+              &#128064; {{ aptViewList[0].totalView }}
+            </a>
+          </div>
         </div>
         <div id="rank-box03-free">
           <div id="rank-3"></div>
-          <div id="rank-title">{{ aptViewList[2].apartmentName }}</div>
-          <div id="rank-content">&#128064; {{ aptViewList[2].totalView }}</div>
+          <div id="rank-title">
+            <a>
+              {{ aptViewList[2].apartmentName }}
+            </a>
+          </div>
+          <div id="rank-content">
+            <a>
+              &#128064; {{ aptViewList[2].totalView }}
+            </a>
+          </div>
         </div>
       </div>
     </swiper-slide>
     <swiper-slide v-if="aptLikeList.length > 0">
-      <h1 id="title-hot">좋아요 TOP 3</h1>
+      <h1 id="title-hot">아파트 좋아요 TOP 3</h1>
       <div id="like-rank">
         <div id="rank-box02-free">
           <div id="rank-2"></div>
-          <div id="rank-title">{{ aptLikeList[1].apartmentName }}</div>
+          <div id="rank-title">
+            <a>
+              {{ aptLikeList[1].apartmentName }}
+            </a>
+          </div>
           <div id="rank-content">
             <a style="cursor: pointer">
               &nbsp;<i class="fa-solid fa-heart" style="color: #ff0000"></i>
@@ -82,17 +110,27 @@ getLikeRank();
         </div>
         <div id="rank-box01-free">
           <div id="rank-1"></div>
-          <div id="rank-title">{{ aptLikeList[0].apartmentName }}</div>
-          <div id="rank-content">
-            <a style="cursor: pointer">
-              &nbsp;<i class="fa-solid fa-heart" style="color: #ff0000"></i>
+          <div id="rank-title">
+            <a>
+              {{ aptLikeList[0].apartmentName }}
             </a>
-            {{ aptLikeList[2].totalLike }}
+          </div>
+          <div id="rank-content">
+            <a>
+              <a style="cursor: pointer">
+                &nbsp;<i class="fa-solid fa-heart" style="color: #ff0000"></i>
+              </a>
+              {{ aptLikeList[2].totalLike }}
+            </a>
           </div>
         </div>
         <div id="rank-box03-free">
           <div id="rank-3"></div>
-          <div id="rank-title">{{ aptLikeList[2].apartmentName }}</div>
+          <div id="rank-title">
+            <a>
+              {{ aptLikeList[2].apartmentName }}
+            </a>
+          </div>
           <div id="rank-content">
             <a style="cursor: pointer">
               &nbsp;<i class="fa-solid fa-heart" style="color: #ff0000"></i>
@@ -105,13 +143,34 @@ getLikeRank();
   </swiper>
 </template>
 <style>
+#rank-title {
+  a {
+    /* border-radius: 6px; */
+    color: #fff;
+    font-weight: 500;
+    /* font-size: 20px; */
+    /* background-image: linear-gradient(to top, #accbee 0%, #e7f0fd 100%); */
+  }
+}
+#rank-content {
+  margin-top: 10px;
+  a {
+    /* border-radius: 6px; */
+    color: #fff;
+    font-weight: 500;
+    /* margin-top: 10px; */
+    /* padding-top: 10px; */
+    /* background-image: linear-gradient(to top, #accbee 0%, #e7f0fd 100%); */
+  }
+}
+
 #title-hot {
   font-size: 2rem;
   position: absolute;
   padding: 5px 1vw 0 1vw;
   border-radius: 12px;
   top: 2vh;
-  left: 40%;
+  left: 42%;
 }
 #swiper-rank {
   width: 100%;
@@ -160,6 +219,7 @@ getLikeRank();
       background-image: url("../../assets/img/1.png");
       background-repeat: no-repeat;
       background-size: 100% 100%;
+      margin-bottom: 150px;
     }
   }
   #rank-box02-free {
@@ -184,6 +244,7 @@ getLikeRank();
       background-image: url("../../assets/img/2.png");
       background-repeat: no-repeat;
       background-size: 100% 100%;
+      margin-bottom: 150px;
     }
   }
   #rank-box03-free {
@@ -196,9 +257,9 @@ getLikeRank();
     background: url("../../assets/img/apt01.jpg");
     background-size: 100% 100%;
     font-size: 1.3rem;
+    border-radius: 12px;
     text-align: center;
     color: white;
-    border-radius: 12px;
     #rank-title {
       width: 100%;
     }
@@ -208,6 +269,7 @@ getLikeRank();
       background-image: url("../../assets/img/3.png");
       background-repeat: no-repeat;
       background-size: 100% 100%;
+      margin-bottom: 150px;
     }
   }
 }
@@ -220,6 +282,7 @@ getLikeRank();
   align-items: center;
   width: 100%;
   height: 100%;
+  margin-top: 80px;
   #rank-content {
     margin-bottom: 2vh;
   }
@@ -245,6 +308,7 @@ getLikeRank();
       background-image: url("../../assets/img/1.png");
       background-repeat: no-repeat;
       background-size: 100% 100%;
+      margin-bottom: 150px;
     }
   }
   #rank-box02-free {
@@ -258,6 +322,7 @@ getLikeRank();
     background: url("../../assets/img/apt01.jpg");
     background-size: 100% 100%;
     font-size: 1.3rem;
+    border-radius: 12px;
     text-align: center;
     color: white;
     #rank-title {
@@ -269,6 +334,7 @@ getLikeRank();
       background-image: url("../../assets/img/2.png");
       background-repeat: no-repeat;
       background-size: 100% 100%;
+      margin-bottom: 150px;
     }
   }
   #rank-box03-free {
@@ -282,6 +348,7 @@ getLikeRank();
     background: url("../../assets/img/apt01.jpg");
     background-size: 100% 100%;
     font-size: 1.3rem;
+    border-radius: 12px;
     text-align: center;
     color: white;
     #rank-title {
@@ -293,6 +360,7 @@ getLikeRank();
       background-image: url("../../assets/img/3.png");
       background-repeat: no-repeat;
       background-size: 100% 100%;
+      margin-bottom: 150px;
     }
   }
 }
