@@ -60,7 +60,9 @@ const dealInfoList = ref([]);
 
 const getInterestAreaList = async () => {
   try {
-    const { data } = await boardApi.get("/user/interest-area/admin");
+    const { data } = await boardApi.get(
+      "/user/interest-area/" + authStore.user.id
+    );
     InterestAreaList.value = data;
     console.log(data);
   } catch (error) {
@@ -84,10 +86,7 @@ const getDealInfoList = async (aptCode) => {
 };
 
 const isEmptyHouseInfoList = () => {
-  console.log(
-    "LENGTH = ",
-    houseInfoList.value == null || houseInfoList.value.length == 0
-  );
+  //console.log("EERER = ", houseInfoList.value);
   if (houseInfoList.value == null || houseInfoList.value.length == 0) {
     return true;
   }
@@ -172,6 +171,10 @@ const moveDong = () => {
     name: "Map",
     params: { dongCode: movedDongCode.value, aptCode: 0 },
   });
+};
+
+const isEmptyPickedDongCode = () => {
+  return movedDongCode.value == "";
 };
 </script>
 
@@ -271,9 +274,22 @@ const moveDong = () => {
             <div>지번 : {{ houseInfo.dong }} {{ houseInfo.jibun }}</div>
           </div>
         </div>
-        <div v-show="isEmptyHouseInfoList()">정보 없음!!!</div>
+        <div
+          id="empty-deal-title"
+          v-show="isEmptyHouseInfoList() && !isEmptyPickedDongCode()"
+        >
+          <p>거래이력이 없는 동입니다.</p>
+          <p>
+            거래가 될 때까지 조금만 기다려주세요
+            <i class="fa-solid fa-face-sad-tear" style="color: #ffd43b"></i>
+          </p>
+        </div>
 
-        <div id="extend_search" @click="moveDong()">
+        <div
+          id="extend_search"
+          @click="moveDong()"
+          v-show="!isEmptyHouseInfoList()"
+        >
           <div>더 많은 정보를 보시려면 이 곳을 누르세요!!</div>
         </div>
       </div>
@@ -644,6 +660,12 @@ const moveDong = () => {
 
 #interest-intro-main {
   border: 1px solid black;
+}
+
+#empty-deal-title {
+  font-size: 30px;
+  font-weight: 600;
+  text-align: center;
 }
 
 .interest-intro {
