@@ -9,6 +9,7 @@ const map = ref();
 const beforePos = ref({ lng1: "", lat1: "", lng2: "", lat2: "" });
 const receivedDongCodeList = ref({});
 const afterMoveUpdateMarker = async (lng1, lat1, lng2, lat2) => {
+  console.log("lng = ", lng1, lng2);
   const { data } = await axios.get(
     "http://localhost/homeis/map/dongCodes/" +
       lng1 +

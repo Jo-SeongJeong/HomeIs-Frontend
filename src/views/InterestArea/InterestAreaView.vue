@@ -229,16 +229,14 @@ const isEmptyPickedDongCode = () => {
             class="area-regist-btn"
             v-show="pickFlag"
           >
-            등록!
+            등록
           </button>
         </div>
       </div>
     </div>
 
     <div id="interest-main-content">
-      <div id="interest-main-title">
-        <i class="fa-solid fa-house" style="color: #ff0000"></i>&nbsp;관심지역
-      </div>
+      <div id="interest-main-title">관심지역</div>
       <div id="interest-main-smallTitle">
         ※ 관심지역은 최대 4개까지 가능합니다
       </div>
@@ -323,16 +321,13 @@ const isEmptyPickedDongCode = () => {
   text-align: center;
 }
 .area-regist-btn {
-  background-color: #2a89ff;
+  background-color: #f9f9f9;
+  cursor: pointer;
   font-size: 24px;
   font-weight: 600;
-  border-radius: 20px;
   padding: 5px 10px;
-  color: white;
-}
-.area-regist-btn:hover {
-  background-color: blue;
-  cursor: pointer;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 .model-title {
   font-size: 30px;
@@ -418,22 +413,21 @@ const isEmptyPickedDongCode = () => {
   margin-right: 10px;
 
   .modal-cancel-btn {
+    position: absolute;
     background-color: #fff;
-    font-size: 50px;
+    font-size: 2rem;
     border-style: none;
     cursor: pointer;
+    top: 1vh;
+    right: 1vw;
   }
 }
 
 .close {
-  position: relative;
-  font-size: 30px;
-  left: 35px;
-  bottom: 20px;
-}
-.close:hover {
-  cursor: pointer;
-  font-size: 50px;
+  position: absolute;
+  font-size: 1.2rem;
+  right: 0.3vw;
+  top: 0.3vh;
 }
 .modal-wrap {
   z-index: 100;
@@ -459,74 +453,19 @@ const isEmptyPickedDongCode = () => {
 }
 
 #extend_search {
+  margin-top: 7vh;
   text-align: center;
   font-size: 2.3rem;
   font-weight: 600;
 }
-#extend_search:hover {
-  animation-duration: 3s;
-  animation-name: rainbow;
-  animation-iteration-count: infinite;
-}
-@keyframes rainbow-b {
-  0% {
-    background-color: #ff2a2a;
-  }
-  15% {
-    background-color: #ff7a2a;
-  }
-  30% {
-    background-color: #ffc52a;
-  }
-  45% {
-    background-color: #43ff2a;
-  }
-  60% {
-    background-color: #2a89ff;
-  }
-  75% {
-    background-color: #202082;
-  }
-  90% {
-    background-color: #6b2aff;
-  }
-  100% {
-    background-color: #e82aff;
-  }
-}
-@keyframes rainbow {
-  0% {
-    color: #ff2a2a;
-  }
-  15% {
-    color: #ff7a2a;
-  }
-  30% {
-    color: #ffc52a;
-  }
-  45% {
-    color: #43ff2a;
-  }
-  60% {
-    color: #2a89ff;
-  }
-  75% {
-    color: #202082;
-  }
-  90% {
-    color: #6b2aff;
-  }
-  100% {
-    color: #e82aff;
-  }
-}
+
 #house-info-box {
   display: flex;
   height: 22%;
-  background-color: #d9d9d9;
+  background-color: white;
   margin-bottom: 3vh;
-  border-radius: 10px;
-
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
   #house-img {
     width: 30%;
     margin: 3%;
@@ -539,7 +478,6 @@ const isEmptyPickedDongCode = () => {
     width: 70%;
     margin: 3%;
     font-weight: 600;
-    background-color: #dee2ef;
     border-radius: 10px;
     display: flex;
     flex-direction: column;
@@ -551,7 +489,7 @@ const isEmptyPickedDongCode = () => {
   }
 }
 #house-info-box:hover {
-  border: 5px solid black;
+  border: 2px solid black;
 }
 #interest-main {
   width: 99vw;
@@ -562,8 +500,15 @@ const isEmptyPickedDongCode = () => {
   padding-bottom: 10vh;
 }
 #interest-main-content {
+  background-color: #f9f9f9;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
   width: 100%;
   height: 100%;
+  padding: 5vh;
+  display: flex;
+  flex-direction: column;
+  gap: 2vh;
   #interest-main-title {
     width: 100%;
     height: 7%;
@@ -578,7 +523,6 @@ const isEmptyPickedDongCode = () => {
     justify-content: center;
     align-items: center;
     border-radius: 10px;
-    background-color: #dee2ef;
   }
   #interest-list {
     display: flex;
@@ -591,15 +535,9 @@ const isEmptyPickedDongCode = () => {
       justify-content: center;
       align-items: center;
       i {
-        font-size: 4rem;
-        border: 5px solid black;
+        font-size: 2rem;
         border-radius: 50%;
-      }
-    }
-    #addButton:hover {
-      i {
-        background-color: black;
-        color: white;
+        cursor: pointer;
       }
     }
     #interest-empty-list {
@@ -632,22 +570,24 @@ const isEmptyPickedDongCode = () => {
       display: flex;
       justify-content: center;
       align-items: center;
-
+      gap: 3vw;
       #dong-block {
-        width: 150px;
+        width: 180px;
         height: 60px;
-        margin: 0px 0px 0px 40px;
         border: 1px solid white;
         font-weight: 800;
         font-size: 1.4rem;
         text-align: center;
-        border-radius: 10px;
-        background-color: #d9d9d9;
+        background-color: white;
+        border-radius: 8px;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
         display: flex;
         justify-content: center;
         align-items: center;
+        position: relative;
       }
       #dong-block:hover {
+        border-color: black;
         background-color: black;
         color: white;
       }
@@ -657,13 +597,11 @@ const isEmptyPickedDongCode = () => {
 
 #interest-deal {
   width: 100%;
-  height: 85%;
+  height: 75%;
   padding-top: 4vh;
   padding-left: 5vw;
   padding-right: 5vw;
   padding-bottom: 4vw;
-  border: 2px solid black;
-  border-radius: 10px;
 }
 
 #interest-intro-main {
