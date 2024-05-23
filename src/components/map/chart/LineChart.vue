@@ -101,10 +101,15 @@ const getTradeLog = async (aptCodeValue) => {
   }
 };
 
-watch(props, (nv) => {
-  console.log("WATCH!!");
-  getTradeLog(nv.aptCode);
-});
+watch(
+  () => props.aptCode,
+  (aptCode) => {
+    if (aptCode) getTradeLog(aptCode);
+  },
+  {
+    immediate: true,
+  }
+);
 </script>
 
 <template>

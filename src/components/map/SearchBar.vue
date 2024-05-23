@@ -1,7 +1,9 @@
 <script setup>
 import { ref } from "vue";
 import axios from "axios";
+import { useRoute } from "vue-router";
 
+const route = useRoute();
 const searchInput = ref("");
 const searchedDongCodes = ref([]);
 var cache = "";
@@ -53,6 +55,10 @@ const makeMarker = async (dongCode) => {
 
   console.log("DongCodeList = ", dongCodeList.value);
 };
+
+if (route.params.dongCode != "0") {
+  makeMarker(route.params.dongCode);
+}
 
 const showContainer = () => {
   hideFlag.value = true;

@@ -181,8 +181,8 @@ const router = createRouter({
       component: () => import("@/views/AppSignUp.vue"),
     },
     {
-      path: "/map",
-      name: "map",
+      path: "/map/:dongCode/:aptCode",
+      name: "Map",
       component: () => import("@/views/Map/MapView.vue"),
     },
   ],
