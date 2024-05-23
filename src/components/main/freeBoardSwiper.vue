@@ -57,6 +57,7 @@ const goDetail = (id) => {
     }"
     class="mySwiper"
     id="photo"
+    style="cursor: pointer"
   >
     <swiper-slide
       v-for="homesta in homestaHotInfo.homestaList"

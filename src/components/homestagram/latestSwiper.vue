@@ -64,6 +64,7 @@ const goDetail = (id) => {
         backgroundImage: `url(${getImgUrl(homesta)})`,
       }"
       @click="goDetail(homesta.id)"
+      style="cursor: pointer"
     >
       <div id="box">
         <div id="box-up">

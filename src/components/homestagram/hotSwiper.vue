@@ -65,6 +65,7 @@ const goDetail = (id) => {
         backgroundImage: `url(${getImgUrl(homesta)})`,
       }"
       @click="goDetail(homesta.id)"
+      style="cursor: pointer"
     >
       <div id="box">
         <div id="box-up">
@@ -81,9 +82,9 @@ const goDetail = (id) => {
             <a style="cursor: pointer">
               &nbsp;<i class="fa-solid fa-heart" style="color: #ff0000"></i>
             </a>
-             {{ homesta.totalLike }}
+            {{ homesta.totalLike }}
           </div>
-          <div>&#128064 {{ homesta.totalView }}</div>
+          <div>&#128064; {{ homesta.totalView }}</div>
         </div>
       </div>
     </swiper-slide>

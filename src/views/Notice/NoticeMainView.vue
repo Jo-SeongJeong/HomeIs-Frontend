@@ -69,7 +69,9 @@ const isEmptyQna = () => {
 </script>
 
 <template>
-  <div id="notice-main-img">무엇을 도와드릴까요?</div>
+  <div id="main-img-box-notice">
+    <div id="notice-main-img">무엇을 도와드릴까요?</div>
+  </div>
   <div id="main">
     <div id="main-left">
       <div id="notice-main">
@@ -131,10 +133,15 @@ const isEmptyQna = () => {
 </template>
 
 <style scoped>
+#main-img-box-notice {
+  padding-left: 10vw;
+  padding-right: 10vw;
+  height: 400px;
+}
 #notice-main-img {
   margin-top: 1vw;
   width: 100%;
-  height: 60vh;
+  height: 100%;
   background-image: linear-gradient(rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.3)),
     url("../../assets/img/center.jpg");
   background-size: 100% 100%;

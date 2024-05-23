@@ -139,12 +139,14 @@ const getHot = () => {
           <th>좋아요</th>
           <th>등록시간</th>
         </thead>
-        <tr
-          v-for="board in boardInfo.boardList"
-          :key="board.id"
-          @click="goDetail(board.id, currentPage)"
-        >
-          <td id="td01">{{ board.title }}</td>
+        <tr v-for="board in boardInfo.boardList" :key="board.id">
+          <td
+            id="td01"
+            @click="goDetail(board.id, currentPage)"
+            style="cursor: pointer"
+          >
+            {{ board.title }}
+          </td>
           <td id="td02">{{ board.userId }}</td>
           <td id="td03">{{ board.totalView }}</td>
           <td id="td04">{{ board.totalLike }}</td>

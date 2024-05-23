@@ -164,14 +164,14 @@ const backPage = () => {
       <div
         @click="addLike()"
         v-if="board.isLike == 0"
-        style="font-size: 1.4rem; margin-top: 1vh"
+        style="font-size: 1.4rem; margin-top: 1vh; cursor: pointer"
       >
         <i class="fa-regular fa-heart" style="color: #ff1100"></i> likes
       </div>
       <div
         @click="deleteLike()"
         v-else-if="board.isLike == 1"
-        style="font-size: 1.4rem; margin-top: 1vh"
+        style="font-size: 1.4rem; margin-top: 1vh; cursor: pointer"
       >
         <i class="fa-solid fa-heart" style="color: #ff0000"></i> likes
       </div>
