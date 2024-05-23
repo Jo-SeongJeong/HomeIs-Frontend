@@ -418,7 +418,7 @@ const isReviewEmpty = () => {
     </div>
     <div v-show="isEmptyList()" id="no-data-div">
       <div>
-        <div><img src="/src/assets/img/search.png" alt="" /></div>
+        <div id="no-img"><img src="/src/assets/img/search.png" alt="" /></div>
         <div><h3>대한민국에 있는 모든 동을 검색해보세요!</h3></div>
       </div>
     </div>
@@ -426,6 +426,9 @@ const isReviewEmpty = () => {
 </template>
 
 <style scoped>
+#no-img {
+  margin-left: 40px;
+}
 #content-navbar-chose:hover {
   font-size: 20px;
 }
