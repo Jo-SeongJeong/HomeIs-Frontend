@@ -18,7 +18,7 @@ var cache = "";
 const checkInput = (event) => {
   searchInput.value = event.target.value;
   // timer(beforeInput);
-  console.log(searchInput.value);
+  //console.log(searchInput.value);
   loadData(searchInput.value);
 };
 
@@ -51,12 +51,14 @@ const hideFlag = ref(true);
 
 const showContainer = () => {
   hideFlag.value = true;
+  pickFlag.value = false;
 };
 
 const authStore = useAuthStore();
 const InterestAreaList = ref([]);
 const houseInfoList = ref([]);
 const dealInfoList = ref([]);
+const pickFlag = ref(false);
 
 const getInterestAreaList = async () => {
   try {
@@ -131,6 +133,7 @@ const pickArea = async (dongCode, dongName) => {
   pickedInterestArea.value = dongName;
   pickedDongCode.value = dongCode;
   hideFlag.value = false;
+  pickFlag.value = true;
 };
 
 const insertInterestArea = async () => {
@@ -195,6 +198,7 @@ const isEmptyPickedDongCode = () => {
             name=""
             placeholder="대한민국에 있는 모든 동을 검색해보세요."
             @input="checkInput"
+            v-model="inputDongTmp"
             @click="showContainer()"
           />
           <div></div>
@@ -202,7 +206,7 @@ const isEmptyPickedDongCode = () => {
             <i class="fa-solid fa-magnifying-glass"></i>
           </button>
         </div>
-        <container class="rel_search" v-show="!isEmptyResult()">
+        <container class="rel_search" v-show="!pickFlag">
           <ul class="pop_rel_keywords">
             <li
               class="li-bottom"
@@ -223,6 +227,7 @@ const isEmptyPickedDongCode = () => {
             type="button"
             @click="insertInterestArea()"
             class="area-regist-btn"
+            v-show="pickFlag"
           >
             등록!
           </button>
@@ -339,10 +344,13 @@ const isEmptyPickedDongCode = () => {
 }
 .rel_search {
   z-index: 100;
+  height: 50%;
   display: flex;
   flex-direction: column;
   justify-content: space-around;
   border-radius: 12px;
+  overflow-y: auto;
+  overflow-x: hidden;
 }
 
 .li-bottom {
@@ -355,7 +363,6 @@ const isEmptyPickedDongCode = () => {
 
 .pop_rel_keywords {
   list-style: none;
-  margin-right: 30%;
   width: 500px;
   background-color: white;
   border-radius: 12px;
@@ -444,6 +451,7 @@ const isEmptyPickedDongCode = () => {
   left: 50%;
   transform: translate(-50%, -50%);
   width: 550px;
+  height: 60%;
   background: #fff;
   border-radius: 10px;
   padding: 30px;
