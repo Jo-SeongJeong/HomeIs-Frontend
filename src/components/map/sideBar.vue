@@ -13,14 +13,44 @@ const position = ref({
   lat: "",
 });
 
+const totalPages = ref(0);
+const currentPage = ref(0); //0부터 시작해야함 1~10 x | 0~9 o
+const SECTION_MAX_RANGE = ref(10); //섹션 최대 범위
+const SECTION_MAX_NUM = ref(0);
+const SECTION_START_NUM = ref(0); //섹션 시작 숫자
+
 const getApartDealInfoList = async (aptCode) => {
+  console.log(currentPage.value);
   const url = `/map/apartDealInfo/${aptCode}`;
-  const { data } = await boardApi.get(url);
+  const { data } = await boardApi.get(url, {
+    params: {
+      page: currentPage.value + 1,
+    },
+  });
   apartDealInfoList.value = data;
+  totalPages.value = apartDealInfoList.value.totalPages;
 
   if (isEmptyList()) return;
   position.value.lng = apartDealInfoList.value.aptDealInfoList[0].lng;
   position.value.lat = apartDealInfoList.value.aptDealInfoList[0].lat;
+};
+
+const startPage = parseInt(currentPage.value / SECTION_MAX_RANGE.value) + 1;
+SECTION_START_NUM.value = (startPage - 1) * SECTION_MAX_RANGE.value;
+
+const prevPage = () => {
+  if (currentPage.value == 0) return;
+  currentPage.value -= 1;
+  getApartDealInfoList(props.aptCode);
+};
+const nextPage = () => {
+  if (currentPage.value == totalPages.value - 1) return;
+  currentPage.value += 1;
+  getApartDealInfoList(props.aptCode);
+};
+const movePage = (page) => {
+  currentPage.value = page;
+  getApartDealInfoList(props.aptCode);
 };
 
 const isEmptyList = () => {
@@ -191,24 +221,26 @@ const deleteReview = async (reviewId) => {
   getApartDealInfoList(getAptCode());
 };
 
-watch(
-  () => props.aptCode,
-  (aptCode) => {
-    console.log("ERERERERER = ", aptCode);
-    if (aptCode) {
-      console.log("props.aptCode 변경", aptCode);
-      getApartDealInfoList(aptCode);
-      reviewObj.value = {
-        aptCode: "",
-        content: "",
-        score: "0.0",
-      };
-    }
-  },
-  {
-    immediate: true,
+watch(props, (nv) => {
+  getApartDealInfoList(nv.aptCode);
+  console.log("토탈 = ", totalPages);
+  console.log("데이텅 = ", apartDealInfoList.value);
+  reviewObj.value = {
+    aptCode: "",
+    content: "",
+    score: "0.0",
+  };
+});
+
+const isReviewEmpty = () => {
+  if (
+    apartDealInfoList.value.reviewList == null ||
+    apartDealInfoList.value.reviewList.length === 0
+  ) {
+    return true;
   }
-);
+  return false;
+};
 </script>
 
 <template>
@@ -256,60 +288,77 @@ watch(
           <LineChart :aptCode="aptCode" />
         </div>
       </div>
-      <div id="info">
-        <div id="info-title">거래 정보</div>
-        <div id="info-content">
-          <table>
-            <thead>
+      <div id="price-main">
+        <div id="price-title">거래 정보</div>
+        <table class="price">
+          <thead>
+            <tr>
               <th>거래년도</th>
               <th>거래월</th>
               <th>거래일</th>
               <th>면적</th>
               <th>층 수</th>
-            </thead>
-            <tbody>
-              <tr v-for="dealInfo in apartDealInfoList.aptDealInfoList">
-                <td>{{ dealInfo.dealYear }}</td>
-                <td>{{ dealInfo.dealMonth }}</td>
-                <td>{{ dealInfo.dealDay }}</td>
-                <td>{{ parseFloat(dealInfo.area).toFixed(2) }}m<sup>2</sup></td>
-                <td>{{ dealInfo.floor }}</td>
-              </tr>
-            </tbody>
-          </table>
+            </tr>
+          </thead>
+          <tbody>
+            <tr v-for="dealInfo in apartDealInfoList.aptDealInfoList">
+              <td>{{ dealInfo.dealYear }}</td>
+              <td>{{ dealInfo.dealMonth }}</td>
+              <td>{{ dealInfo.dealDay }}</td>
+              <td>{{ parseFloat(dealInfo.area).toFixed(2) }}m<sup>2</sup></td>
+              <td>{{ dealInfo.floor }}</td>
+            </tr>
+          </tbody>
+        </table>
+        <div class="page-div">
+          <div @click="prevPage()">< 이전</div>
+          <div
+            v-for="i in SECTION_MAX_NUM"
+            :key="i"
+            @click="movePage(SECTION_START_NUM + i - 1)"
+            :class="{ pickPage: currentPage == SECTION_START_NUM + i - 1 }"
+          >
+            {{ SECTION_START_NUM + i }}
+          </div>
+          <div @click="nextPage()">다음 ></div>
         </div>
       </div>
       <div id="review">
-        <div id="review-title">생생 리뷰 ({{ getReviewCount() }})</div>
-        <div id="review-content">
+        <h3 id="review-title">생생 리뷰 ({{ getReviewCount() }})</h3>
+        <div class="no-answer" v-if="isReviewEmpty()">
+          <h4>- 가장 먼저 댓글을 달아보세요! -</h4>
+        </div>
+        <div id="review-content" v-else>
           <div
             v-for="reviewInfo in apartDealInfoList.reviewList"
             id="comment-row"
           >
-            <div id="comment-head">
-              <div id="comment-writer">{{ reviewInfo.userId }}</div>
-              <div>{{ reviewInfo.createTime }}</div>
-              <a
-                v-if="isSameUser(reviewInfo.userId)"
-                @click="deleteReview(reviewInfo.id)"
-                id="comment-deleteBtn"
-              >
-                ✖
-              </a>
+            <div class="review-text">
+              <h4>{{ reviewInfo.userId }}</h4>
+              <div class="review-info">
+                <h4 class="review-date">평점: {{ reviewInfo.score }}</h4>
+                <p class="review-date">{{ reviewInfo.createTime }}</p>
+              </div>
+              <p>{{ reviewInfo.content }}</p>
             </div>
-            <div>{{ reviewInfo.content }}</div>
-            <div>평점: {{ reviewInfo.score }}</div>
+            <a
+              v-if="isSameUser(reviewInfo.userId)"
+              @click="deleteReview(reviewInfo.id)"
+              id="comment-deleteBtn"
+            >
+              ✖
+            </a>
           </div>
         </div>
         <div id="review-regist-body">
           <div id="review-regist">
             <div id="select-star">
-              별점
+              평점
               <select
                 name=""
                 id=""
                 v-model="reviewObj.score"
-                style="width: 90%; text-align: center; border: none"
+                style="text-align: center; border: none"
               >
                 <option value="0.0">0.0</option>
                 <option value="0.5">0.5</option>
@@ -331,6 +380,7 @@ watch(
                 cols="30"
                 rows="10"
                 v-model="reviewObj.content"
+                class="area"
               ></textarea>
             </div>
             <div id="comment-btn">
@@ -350,8 +400,56 @@ watch(
 </template>
 
 <style scoped>
+.page-div {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  gap: 1vw;
+  margin: 10px 19px 10px 0;
+}
+
+#price-main {
+  width: 100%;
+  border-bottom: 1px solid black;
+  border-top: 1px solid black;
+  margin: 10px 0;
+  #price-title {
+    padding: 2vh;
+    font-size: 1.5rem;
+  }
+}
+
+.price th,
+.price td {
+  text-align: center;
+  padding: 10px 25px;
+}
+
 .Btn {
   border-style: none;
+}
+
+.review-text {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  font-size: 20px;
+}
+
+.review-info {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 10px;
+}
+
+.review-date {
+  font-size: 14px;
+}
+
+.no-answer {
+  margin-left: 20px;
 }
 
 #no-data-div {
@@ -441,8 +539,9 @@ watch(
   width: 100%;
   height: 50vh;
   padding: 3vh;
-  /* background-color: aqua; */
+  border-top: 1px solid black;
   border-bottom: 1px solid black;
+  margin-top: 20px;
 }
 #road-view-header {
   padding: 0.5vh;
@@ -487,9 +586,12 @@ watch(
     gap: 3vh;
   }
 }
+
 #comment-row {
-  background-color: antiquewhite;
-  border-radius: 12px;
+  background-color: #fff;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  line-height: 1.6;
   width: 80%;
   display: flex;
   flex-direction: column;
@@ -497,32 +599,14 @@ watch(
   position: relative;
   padding: 2vh 1vw 2vh 1vw;
 }
-#comment-head {
-  display: flex;
-  gap: 0.5vw;
-  align-items: end;
-}
-#comment-writer {
-  font-size: 1.5rem;
-  font-weight: bold;
-  width: 65%;
-}
+
 #comment-deleteBtn {
   cursor: pointer;
   position: absolute;
   top: 5px;
   right: 10px;
 }
-#review-regist {
-  background-color: #f9f9f9;
-  border-radius: 8px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-  display: flex;
-  padding: 1vw;
-  flex-direction: column;
-  align-items: end;
-  gap: 2vh;
-}
+
 #review-regist-body {
   width: 100%;
   height: 30vh;
@@ -530,6 +614,29 @@ watch(
   padding-left: 10%;
   padding-right: 10%;
 }
+
+#review-regist {
+  background-color: #fff;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  display: flex;
+  padding: 1vw;
+  flex-direction: column;
+  gap: 2vh;
+}
+
+.area {
+  padding: 20px;
+  /* margin-top: 20px; */
+  /* width: 760px; */
+  height: 100px;
+  background-color: #fff;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  line-height: 1.6;
+  color: #333;
+}
+
 #select-star {
   display: flex;
   width: 100%;
@@ -548,10 +655,37 @@ select:focus {
 }
 
 #comment-btn {
-  width: 100%;
+  display: flex;
+  justify-content: center;
   button {
-    width: 100%;
-    outline: none;
+    background-color: #3498db;
+    color: #fff;
+    padding: 10px 15px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 14px;
   }
+}
+
+.notice-actions {
+  margin: 10px 0;
+  display: flex;
+  justify-content: end;
+}
+
+.notice-actions .btn-update {
+  background-color: #3498db;
+  color: #fff;
+  margin-bottom: 10px;
+}
+
+.notice-actions button {
+  padding: 10px 15px;
+  margin-right: 10px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 14px;
 }
 </style>
