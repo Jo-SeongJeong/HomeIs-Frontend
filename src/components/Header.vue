@@ -81,7 +81,7 @@ const logout = () => {
 #div-1 {
   width: 10%;
   height: 80%;
-  background-image: url("../assets/img/logo-size-s.png");
+  background-image: url("../assets/img/homeis-white.png");
   background-size: contain;
   background-repeat: no-repeat;
   cursor: pointer;

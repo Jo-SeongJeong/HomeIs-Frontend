@@ -15,6 +15,9 @@ const freeBoardSelectAll = async () => {
 };
 
 freeBoardSelectAll();
+const goDetail = (id, page) => {
+  router.push({ name: "FreeBoardDetail", params: { id, page } });
+};
 </script>
 
 <template>
@@ -26,7 +29,9 @@ freeBoardSelectAll();
     <hr />
     <table>
       <tr v-for="freeBoard in freeBoardInfo.boardList" :key="freeBoard.id">
-        <td>{{ freeBoard.title }}</td>
+        <td style="cursor: pointer" @click="goDetail(freeBoard.id, 0)">
+          {{ freeBoard.title }}
+        </td>
         <td>{{ freeBoard.createTime }}</td>
       </tr>
     </table>

@@ -33,7 +33,7 @@ noticeSelectAll();
         :key="notice.id"
         @click="noticeGoDetail(notice.id)"
       >
-        <td>{{ notice.title }}</td>
+        <td style="cursor: pointer">{{ notice.title }}</td>
         <td>{{ notice.createTime }}</td>
       </tr>
     </table>

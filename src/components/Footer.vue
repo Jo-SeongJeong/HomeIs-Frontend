@@ -5,7 +5,7 @@
     <div class="top-row">
       <div class="column">
         <div class="logo">
-          <img src="../assets/img/logo-size-s.png" style="width: 200px" />
+          <img src="../assets/img/homeis-white.png" style="width: 200px" />
         </div>
         <p class="author">회원님의 새로운 보금자리를 발견하시기를 기원합니다</p>
       </div>
@@ -68,8 +68,10 @@
 
 <style scoped>
 .person {
+  width: 100%;
   display: flex;
   gap: 20px;
+  justify-content: center;
   align-items: center;
   margin: 10px 0;
 }
@@ -77,35 +79,34 @@
 .footer {
   background-color: #333;
   color: #fff;
-  padding: 40px 0;
   display: flex;
+  padding-top: 15px;
   flex-direction: column;
   align-items: center;
-  height: 230px;
+  height: 200px;
 }
 .footer .top-row {
-  width: 80%;
+  width: 90%;
   display: flex;
-  justify-content: space-between;
-  align-items: flex-start;
-  margin-bottom: 20px;
+  justify-content: space-around;
+  align-items: center;
+  margin-bottom: 10px;
+  gap: 5vw;
 }
 .footer .column {
-  width: 25%;
-  margin-right: 10px;
+  width: 30%;
+  text-align: center;
 }
 .footer .logo {
   font-size: 24px;
   font-weight: bold;
-  margin-bottom: 20px;
-  /* display: flex; */
-  /* align-items: center; */
-  /* gap: 10px; */
+  margin-bottom: 10px;
 }
 
 .author {
-  /* margin-top: 15px; */
   padding-top: 5px;
+  white-space: nowrap; /* 텍스트를 한 줄로 만듭니다 */
+  overflow: visible; /* overflow를 visible로 설정하여 텍스트가 div를 삐져나오게 합니다 */
 }
 
 .footer .column h4 {
