@@ -252,15 +252,15 @@ const isReviewEmpty = () => {
 <template>
   <div id="side-main">
     <div id="side-content" v-show="!isEmptyList()">
-      <div id="content-name">{{ getApartmentName() }}</div>
+      <div id="content-name"><h3>{{ getApartmentName() }}</h3></div>
 
-      <div id="content-address">주소 : {{ getAddress() }}</div>
-      <div id="content-road-address">도로명주소 : {{ getRoadAddress() }}</div>
-      <div id="content-address">건축년도 : {{ getBuildYear() }}</div>
+      <div id="content-address"><h4>주소 : {{ getAddress() }}</h4></div>
+      <div id="content-road-address"><h4>도로명주소 : {{ getRoadAddress() }}</h4></div>
+      <div id="content-address"><h4>건축년도 : {{ getBuildYear() }}</h4></div>
       <div id="content-navbar">
         <div id="content-navbar-chose"><a href="#load-view">로드 뷰</a></div>
         <div id="content-navbar-chose"><a href="#trade-log">시세</a></div>
-        <div id="content-navbar-chose"><a href="#info">거래정보</a></div>
+        <div id="content-navbar-chose"><a href="#price-main">거래정보</a></div>
         <div id="content-navbar-chose"><a href="#review">리뷰</a></div>
       </div>
       <div id="content-view-good">
@@ -285,17 +285,17 @@ const isReviewEmpty = () => {
         </div>
       </div>
       <div id="load-view">
-        <div id="road-view-header">로드 뷰</div>
+        <div id="road-view-header"><h3>로드 뷰</h3></div>
         <KakaoMapRoadView :position="position" />
       </div>
       <div id="trade-log">
-        <div id="trade-log-header">시세 조회</div>
+        <div id="trade-log-header"><h3>시세 조회</h3></div>
         <div id="trade-log-content">
           <LineChart :aptCode="aptCode" />
         </div>
       </div>
       <div id="price-main">
-        <div id="price-title">거래 정보</div>
+        <div id="price-title"><h3>거래 정보</h3></div>
         <table class="price">
           <thead>
             <tr>
@@ -342,7 +342,17 @@ const isReviewEmpty = () => {
             <div class="review-text">
               <h4>{{ reviewInfo.userId }}</h4>
               <div class="review-info">
-                <h4 class="review-date">평점: {{ reviewInfo.score }}</h4>
+                <h4 class="review-date" v-if="reviewInfo.score == 0.0">평점: <i class="fa-regular fa-star" style="color: #FFD43B;"></i><i class="fa-regular fa-star" style="color: #FFD43B;"></i><i class="fa-regular fa-star" style="color: #FFD43B;"></i><i class="fa-regular fa-star" style="color: #FFD43B;"></i><i class="fa-regular fa-star" style="color: #FFD43B;"></i></h4>
+                <h4 class="review-date" v-else-if="reviewInfo.score == 0.5">평점: <i class="fa-solid fa-star-half-stroke" style="color: #FFD43B;"></i><i class="fa-regular fa-star" style="color: #FFD43B;"></i><i class="fa-regular fa-star" style="color: #FFD43B;"></i><i class="fa-regular fa-star" style="color: #FFD43B;"></i><i class="fa-regular fa-star" style="color: #FFD43B;"></i></h4>
+                <h4 class="review-date" v-else-if="reviewInfo.score == 1.0">평점: <i class="fa-solid fa-star" style="color: #FFD43B;"></i><i class="fa-regular fa-star" style="color: #FFD43B;"></i><i class="fa-regular fa-star" style="color: #FFD43B;"></i><i class="fa-regular fa-star" style="color: #FFD43B;"></i><i class="fa-regular fa-star" style="color: #FFD43B;"></i></h4>
+                <h4 class="review-date" v-else-if="reviewInfo.score == 1.5">평점: <i class="fa-solid fa-star" style="color: #FFD43B;"></i><i class="fa-solid fa-star-half-stroke" style="color: #FFD43B;"></i><i class="fa-regular fa-star" style="color: #FFD43B;"></i><i class="fa-regular fa-star" style="color: #FFD43B;"></i><i class="fa-regular fa-star" style="color: #FFD43B;"></i></h4>
+                <h4 class="review-date" v-else-if="reviewInfo.score == 2.0">평점: <i class="fa-solid fa-star" style="color: #FFD43B;"></i><i class="fa-solid fa-star" style="color: #FFD43B;"></i><i class="fa-regular fa-star" style="color: #FFD43B;"></i><i class="fa-regular fa-star" style="color: #FFD43B;"></i><i class="fa-regular fa-star" style="color: #FFD43B;"></i></h4>
+                <h4 class="review-date" v-else-if="reviewInfo.score == 2.5">평점: <i class="fa-solid fa-star" style="color: #FFD43B;"></i><i class="fa-solid fa-star" style="color: #FFD43B;"></i><i class="fa-solid fa-star-half-stroke" style="color: #FFD43B;"></i><i class="fa-regular fa-star" style="color: #FFD43B;"></i><i class="fa-regular fa-star" style="color: #FFD43B;"></i></h4>
+                <h4 class="review-date" v-else-if="reviewInfo.score == 3.0">평점: <i class="fa-solid fa-star" style="color: #FFD43B;"></i><i class="fa-solid fa-star" style="color: #FFD43B;"></i><i class="fa-solid fa-star" style="color: #FFD43B;"></i><i class="fa-regular fa-star" style="color: #FFD43B;"></i><i class="fa-regular fa-star" style="color: #FFD43B;"></i></h4>
+                <h4 class="review-date" v-else-if="reviewInfo.score == 3.5">평점: <i class="fa-solid fa-star" style="color: #FFD43B;"></i><i class="fa-solid fa-star" style="color: #FFD43B;"></i><i class="fa-solid fa-star" style="color: #FFD43B;"></i><i class="fa-solid fa-star-half-stroke" style="color: #FFD43B;"></i><i class="fa-regular fa-star" style="color: #FFD43B;"></i></h4>
+                <h4 class="review-date" v-else-if="reviewInfo.score == 4.0">평점: <i class="fa-solid fa-star" style="color: #FFD43B;"></i><i class="fa-solid fa-star" style="color: #FFD43B;"></i><i class="fa-solid fa-star" style="color: #FFD43B;"></i><i class="fa-solid fa-star" style="color: #FFD43B;"></i><i class="fa-regular fa-star" style="color: #FFD43B;"></i></h4>
+                <h4 class="review-date" v-else-if="reviewInfo.score == 4.5">평점: <i class="fa-solid fa-star" style="color: #FFD43B;"></i><i class="fa-solid fa-star" style="color: #FFD43B;"></i><i class="fa-solid fa-star" style="color: #FFD43B;"></i><i class="fa-solid fa-star" style="color: #FFD43B;"></i><i class="fa-solid fa-star-half-stroke" style="color: #FFD43B;"></i></h4>
+                <h4 class="review-date" v-else-if="reviewInfo.score == 5.0">평점: <i class="fa-solid fa-star" style="color: #FFD43B;"></i><i class="fa-solid fa-star" style="color: #FFD43B;"></i><i class="fa-solid fa-star" style="color: #FFD43B;"></i><i class="fa-solid fa-star" style="color: #FFD43B;"></i><i class="fa-solid fa-star" style="color: #FFD43B;"></i></h4>
                 <p class="review-date">{{ reviewInfo.createTime }}</p>
               </div>
               <p>{{ reviewInfo.content }}</p>
@@ -359,14 +369,16 @@ const isReviewEmpty = () => {
         <div id="review-regist-body">
           <div id="review-regist">
             <div id="select-star">
-              평점
+              평점  
               <select
                 name=""
                 id=""
                 v-model="reviewObj.score"
-                style="text-align: center; border: none"
+                style="text-align: center; border: none; width: 100px;font-size: 20px;"
               >
-                <option value="0.0">0.0</option>
+                <option value="0.0" selected>
+                  0.0
+                </option>
                 <option value="0.5">0.5</option>
                 <option value="1.0">1.0</option>
                 <option value="1.5">1.5</option>
@@ -406,6 +418,10 @@ const isReviewEmpty = () => {
 </template>
 
 <style scoped>
+
+#count {
+  font-weight: 600;
+}
 .page-div {
   display: flex;
   flex-direction: row;
@@ -474,8 +490,8 @@ const isReviewEmpty = () => {
   top: 7vh;
   z-index: 100;
   overflow: scroll;
-  background-image: linear-gradient(to top, #accbee 0%, #e7f0fd 100%);
-  #side-content {
+  background-color: #fff;
+      #side-content {
     width: 100%;
     height: 200vh;
   }
@@ -508,6 +524,12 @@ const isReviewEmpty = () => {
   border-top: 1px solid black;
   display: flex;
   justify-content: space-around;
+
+  a {
+    color: black;
+    text-decoration-line: none;
+    font-weight: 600;
+  }
 }
 #content-view-good {
   width: 100%;
@@ -619,12 +641,13 @@ const isReviewEmpty = () => {
   margin-top: 5vh;
   padding-left: 10%;
   padding-right: 10%;
+  font-size: 20px;
 }
 
 #review-regist {
   background-color: #fff;
   border-radius: 8px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
   display: flex;
   padding: 1vw;
   flex-direction: column;
