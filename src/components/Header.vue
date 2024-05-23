@@ -71,7 +71,8 @@ const logout = () => {
   height: 7vh;
   position: fixed;
   border-bottom: 1px solid black;
-  background-color: rgb(88, 153, 214);
+  /* background-color: rgb(88, 153, 214); */
+  background-color: #333;
   display: flex;
   flex-direction: row;
   align-items: center;

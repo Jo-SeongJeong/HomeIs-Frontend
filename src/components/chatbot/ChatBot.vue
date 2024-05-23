@@ -84,8 +84,8 @@ const sendMessage = async () => {
   <div>
     <div v-if="isChatBoxVisible" class="chat-box">
       <div class="chat-box-header">
-        <h3>Boomy에게 무엇이든 물어보세요!</h3>
-        <p @click="toggleChatBox"><i class="fa fa-times"></i></p>
+        <h3 id="font-white">Boomy에게 무엇이든 물어보세요!</h3>
+        <p id="font-white" @click="toggleChatBox"><i class="fa fa-times"></i></p>
       </div>
       <div class="chat-box-body">
         <div
@@ -97,14 +97,14 @@ const sendMessage = async () => {
         </div>
       </div>
       <div class="chat-box-footer">
-        <button @click="toggleModal"><i class="fa fa-plus"></i></button>
+        <button id="font-white" @click="toggleModal"><i class="fa fa-plus"></i></button>
         <input
           v-model="userInput"
           placeholder="Enter Your Message"
           type="text"
           @keyup.enter="sendMessage"
         />
-        <i class="send far fa-paper-plane" @click="sendMessage"></i>
+        <i id="font-white" class="send far fa-paper-plane" @click="sendMessage"></i>
       </div>
     </div>
     <div v-else class="chat-button" @click="toggleChatBox"><span></span></div>
@@ -119,6 +119,10 @@ const sendMessage = async () => {
 </template>
 
 <style scoped>
+#font-white {
+  color: white;
+}
+
 .chat-box {
   height: 90%;
   width: 400px;
@@ -140,7 +144,8 @@ const sendMessage = async () => {
   border-radius: 15px;
 }
 .chat-box-header {
-  background-color: rgb(88, 153, 214);
+  /* background-color: rgb(88, 153, 214); */
+  background-color: #333;
   height: 40px;
   border-top-left-radius: 15px;
   border-top-right-radius: 15px;
@@ -225,14 +230,16 @@ const sendMessage = async () => {
 .chat-box-footer {
   position: relative;
   display: flex;
-  background-color: rgb(88, 153, 214);
+  /* background-color: rgb(88, 153, 214); */
+  background-color: #333;
 }
 .chat-box-footer button {
   border: none;
   padding: 16px;
   font-size: 14px;
   cursor: pointer;
-  background-color: rgb(88, 153, 214);
+  /* background-color: rgb(88, 153, 214); */
+  background-color: #333;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -260,7 +267,8 @@ const sendMessage = async () => {
 }
 .chat-button {
   padding: 25px 16px;
-  background-color: rgb(88, 153, 214);
+  /* background-color: rgb(88, 153, 214); */
+  background-color: #333;
   width: 120px;
   position: absolute;
   bottom: 0;
