@@ -28,15 +28,22 @@ const getApartDealInfoList = async (aptCode) => {
     },
   });
   apartDealInfoList.value = data;
+
+  const startPage = parseInt(currentPage.value / SECTION_MAX_RANGE.value) + 1;
+  SECTION_START_NUM.value = (startPage - 1) * SECTION_MAX_RANGE.value;
   totalPages.value = apartDealInfoList.value.totalPages;
+  console.log(typeof SECTION_START_NUM.value);
+  console.log(typeof totalPages);
+  if (SECTION_START_NUM.value + 9 <= totalPages.value) {
+    SECTION_MAX_NUM.value = startPage + 9;
+  } else {
+    SECTION_MAX_NUM.value = totalPages.value % SECTION_MAX_RANGE.value;
+  }
 
   if (isEmptyList()) return;
   position.value.lng = apartDealInfoList.value.aptDealInfoList[0].lng;
   position.value.lat = apartDealInfoList.value.aptDealInfoList[0].lat;
 };
-
-const startPage = parseInt(currentPage.value / SECTION_MAX_RANGE.value) + 1;
-SECTION_START_NUM.value = (startPage - 1) * SECTION_MAX_RANGE.value;
 
 const prevPage = () => {
   if (currentPage.value == 0) return;
@@ -185,7 +192,7 @@ const reviewObj = ref({
 });
 
 const registReview = async () => {
-  if (reviewObj.value.score == "0.0") {
+  if (reviewObj.value.score == "") {
     alert("평점을 선택해주세요!");
     return;
   }
@@ -252,11 +259,11 @@ const isReviewEmpty = () => {
 <template>
   <div id="side-main">
     <div id="side-content" v-show="!isEmptyList()">
-      <div id="content-name"><h3>{{ getApartmentName() }}</h3></div>
+      <div id="content-name"><h3><i class="fa-solid fa-building" style="color: #0d0c0c;"></i> {{ getApartmentName() }}</h3></div>
 
-      <div id="content-address"><h4>주소 : {{ getAddress() }}</h4></div>
-      <div id="content-road-address"><h4>도로명주소 : {{ getRoadAddress() }}</h4></div>
-      <div id="content-address"><h4>건축년도 : {{ getBuildYear() }}</h4></div>
+      <div id="content-address"><h4><i class="fa-solid fa-location-dot"></i> {{ getAddress() }}</h4></div>
+      <div id="content-road-address"><h4><i class="fa-solid fa-road"></i> {{ getRoadAddress() }}</h4></div>
+      <div id="content-address"><h4><i class="fa-solid fa-person-digging"></i> {{ getBuildYear() }}</h4></div>
       <div id="content-navbar">
         <div id="content-navbar-chose"><a href="#load-view">로드 뷰</a></div>
         <div id="content-navbar-chose"><a href="#trade-log">시세</a></div>
@@ -285,17 +292,17 @@ const isReviewEmpty = () => {
         </div>
       </div>
       <div id="load-view">
-        <div id="road-view-header"><h3>로드 뷰</h3></div>
+        <div id="road-view-header"><h3><i class="fa-solid fa-street-view" style="color: #000000;"></i> 로드 뷰</h3></div>
         <KakaoMapRoadView :position="position" />
       </div>
       <div id="trade-log">
-        <div id="trade-log-header"><h3>시세 조회</h3></div>
+        <div id="trade-log-header"><h3><i class="fa-solid fa-chart-simple" style="color: #000000;"></i> 시세 조회</h3></div>
         <div id="trade-log-content">
           <LineChart :aptCode="aptCode" />
         </div>
       </div>
       <div id="price-main">
-        <div id="price-title"><h3>거래 정보</h3></div>
+        <div id="price-title"><h3><i class="fa-solid fa-coins" style="color: #000000;"></i> 거래 정보</h3></div>
         <table class="price">
           <thead>
             <tr>
@@ -317,8 +324,9 @@ const isReviewEmpty = () => {
           </tbody>
         </table>
         <div class="page-div">
-          <div @click="prevPage()">< 이전</div>
+          <div @click="prevPage()"><i class="fa-solid fa-chevron-right fa-rotate-180" style="color: #000000;"></i> 이전</div>
           <div
+            id="section-page-div"
             v-for="i in SECTION_MAX_NUM"
             :key="i"
             @click="movePage(SECTION_START_NUM + i - 1)"
@@ -326,11 +334,11 @@ const isReviewEmpty = () => {
           >
             {{ SECTION_START_NUM + i }}
           </div>
-          <div @click="nextPage()">다음 ></div>
+          <div @click="nextPage()">다음 <i class="fa-solid fa-chevron-right" style="color: #000000;"></i></div>
         </div>
       </div>
       <div id="review">
-        <h3 id="review-title">생생 리뷰 ({{ getReviewCount() }})</h3>
+        <h3 id="review-title"><i class="fa-solid fa-book" style="color: #000000;"></i> 생생 리뷰 ({{ getReviewCount() }})</h3>
         <div class="no-answer" v-if="isReviewEmpty()">
           <h4>가장 먼저 댓글을 달아보세요!</h4>
         </div>
@@ -342,17 +350,17 @@ const isReviewEmpty = () => {
             <div class="review-text">
               <h4>{{ reviewInfo.userId }}</h4>
               <div class="review-info">
-                <h4 class="review-date" v-if="reviewInfo.score == 0.0">평점: <i class="fa-regular fa-star" style="color: #FFD43B;"></i><i class="fa-regular fa-star" style="color: #FFD43B;"></i><i class="fa-regular fa-star" style="color: #FFD43B;"></i><i class="fa-regular fa-star" style="color: #FFD43B;"></i><i class="fa-regular fa-star" style="color: #FFD43B;"></i></h4>
-                <h4 class="review-date" v-else-if="reviewInfo.score == 0.5">평점: <i class="fa-solid fa-star-half-stroke" style="color: #FFD43B;"></i><i class="fa-regular fa-star" style="color: #FFD43B;"></i><i class="fa-regular fa-star" style="color: #FFD43B;"></i><i class="fa-regular fa-star" style="color: #FFD43B;"></i><i class="fa-regular fa-star" style="color: #FFD43B;"></i></h4>
-                <h4 class="review-date" v-else-if="reviewInfo.score == 1.0">평점: <i class="fa-solid fa-star" style="color: #FFD43B;"></i><i class="fa-regular fa-star" style="color: #FFD43B;"></i><i class="fa-regular fa-star" style="color: #FFD43B;"></i><i class="fa-regular fa-star" style="color: #FFD43B;"></i><i class="fa-regular fa-star" style="color: #FFD43B;"></i></h4>
-                <h4 class="review-date" v-else-if="reviewInfo.score == 1.5">평점: <i class="fa-solid fa-star" style="color: #FFD43B;"></i><i class="fa-solid fa-star-half-stroke" style="color: #FFD43B;"></i><i class="fa-regular fa-star" style="color: #FFD43B;"></i><i class="fa-regular fa-star" style="color: #FFD43B;"></i><i class="fa-regular fa-star" style="color: #FFD43B;"></i></h4>
-                <h4 class="review-date" v-else-if="reviewInfo.score == 2.0">평점: <i class="fa-solid fa-star" style="color: #FFD43B;"></i><i class="fa-solid fa-star" style="color: #FFD43B;"></i><i class="fa-regular fa-star" style="color: #FFD43B;"></i><i class="fa-regular fa-star" style="color: #FFD43B;"></i><i class="fa-regular fa-star" style="color: #FFD43B;"></i></h4>
-                <h4 class="review-date" v-else-if="reviewInfo.score == 2.5">평점: <i class="fa-solid fa-star" style="color: #FFD43B;"></i><i class="fa-solid fa-star" style="color: #FFD43B;"></i><i class="fa-solid fa-star-half-stroke" style="color: #FFD43B;"></i><i class="fa-regular fa-star" style="color: #FFD43B;"></i><i class="fa-regular fa-star" style="color: #FFD43B;"></i></h4>
-                <h4 class="review-date" v-else-if="reviewInfo.score == 3.0">평점: <i class="fa-solid fa-star" style="color: #FFD43B;"></i><i class="fa-solid fa-star" style="color: #FFD43B;"></i><i class="fa-solid fa-star" style="color: #FFD43B;"></i><i class="fa-regular fa-star" style="color: #FFD43B;"></i><i class="fa-regular fa-star" style="color: #FFD43B;"></i></h4>
-                <h4 class="review-date" v-else-if="reviewInfo.score == 3.5">평점: <i class="fa-solid fa-star" style="color: #FFD43B;"></i><i class="fa-solid fa-star" style="color: #FFD43B;"></i><i class="fa-solid fa-star" style="color: #FFD43B;"></i><i class="fa-solid fa-star-half-stroke" style="color: #FFD43B;"></i><i class="fa-regular fa-star" style="color: #FFD43B;"></i></h4>
-                <h4 class="review-date" v-else-if="reviewInfo.score == 4.0">평점: <i class="fa-solid fa-star" style="color: #FFD43B;"></i><i class="fa-solid fa-star" style="color: #FFD43B;"></i><i class="fa-solid fa-star" style="color: #FFD43B;"></i><i class="fa-solid fa-star" style="color: #FFD43B;"></i><i class="fa-regular fa-star" style="color: #FFD43B;"></i></h4>
-                <h4 class="review-date" v-else-if="reviewInfo.score == 4.5">평점: <i class="fa-solid fa-star" style="color: #FFD43B;"></i><i class="fa-solid fa-star" style="color: #FFD43B;"></i><i class="fa-solid fa-star" style="color: #FFD43B;"></i><i class="fa-solid fa-star" style="color: #FFD43B;"></i><i class="fa-solid fa-star-half-stroke" style="color: #FFD43B;"></i></h4>
-                <h4 class="review-date" v-else-if="reviewInfo.score == 5.0">평점: <i class="fa-solid fa-star" style="color: #FFD43B;"></i><i class="fa-solid fa-star" style="color: #FFD43B;"></i><i class="fa-solid fa-star" style="color: #FFD43B;"></i><i class="fa-solid fa-star" style="color: #FFD43B;"></i><i class="fa-solid fa-star" style="color: #FFD43B;"></i></h4>
+                <h4 class="review-date" v-if="reviewInfo.score == 0.0"><i class="fa-regular fa-star" style="color: #FFD43B;"></i><i class="fa-regular fa-star" style="color: #FFD43B;"></i><i class="fa-regular fa-star" style="color: #FFD43B;"></i><i class="fa-regular fa-star" style="color: #FFD43B;"></i><i class="fa-regular fa-star" style="color: #FFD43B;"></i></h4>
+                <h4 class="review-date" v-else-if="reviewInfo.score == 0.5"><i class="fa-solid fa-star-half-stroke" style="color: #FFD43B;"></i><i class="fa-regular fa-star" style="color: #FFD43B;"></i><i class="fa-regular fa-star" style="color: #FFD43B;"></i><i class="fa-regular fa-star" style="color: #FFD43B;"></i><i class="fa-regular fa-star" style="color: #FFD43B;"></i></h4>
+                <h4 class="review-date" v-else-if="reviewInfo.score == 1.0"><i class="fa-solid fa-star" style="color: #FFD43B;"></i><i class="fa-regular fa-star" style="color: #FFD43B;"></i><i class="fa-regular fa-star" style="color: #FFD43B;"></i><i class="fa-regular fa-star" style="color: #FFD43B;"></i><i class="fa-regular fa-star" style="color: #FFD43B;"></i></h4>
+                <h4 class="review-date" v-else-if="reviewInfo.score == 1.5"><i class="fa-solid fa-star" style="color: #FFD43B;"></i><i class="fa-solid fa-star-half-stroke" style="color: #FFD43B;"></i><i class="fa-regular fa-star" style="color: #FFD43B;"></i><i class="fa-regular fa-star" style="color: #FFD43B;"></i><i class="fa-regular fa-star" style="color: #FFD43B;"></i></h4>
+                <h4 class="review-date" v-else-if="reviewInfo.score == 2.0"><i class="fa-solid fa-star" style="color: #FFD43B;"></i><i class="fa-solid fa-star" style="color: #FFD43B;"></i><i class="fa-regular fa-star" style="color: #FFD43B;"></i><i class="fa-regular fa-star" style="color: #FFD43B;"></i><i class="fa-regular fa-star" style="color: #FFD43B;"></i></h4>
+                <h4 class="review-date" v-else-if="reviewInfo.score == 2.5"><i class="fa-solid fa-star" style="color: #FFD43B;"></i><i class="fa-solid fa-star" style="color: #FFD43B;"></i><i class="fa-solid fa-star-half-stroke" style="color: #FFD43B;"></i><i class="fa-regular fa-star" style="color: #FFD43B;"></i><i class="fa-regular fa-star" style="color: #FFD43B;"></i></h4>
+                <h4 class="review-date" v-else-if="reviewInfo.score == 3.0"><i class="fa-solid fa-star" style="color: #FFD43B;"></i><i class="fa-solid fa-star" style="color: #FFD43B;"></i><i class="fa-solid fa-star" style="color: #FFD43B;"></i><i class="fa-regular fa-star" style="color: #FFD43B;"></i><i class="fa-regular fa-star" style="color: #FFD43B;"></i></h4>
+                <h4 class="review-date" v-else-if="reviewInfo.score == 3.5"><i class="fa-solid fa-star" style="color: #FFD43B;"></i><i class="fa-solid fa-star" style="color: #FFD43B;"></i><i class="fa-solid fa-star" style="color: #FFD43B;"></i><i class="fa-solid fa-star-half-stroke" style="color: #FFD43B;"></i><i class="fa-regular fa-star" style="color: #FFD43B;"></i></h4>
+                <h4 class="review-date" v-else-if="reviewInfo.score == 4.0"><i class="fa-solid fa-star" style="color: #FFD43B;"></i><i class="fa-solid fa-star" style="color: #FFD43B;"></i><i class="fa-solid fa-star" style="color: #FFD43B;"></i><i class="fa-solid fa-star" style="color: #FFD43B;"></i><i class="fa-regular fa-star" style="color: #FFD43B;"></i></h4>
+                <h4 class="review-date" v-else-if="reviewInfo.score == 4.5"><i class="fa-solid fa-star" style="color: #FFD43B;"></i><i class="fa-solid fa-star" style="color: #FFD43B;"></i><i class="fa-solid fa-star" style="color: #FFD43B;"></i><i class="fa-solid fa-star" style="color: #FFD43B;"></i><i class="fa-solid fa-star-half-stroke" style="color: #FFD43B;"></i></h4>
+                <h4 class="review-date" v-else-if="reviewInfo.score == 5.0"><i class="fa-solid fa-star" style="color: #FFD43B;"></i><i class="fa-solid fa-star" style="color: #FFD43B;"></i><i class="fa-solid fa-star" style="color: #FFD43B;"></i><i class="fa-solid fa-star" style="color: #FFD43B;"></i><i class="fa-solid fa-star" style="color: #FFD43B;"></i></h4>
                 <p class="review-date">{{ reviewInfo.createTime }}</p>
               </div>
               <p>{{ reviewInfo.content }}</p>
@@ -374,7 +382,7 @@ const isReviewEmpty = () => {
                 name=""
                 id=""
                 v-model="reviewObj.score"
-                style="text-align: center; border: none; width: 100px;font-size: 20px;"
+                style="cursor: pointer;text-align: center; border: none; width: 100px;font-size: 20px;"
               >
                 <option value="0.0" selected>
                   0.0
@@ -418,11 +426,14 @@ const isReviewEmpty = () => {
 </template>
 
 <style scoped>
-
+#content-navbar-chose:hover {
+  font-size: 20px;
+}
 #count {
   font-weight: 600;
 }
 .page-div {
+  cursor: pointer;
   display: flex;
   flex-direction: row;
   align-items: center;
@@ -433,12 +444,28 @@ const isReviewEmpty = () => {
 
 #price-main {
   width: 100%;
-  border-bottom: 1px solid black;
-  border-top: 1px solid black;
+  border-bottom: 15px solid gainsboro;
+  border-top: 15px solid gainsboro;
   margin: 10px 0;
   #price-title {
     padding: 2vh;
     font-size: 1.5rem;
+  }
+}
+
+.pickPage {
+  font-size: 20px;
+  font-weight: 600;
+}
+
+.price {
+  border: 1px solid black;
+  margin-left: auto;
+  margin-right: auto;
+  border-radius: 10px;
+
+  th {
+    border-bottom: 1px solid black;
   }
 }
 
@@ -490,7 +517,7 @@ const isReviewEmpty = () => {
   top: 7vh;
   z-index: 100;
   overflow: scroll;
-  background-color: #fff;
+  background-color: #f5f7fa;
       #side-content {
     width: 100%;
     height: 200vh;
@@ -542,6 +569,7 @@ const isReviewEmpty = () => {
   display: flex;
   flex-direction: column;
   align-items: center;
+  cursor: pointer;
 }
 #view {
   display: flex;
@@ -565,10 +593,10 @@ const isReviewEmpty = () => {
 
 #load-view {
   width: 100%;
-  height: 50vh;
+  height: 53vh;
   padding: 3vh;
-  border-top: 1px solid black;
-  border-bottom: 1px solid black;
+  border-top: 15px solid gainsboro;
+  border-bottom: 15px solid gainsboro;
   margin-top: 20px;
 }
 #road-view-header {
@@ -658,6 +686,7 @@ const isReviewEmpty = () => {
   padding: 20px;
   /* margin-top: 20px; */
   /* width: 760px; */
+  resize: none;
   height: 100px;
   background-color: #fff;
   border-radius: 8px;
