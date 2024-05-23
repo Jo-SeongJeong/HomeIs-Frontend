@@ -25,14 +25,14 @@ const goWrite = () => {
   <div id="homesta-view-main">
     <div id="rank"><homestaRankSwiper /></div>
     <div id="homesta-main">
-      <h2>😆 최근 올라온 게시물은 어떤가요?</h2>
+      <h2 style="margin-top: 30px;">😆 최근 올라온 게시물은 어떤가요?</h2>
       <div id="latest-swiper">
-        <h3>- 끊임없이 올라오는 게시물들을 확인해보세요!</h3>
+        <h3 style="margin: 20px;">- 끊임없이 올라오는 게시물들을 확인해보세요!</h3>
         <a @click="goWrite">글쓰기</a>
       </div>
       <latestSwiper />
-      <h2>&#128293; 최근 핫한 게시물을 보십시요!</h2>
-      <h3>- HOT!! 한 집의 구조를 알아보세요</h3>
+      <h2 style="margin-top: 30px;">&#128293; 최근 핫한 게시물을 보십시요!</h2>
+      <h3 style="margin: 20px;">- HOT!! 한 집의 구조를 알아보세요</h3>
       <hotSwiper />
     </div>
   </div>
