@@ -10,7 +10,7 @@ const CATEGORY = ref("release_date");
 const selectAll = async () => {
   const url = "/loan/list";
 
-  console.log(CATEGORY.value)
+  console.log(CATEGORY.value);
 
   const { data } = await boardApi.get(url, {
     params: {
@@ -39,18 +39,19 @@ const getView = () => {
 };
 
 const goBank = async (bankLink, id) => {
-  const url = "/loan/plusView"
-  
-  const {data} =await boardApi.patch(url, {
-    id: id
+  const url = "/loan/plusView";
+
+  const { data } = await boardApi.patch(url, {
+    id: id,
   });
 
   console.log(data);
 
-  if(data == 1) {
-    window.open(bankLink, '_blank');
+  if (data == 1) {
+    window.open(bankLink, "_blank");
   }
-}
+  selectAll();
+};
 </script>
 
 <template>
@@ -58,35 +59,45 @@ const goBank = async (bankLink, id) => {
     <div class="banner">
       <h1 class="banner-title">추천 대출 상품</h1>
       <div class="loan-banner">
-          <div class="banner-list" v-for="loan in loanInfo.slice(0, 3)" :key="loan.id">
-            <div class="loan-text">
-              <p>{{ loan.description }}</p>
-              <h2>{{ loan.name }}</h2>
-              <h4 class="loan-date">연 이자율: {{ loan.interestRate }}%</h4>
-            </div>
-            <div class="loan-actions">
-              <button class="back-list" type="button" @click="goBank(loan.link, loan.id)">알아보기</button>
-            </div>
+        <div
+          class="banner-list"
+          v-for="loan in loanInfo.slice(0, 3)"
+          :key="loan.id"
+        >
+          <div class="loan-text">
+            <p>{{ loan.description }}</p>
+            <h2>{{ loan.name }}</h2>
+            <h4 class="loan-date">연 이자율: {{ loan.interestRate }}%</h4>
           </div>
+          <div class="loan-actions">
+            <button
+              class="back-list"
+              type="button"
+              @click="goBank(loan.link, loan.id)"
+            >
+              알아보기
+            </button>
+          </div>
+        </div>
       </div>
     </div>
     <div>
       <div class="search-by">
         <h1>원하는 조건으로 검색해보세요!</h1>
-        <div class="sort-by" >
-            <h3>
-              <a @click="getRecent()">최신순</a>
-            </h3>
-            <h3>
-              <a @click="getInterest()">이자율순</a>
-            </h3>
-            <h3>
-              <a @click="getView()">조회순</a>
-            </h3>
-      </div>
+        <div class="sort-by">
+          <h3>
+            <a @click="getRecent()">최신순</a>
+          </h3>
+          <h3>
+            <a @click="getInterest()">이자율순</a>
+          </h3>
+          <h3>
+            <a @click="getView()">조회순</a>
+          </h3>
+        </div>
       </div>
       <div class="comment-content" v-for="loan in loanInfo" :key="loan.id">
-        <div class="loan-list" >
+        <div class="loan-list">
           <div class="comment-text">
             <p>{{ loan.description }}</p>
             <h2>{{ loan.name }}</h2>
@@ -96,10 +107,16 @@ const goBank = async (bankLink, id) => {
             </div>
           </div>
           <div class="like-actions">
-            <button class="back-list" type="button" @click="goBank(loan.link, loan.id)">알아보기</button>
+            <button
+              class="back-list"
+              type="button"
+              @click="goBank(loan.link, loan.id)"
+            >
+              알아보기
+            </button>
           </div>
         </div>
-        <hr class="line"/>
+        <hr class="line" />
       </div>
     </div>
   </div>
@@ -123,7 +140,7 @@ const goBank = async (bankLink, id) => {
   height: 50vh;
   width: 1700px;
   padding: 1vw 25vh 5vw 25vh;
-  margin-top: 40px
+  margin-top: 40px;
 }
 
 .banner-title {
@@ -134,7 +151,7 @@ const goBank = async (bankLink, id) => {
 .loan-banner {
   display: flex;
   justify-content: center;
-  gap : 20px
+  gap: 20px;
 }
 
 .banner-list {
@@ -192,7 +209,7 @@ const goBank = async (bankLink, id) => {
 .search-by {
   display: flex;
   flex-direction: column;
-  gap:20px;
+  gap: 20px;
   margin-top: 20px;
   margin-left: 20px;
 }
@@ -271,7 +288,7 @@ const goBank = async (bankLink, id) => {
   justify-content: center;
   align-items: center;
   flex-direction: column; */
-  /* #loan-main-banner {
+/* #loan-main-banner {
     width: 100%;
     height: 18%;
     display: flex;
@@ -291,12 +308,12 @@ const goBank = async (bankLink, id) => {
   width: 100%;
   height: 70%;
   background-color: beige; */
-  /* #loan-sort {
+/* #loan-sort {
     background-color: blanchedalmond;
     width: 100%;
     height: 10%;
   } */
-  /* #loan-list-content {
+/* #loan-list-content {
     width: 100%;
     height: 90%;
   } */

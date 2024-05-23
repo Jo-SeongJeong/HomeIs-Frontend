@@ -69,7 +69,12 @@ const getImgUrl = (homesta) => {
             <a>{{ homestaHotInfo.homestaList[1].title }}</a>
           </div>
           <div id="rank-content">
-            <a>{{ homestaHotInfo.homestaList[1].totalLike }} likes</a>
+            <a>
+              <a style="cursor: pointer">
+                &nbsp;<i class="fa-solid fa-heart" style="color: #ff0000"></i>
+              </a>
+              {{ homestaHotInfo.homestaList[1].totalLike }}
+            </a>
           </div>
         </div>
         <div
@@ -84,7 +89,12 @@ const getImgUrl = (homesta) => {
               <a> {{ homestaHotInfo.homestaList[0].title }} </a>
             </div>
             <div id="rank-content">
-              <a>{{ homestaHotInfo.homestaList[0].totalLike }} likes </a>
+              <a>
+                <a style="cursor: pointer">
+                  &nbsp;<i class="fa-solid fa-heart" style="color: #ff0000"></i>
+                </a>
+                {{ homestaHotInfo.homestaList[0].totalLike }}
+              </a>
             </div>
           </div>
         </div>
@@ -99,7 +109,12 @@ const getImgUrl = (homesta) => {
             <a>{{ homestaHotInfo.homestaList[2].title }}</a>
           </div>
           <div id="rank-content">
-            <a>{{ homestaHotInfo.homestaList[2].totalLike }} likes</a>
+            <a>
+              <a style="cursor: pointer">
+                &nbsp;<i class="fa-solid fa-heart" style="color: #ff0000"></i>
+              </a>
+              {{ homestaHotInfo.homestaList[2].totalLike }}</a
+            >
           </div>
         </div>
       </div>
@@ -120,7 +135,7 @@ const getImgUrl = (homesta) => {
             <a>{{ homestaViewInfo.homestaList[1].title }}</a>
           </div>
           <div id="rank-content">
-            <a>{{ homestaViewInfo.homestaList[1].totalView }} view</a>
+            <a>&#128064; {{ homestaViewInfo.homestaList[1].totalView }}</a>
           </div>
         </div>
         <div
@@ -136,7 +151,7 @@ const getImgUrl = (homesta) => {
             <a>{{ homestaViewInfo.homestaList[0].title }}</a>
           </div>
           <div id="rank-content">
-            <a>{{ homestaViewInfo.homestaList[0].totalView }} view</a>
+            <a>&#128064; {{ homestaViewInfo.homestaList[0].totalView }}</a>
           </div>
         </div>
         <div
@@ -152,7 +167,7 @@ const getImgUrl = (homesta) => {
             <a>{{ homestaViewInfo.homestaList[2].title }}</a>
           </div>
           <div id="rank-content">
-            <a>{{ homestaViewInfo.homestaList[2].totalView }} view</a>
+            <a>&#128064; {{ homestaViewInfo.homestaList[2].totalView }}</a>
           </div>
         </div>
       </div>

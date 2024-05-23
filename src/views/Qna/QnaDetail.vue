@@ -62,7 +62,7 @@ const registAnswer = async () => {
 
   if (!confirm("정말 답변을 등록합니까? 수정 못합니다.")) return;
   await boardApi.post("/qna/insert-answer", answer.value);
-  router.go(0);
+  getQna();
   alert("답변 정상 등록");
 };
 
