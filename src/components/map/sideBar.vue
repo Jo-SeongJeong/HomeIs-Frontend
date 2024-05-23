@@ -429,7 +429,7 @@ const isReviewEmpty = () => {
 .price th,
 .price td {
   text-align: center;
-  padding: 10px 25px;
+  padding: 10px 40px;
 }
 
 .Btn {
