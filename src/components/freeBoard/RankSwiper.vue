@@ -48,7 +48,7 @@ getLikeRank();
     style="margin-top: 2vh"
   >
     <swiper-slide v-if="aptViewList.length > 0">
-      <h1 id="title-hot">아파트 조회수 TOP 3</h1>
+      <h1 id="title-hot-b">아파트 조회수 TOP 3</h1>
       <div id="views-rank">
         <div id="rank-box02-free">
           <div id="rank-2"></div>
@@ -86,7 +86,7 @@ getLikeRank();
       </div>
     </swiper-slide>
     <swiper-slide v-if="aptLikeList.length > 0">
-      <h1 id="title-hot">아파트 좋아요 TOP 3</h1>
+      <h1 id="title-hot-b">아파트 좋아요 TOP 3</h1>
       <div id="like-rank">
         <div id="rank-box02-free">
           <div id="rank-2"></div>
@@ -158,7 +158,7 @@ getLikeRank();
   }
 }
 
-#title-hot {
+#title-hot-b {
   font-size: 2rem;
   position: absolute;
   padding: 5px 1vw 0 1vw;
